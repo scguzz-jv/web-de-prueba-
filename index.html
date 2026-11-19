@@ -6,6 +6,310 @@
     <title>Little Seeds Montessori & Colegio Integral La Arboleda</title>
     <style>
         /* ==========================================================================
+           ESTILOS LIQUID GLASS + DESTELLOS DIFUMINADOS + ANTESALA (ante.mp4)
+           ========================================================================== */
+        .antesala-overlay {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 25%, rgba(97, 198, 216, 0.32) 0%, transparent 48%),
+                radial-gradient(circle at 80% 20%, rgba(246, 199, 26, 0.26) 0%, transparent 45%),
+                radial-gradient(circle at 75% 80%, rgba(239, 102, 144, 0.25) 0%, transparent 48%),
+                radial-gradient(circle at 22% 82%, rgba(99, 170, 52, 0.25) 0%, transparent 48%),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.76) 0%, rgba(240, 249, 255, 0.68) 50%, rgba(255, 255, 255, 0.82) 100%);
+            backdrop-filter: blur(28px) saturate(185%);
+            -webkit-backdrop-filter: blur(28px) saturate(185%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            padding: 24px;
+            overflow: hidden;
+            transition: background 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.55s ease;
+        }
+
+        .liquid-sparkles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+            transition: opacity 0.45s ease;
+        }
+
+        .sparkle-dot {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.72) 0%, var(--sparkle-tint, rgba(97, 198, 216, 0.42)) 45%, transparent 75%);
+            filter: blur(14px);
+            opacity: 0;
+            animation: twinkleGlass var(--dur, 5s) ease-in-out var(--delay, 0s) infinite;
+        }
+
+        @keyframes twinkleGlass {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.75);
+            }
+            50% {
+                opacity: 0.55;
+                transform: scale(1.25);
+            }
+        }
+
+        .antesala-overlay.modo-video {
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .antesala-overlay.modo-video .liquid-sparkles {
+            opacity: 0;
+        }
+
+        .antesala-overlay.cerrando {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Fase 1: Portada con logos grandes relucientes y botón Liquid Glass */
+        .antesala-welcome-stage {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 38px;
+            text-align: center;
+            transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .antesala-welcome-stage.saliendo {
+            opacity: 0;
+            transform: scale(0.92) translateY(-16px);
+            pointer-events: none;
+        }
+
+        .antesala-logos-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 56px;
+            opacity: 0;
+            transform: translateY(16px);
+            animation: welcomeFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+        }
+
+        .antesala-logo-pure {
+            position: relative;
+            width: 240px;
+            height: 195px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: logoRadiantPulse 4.5s ease-in-out infinite;
+        }
+
+        .antesala-logo-pure:nth-child(2) {
+            animation-delay: 2s;
+        }
+
+        .antesala-logo-pure:hover {
+            transform: scale(1.06) translateY(-4px);
+        }
+
+        .antesala-logo-pure img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.85)) drop-shadow(0 10px 22px rgba(15, 23, 42, 0.12));
+        }
+
+        @keyframes logoRadiantPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+                transform: translateY(0);
+            }
+            50% {
+                filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 18px rgba(97, 198, 216, 0.4));
+                transform: translateY(-4px);
+            }
+        }
+
+        /* Botón Liquid Glass "Bienvenidos" */
+        .btn-bienvenidos {
+            position: relative;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.38) 100%);
+            backdrop-filter: blur(22px) saturate(190%);
+            -webkit-backdrop-filter: blur(22px) saturate(190%);
+            border: 1.5px solid rgba(255, 255, 255, 0.9);
+            border-radius: 999px;
+            padding: 20px 56px;
+            font-family: inherit;
+            font-size: 33px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+            box-shadow:
+                inset 0 2px 3px rgba(255, 255, 255, 0.95),
+                inset 0 -3px 8px rgba(97, 198, 216, 0.18),
+                0 20px 42px -12px rgba(31, 134, 225, 0.25),
+                0 6px 18px rgba(0, 0, 0, 0.06);
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(18px) scale(0.96);
+            animation: welcomeFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.28s forwards;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        .btn-bienvenidos::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 45%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85), transparent);
+            transform: rotate(25deg);
+            animation: glassSweep 4.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glassSweep {
+            0%, 55% { left: -65%; }
+            100% { left: 135%; }
+        }
+
+        .btn-bienvenidos:hover {
+            transform: translateY(-4px) scale(1.035);
+            border-color: #ffffff;
+            box-shadow:
+                inset 0 2px 4px rgba(255, 255, 255, 1),
+                0 24px 50px -10px rgba(97, 198, 216, 0.42),
+                0 8px 22px rgba(239, 102, 144, 0.2);
+        }
+
+        .btn-bienvenidos:active {
+            transform: scale(0.98);
+        }
+
+        .btn-bienvenidos-letters {
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .btn-bienvenidos-letters span {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-bienvenidos:hover .btn-bienvenidos-letters span:nth-child(odd) {
+            transform: translateY(-2px);
+        }
+
+        .btn-bienvenidos:hover .btn-bienvenidos-letters span:nth-child(even) {
+            transform: translateY(2px);
+        }
+
+        .btn-bienvenidos-arrow {
+            position: relative;
+            z-index: 1;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #61C6D8, #1F86E1);
+            color: #ffffff;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(31, 134, 225, 0.35);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-bienvenidos:hover .btn-bienvenidos-arrow {
+            transform: translateX(4px);
+        }
+
+        @keyframes welcomeFadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Fase 2: Contenedor del video con sonido completo */
+        .antesala-card {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            max-width: 1060px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.65);
+            background: #000000;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            opacity: 0;
+            transform: scale(0.9) translateY(24px);
+            transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .antesala-card.visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .antesala-card video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .antesala-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.85);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(6px);
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.5) rotate(-90deg);
+            transition: opacity 0.45s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;
+        }
+
+        .antesala-close.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) rotate(0deg);
+        }
+
+        .antesala-close:hover {
+            background: #ef4444;
+            transform: scale(1.1);
+        }
+
+        /* ==========================================================================
            VARIABLES Y ESTILOS PRINCIPALES DE LITTLE SEEDS & LA ARBOLEDA
            ========================================================================== */
         :root {
@@ -91,7 +395,7 @@
         .banner-top {
             background: linear-gradient(135deg, rgba(97, 198, 216, 0.95) 0%, rgba(31, 134, 225, 0.95) 50%, rgba(239, 102, 144, 0.95) 100%);
             backdrop-filter: blur(10px);
-            padding: 14px 20px;
+            padding: 14px 24px;
             border-bottom: 3px solid #F6C71A;
         }
         body.theme-arboleda .banner-top {
@@ -99,27 +403,53 @@
             border-bottom-color: #FDC101;
         }
 
-        .banner-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
-        .logos-selector { display: flex; align-items: center; gap: 14px; }
+        .banner-inner {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            min-height: 94px;
+        }
+        .logos-selector {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
         .logo-emblem-card {
-            background: rgba(255, 255, 255, 0.95);
-            border: 2.5px solid #7e22ce;
-            border-radius: 18px;
-            padding: 6px 12px;
-            width: 118px;
-            height: 82px;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            padding: 4px;
+            width: 155px;
+            height: 98px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease, filter 0.25s ease;
             opacity: 0.85;
             transform: scale(0.96);
-            animation: purpleGlowMove 4s infinite;
         }
-        .logo-emblem-card:hover { opacity: 1; transform: scale(1); }
-        .logo-emblem-card.is-active { opacity: 1; transform: scale(1.04); border-color: #F6C71A; }
-        .logo-emblem-card img { width: 100%; height: 100%; object-fit: contain; border-radius: 10px; }
+        .logo-emblem-card:hover {
+            opacity: 1;
+            transform: scale(1.03);
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+        }
+        .logo-emblem-card.is-active {
+            opacity: 1;
+            transform: scale(1.06);
+            filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 6px rgba(246, 199, 26, 0.75));
+        }
+        .logo-emblem-card img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.22));
+        }
 
         /* Letras de colores Little Seeds */
         .let-l1 { color: #F6C71A; } .let-i1 { color: #63AA34; } .let-t1, .let-t2 { color: #61C6D8; }
@@ -127,6 +457,12 @@
         .let-ee1 { color: #F6C71A; } .let-ee2 { color: #63AA34; } .let-d1 { color: #61C6D8; }
         .let-ss2 { color: #F6C71A; } .let-m, .let-n, .let-e2, .let-s4, .let-r { color: #DD3F42; }
         .let-o1, .let-t, .let-s3, .let-o2, .let-i2 { color: #1F86E1; }
+
+        /* Clase para evitar que palabras como "Little" o "Seeds" se corten a mitad en móvil (PDF p. 4-5) */
+        .brand-nowrap {
+            display: inline-block;
+            white-space: nowrap;
+        }
 
         .header-title-custom { font-size: 24px; font-weight: 900; text-shadow: 0 2px 6px rgba(0,0,0,0.35); line-height: 1.25; text-align: right; }
         .header-brand-info { text-align: right; color: #FFFFFF; }
@@ -155,6 +491,17 @@
         h1 { font-size: 34px; font-weight: 800; line-height: 1.18; }
         h2 { font-size: 29px; font-weight: 800; line-height: 1.22; }
         .subtitle-text { color: var(--text-muted); font-size: 15.5px; margin-top: 10px; font-weight: 500; }
+
+        .section-heading-flex {
+            font-size: 29px;
+            font-weight: 800;
+            line-height: 1.25;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
 
         .hero-wrapper { background: rgba(255, 255, 255, 0.78); backdrop-filter: blur(8px); border-bottom: 2px solid var(--border-soft); padding: 44px 0 54px; }
         .hero-box {
@@ -358,7 +705,7 @@
         .rev-item-comment-box { background: #faf5ff; border: 1.5px solid #e9d5ff; border-radius: 10px; padding: 10px; margin-bottom: 10px; }
         .rev-item-comment { font-size: 13.5px; font-weight: 600; color: #0f172a; white-space: pre-wrap; }
 
-        /* Vista Previa Estilo Instagram (Carrusel y Collage) */
+        /* Vista Previa Estilo Instagram */
         .ig-preview-wrapper { margin: 10px 0 12px; border: 1.5px solid #e2e8f0; border-radius: 14px; overflow: hidden; background: #ffffff; }
         .ig-preview-header {
             display: flex; justify-content: space-between; align-items: center; padding: 7px 11px;
@@ -408,9 +755,62 @@
             .header-brand-info { text-align: left; }
             .header-brand-info .contact-links { align-items: flex-start; }
         }
+
+        @media (max-width: 680px) {
+            .btn-bienvenidos {
+                font-size: 24px;
+                padding: 16px 34px;
+            }
+            .antesala-logos-row {
+                gap: 24px;
+            }
+            .antesala-logo-pure {
+                width: 140px;
+                height: 120px;
+            }
+            .logo-emblem-card {
+                width: 122px;
+                height: 82px;
+            }
+            .section-heading-flex {
+                font-size: 23px;
+            }
+        }
     </style>
 </head>
 <body>
+
+    <!-- ==========================================================================
+         ANTESALA DE BIENVENIDA LIQUID GLASS (LOGOS GRANDES + ante.mp4 CON SONIDO)
+         ========================================================================== -->
+    <div id="antesalaOverlay" class="antesala-overlay">
+        <div id="liquidSparkles" class="liquid-sparkles" aria-hidden="true"></div>
+
+        <!-- Fase 1: Portada con logos grandes relucientes y botón Liquid Glass -->
+        <div id="antesalaWelcomeStage" class="antesala-welcome-stage">
+            <div class="antesala-logos-row">
+                <div class="antesala-logo-pure">
+                    <img src="lit.png" alt="Little Seeds Montessori" onerror="this.src='https://placehold.co/220x175/61C6D8/FFFFFF?text=Little+Seeds'">
+                </div>
+                <div class="antesala-logo-pure">
+                    <img src="arb.png" alt="Colegio Integral La Arboleda" onerror="this.src='https://placehold.co/220x175/006A7A/FFFFFF?text=La+Arboleda'">
+                </div>
+            </div>
+
+            <button id="btnBienvenidos" type="button" class="btn-bienvenidos" aria-label="Bienvenidos">
+                <span class="btn-bienvenidos-letters">
+                    <span class="let-l1">B</span><span class="let-i1">i</span><span class="let-t1">e</span><span class="let-l2">n</span><span class="let-s1">v</span><span class="let-ee1">e</span><span class="let-e1">n</span><span class="let-d1">i</span><span class="let-m">d</span><span class="let-o1">o</span><span class="let-ss2">s</span>
+                </span>
+                <span class="btn-bienvenidos-arrow">▶</span>
+            </button>
+        </div>
+
+        <!-- Fase 2: Reproductor del video con audio completo -->
+        <div id="antesalaVideoCard" class="antesala-card hidden">
+            <button id="btnCerrarAntesala" class="antesala-close" aria-label="Cerrar">✕</button>
+            <video id="videoAntesala" src="ante.mp4" playsinline preload="auto"></video>
+        </div>
+    </div>
 
     <div class="floating-shapes">
         <div class="shape"></div>
@@ -425,10 +825,10 @@
                 <div class="banner-inner">
                     <div class="logos-selector">
                         <div id="logo-card-seeds" class="logo-emblem-card is-active" onclick="switchInstitution('seeds')" title="Little Seeds Montessori">
-                            <img src="lit.jpeg" alt="Little Seeds" onerror="this.src='https://placehold.co/110x70/61C6D8/FFFFFF?text=Little+Seeds'">
+                            <img src="lit.png" alt="Little Seeds" onerror="this.src='https://placehold.co/155x98/61C6D8/FFFFFF?text=Little+Seeds'">
                         </div>
                         <div id="logo-card-arboleda" class="logo-emblem-card" onclick="switchInstitution('arboleda')" title="Colegio Integral La Arboleda">
-                            <img src="arb.jpeg" alt="La Arboleda" onerror="this.src='https://placehold.co/110x70/006A7A/FFFFFF?text=La+Arboleda'">
+                            <img src="arb.png" alt="La Arboleda" onerror="this.src='https://placehold.co/155x98/006A7A/FFFFFF?text=La+Arboleda'">
                         </div>
                     </div>
 
@@ -436,6 +836,7 @@
                         <div id="header-title-slot" class="header-title-custom"></div>
                         <div class="contact-links" style="margin-top: 4px;">
                             <a href="tel:+50223935249">(502) 2393-5249</a>
+                            <a href="https://wa.me/50258936495" target="_blank" rel="noopener noreferrer">WhatsApp: +502 5893-6495</a>
                             <a href="mailto:mlittleseeds@gmail.com">mlittleseeds@gmail.com</a>
                         </div>
                     </div>
@@ -533,7 +934,7 @@
                 <div class="container">
                     <div class="section-header" data-rev-block="contacto-titulo">
                         <span class="kicker">Estamos para atenderte</span>
-                        <h2>Contáctanos y Ubicación</h2>
+                        <h2>Contactos y Ubicación</h2>
                         <p class="subtitle-text">Comunícate directamente o encuentra nuestra ubicación en Google Maps y Waze.</p>
                     </div>
 
@@ -544,11 +945,14 @@
                                 <div style="padding: 12px 14px; border-radius: 12px; background: rgba(97,198,216,0.25); border: 2px solid #7e22ce;">
                                     <strong>Teléfono:</strong> <a href="tel:+50223935249" style="color: var(--accent-blue); font-weight: 700; text-decoration: none;">(502) 2393-5249</a>
                                 </div>
+                                <div style="padding: 12px 14px; border-radius: 12px; background: rgba(37, 211, 102, 0.22); border: 2px solid #7e22ce;">
+                                    <strong>WhatsApp del colegio:</strong> <a href="https://wa.me/50258936495" target="_blank" rel="noopener noreferrer" style="color: #15803d; font-weight: 700; text-decoration: none;">+502 5893 6495</a>
+                                </div>
                                 <div style="padding: 12px 14px; border-radius: 12px; background: rgba(99,170,52,0.22); border: 2px solid #7e22ce;">
                                     <strong>Correo electrónico:</strong> <a href="mailto:mlittleseeds@gmail.com" style="color: var(--secondary-color); font-weight: 700; text-decoration: none;">mlittleseeds@gmail.com</a>
                                 </div>
                                 <div style="padding: 12px 14px; border-radius: 12px; background: rgba(246,199,26,0.22); border: 2px solid #7e22ce;">
-                                    <strong>Horario:</strong> Lunes a Viernes de 7:30 a.m. a 3:30 p.m. • Ciudad de Guatemala
+                                    <strong>Dirección y Horario:</strong> 16 avenida 1-05 sector B1 zona 8 Mixco, Ciudad San Cristóbal • Lunes a Viernes de 7:30 a.m. a 4:00 p.m.
                                 </div>
                             </div>
 
@@ -595,14 +999,14 @@
                                 <div class="map-overlay-info">
                                     <div>
                                         <div id="map-inst-label" style="font-size: 13.5px; font-weight: 800;"></div>
-                                        <span style="font-size: 12px; color: var(--text-muted);">Ciudad de Guatemala • Tel: (502) 2393-5249</span>
+                                        <span style="font-size: 12px; color: var(--text-muted);">16 avenida 1-05 sector B1 zona 8 Mixco, Ciudad San Cristóbal • Tel: (502) 2393-5249 • WhatsApp: +502 5893 6495</span>
                                     </div>
                                     <button type="button" onclick="copyLocationText()" style="background: rgba(97,198,216,0.3); color: var(--accent-blue); border: 2px solid #7e22ce; border-radius: 9px; padding: 7px 12px; font-size: 12px; font-weight: 800; cursor: pointer;">Copiar</button>
                                 </div>
                             </div>
                             <div class="map-external-actions">
-                                <a href="https://www.google.com/maps/search/?api=1&query=14.6284,-90.5133" target="_blank" rel="noopener noreferrer" class="btn-maps-ext" style="background: #1F86E1;">Google Maps</a>
-                                <a href="https://waze.com/ul?ll=14.6284,-90.5133&navigate=yes" target="_blank" rel="noopener noreferrer" class="btn-maps-ext" style="background: #006A7A;">Waze</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=16+avenida+1-05+sector+B1+zona+8+Mixco+Ciudad+San+Cristobal" target="_blank" rel="noopener noreferrer" class="btn-maps-ext" style="background: #1F86E1;">Google Maps</a>
+                                <a href="https://waze.com/ul?q=16%20avenida%201-05%20sector%20B1%20zona%208%20Mixco%2C%20Ciudad%20San%20Cristobal&navigate=yes" target="_blank" rel="noopener noreferrer" class="btn-maps-ext" style="background: #006A7A;">Waze</a>
                             </div>
                         </div>
                     </div>
@@ -616,7 +1020,7 @@
                 <div class="container">
                     <div class="section-header" data-rev-block="niveles-header">
                         <span class="kicker">Oferta Académica</span>
-                        <div id="levels-title" style="font-size: 29px; font-weight: 800; line-height: 1.22; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;"></div>
+                        <div id="levels-title" class="section-heading-flex"></div>
                         <p id="levels-sub" class="subtitle-text"></p>
                     </div>
                     <div id="levels-cards-grid" class="grid-4" data-rev-block="niveles-tarjetas"></div>
@@ -634,7 +1038,7 @@
                 <div class="container">
                     <div class="section-header" data-rev-block="calendario-header">
                         <span class="kicker">Ciclo Escolar 2027</span>
-                        <div id="cal-title" style="font-size: 29px; font-weight: 800; line-height: 1.22; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;"></div>
+                        <div id="cal-title" class="section-heading-flex"></div>
                         <p class="subtitle-text">Consulta las actividades académicas, culturales y familiares programadas.</p>
                     </div>
                     <div class="filter-bar">
@@ -663,7 +1067,7 @@
                             <span class="kicker">Articulación Académica</span>
                             <h3 style="font-size: 21px; font-weight: 800; margin-bottom: 6px;">Transición Armónica: De Kinder a Preparatoria</h3>
                             <p style="font-size: 14px; color: var(--text-muted);">
-                                Nuestros egresados de <strong>Kinder (5 años) en <span class="let-l1">L</span><span class="let-i1">i</span><span class="let-t1">t</span><span class="let-t2">t</span><span class="let-l2">l</span><span class="let-e1">e</span> <span class="let-s1">S</span><span class="let-ee1">e</span><span class="let-ee2">e</span><span class="let-d1">d</span><span class="let-ss2">s</span> <span class="let-m">M</span><span class="let-o1">o</span><span class="let-n">n</span><span class="let-t">t</span><span class="let-e2">e</span><span class="let-s3">s</span><span class="let-s4">s</span><span class="let-o2">o</span><span class="let-r">r</span><span class="let-i2">i</span></strong> cuentan con una transición natural y acompañada hacia <strong>Preparatoria (6 años) en Colegio Integral La Arboleda</strong>.
+                                Nuestros egresados de <strong>Kinder (5 años) en <span class="brand-nowrap"><span class="let-l1">L</span><span class="let-i1">i</span><span class="let-t1">t</span><span class="let-t2">t</span><span class="let-l2">l</span><span class="let-e1">e</span></span> <span class="brand-nowrap"><span class="let-s1">S</span><span class="let-ee1">e</span><span class="let-ee2">e</span><span class="let-d1">d</span><span class="let-ss2">s</span></span> <span class="brand-nowrap"><span class="let-m">M</span><span class="let-o1">o</span><span class="let-n">n</span><span class="let-t">t</span><span class="let-e2">e</span><span class="let-s3">s</span><span class="let-s4">s</span><span class="let-o2">o</span><span class="let-r">r</span><span class="let-i2">i</span></span></strong> cuentan con una transición natural y acompañada hacia <strong>Preparatoria (6 años) en Colegio Integral La Arboleda</strong>.
                             </p>
                         </div>
                         <button class="btn-main" onclick="switchTab('inscripcion')">Solicitar Admisión 2027</button>
@@ -678,7 +1082,7 @@
                 <div class="container">
                     <div class="section-header" data-rev-block="blog-header">
                         <span class="kicker">Comunidad y Familia</span>
-                        <div id="blog-title" style="font-size: 29px; font-weight: 800; line-height: 1.22; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;"></div>
+                        <div id="blog-title" class="section-heading-flex"></div>
                         <p class="subtitle-text">Orientación pedagógica y consejos prácticos elaborados por nuestro equipo docente.</p>
                     </div>
                     <div id="blog-posts-grid" class="grid-3" data-rev-block="blog-publicaciones"></div>
@@ -692,7 +1096,7 @@
                 <div class="container">
                     <div class="section-header" data-rev-block="inscripcion-header">
                         <span class="kicker">Admisiones Ciclo 2027</span>
-                        <div id="adm-title" style="font-size: 29px; font-weight: 800; line-height: 1.22; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;"></div>
+                        <div id="adm-title" class="section-heading-flex"></div>
                         <p class="subtitle-text">Completa tu solicitud en línea y nuestro equipo de admisiones te acompañará paso a paso.</p>
                     </div>
 
@@ -764,9 +1168,9 @@
 
     <footer>
         <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;">
-            <div id="footer-brand-title" style="display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 600;"></div>
+            <div id="footer-brand-title" style="display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 600; flex-wrap: wrap;"></div>
             <div style="font-size: 13.5px; font-weight: 600;">
-                <span>(502) 2393-5249</span> &nbsp;•&nbsp; <span>mlittleseeds@gmail.com</span>
+                <span>(502) 2393-5249</span> &nbsp;•&nbsp; <span>WhatsApp: +502 5893 6495</span> &nbsp;•&nbsp; <span>mlittleseeds@gmail.com</span>
             </div>
         </div>
     </footer>
@@ -873,13 +1277,11 @@
 
     <div id="rev-toast" class="rev-toast hidden"></div>
 
-    <!-- SDK de Firebase Firestore para sincronización en la nube cuando esté disponible -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Almacén compartido automático para GitHub Pages / Hosting estático sin configuración previa
         const SHARED_BUCKET_ENDPOINT = 'https://kvdb.io/A5e8K9mP2xL7qR4tV8wZ1n/little_seeds_arboleda_team_v1';
 
         window.CloudCorrectionStore = {
@@ -892,7 +1294,6 @@
             appId: typeof __app_id !== 'undefined' ? __app_id : 'little-seeds-arboleda-git',
 
             async init(onSyncCallback) {
-                // 1. Intentar Firebase si existen credenciales en el entorno
                 try {
                     const rawConfig = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
                     if (rawConfig) {
@@ -930,7 +1331,6 @@
                     }
                 } catch (err) {}
 
-                // 2. Modo automático para Git (GitHub Pages / Netlify / Vercel) sin tocar código
                 this.enabled = true;
                 this.mode = 'shared-kv';
                 await this.pullSharedBucket(onSyncCallback);
@@ -1020,10 +1420,82 @@
 
     <script>
         /* ==========================================================================
-           DATOS DE INSTITUCIONES Y NAVEGACIÓN
+           CONTROL DE LA ANTESALA LIQUID GLASS (DESTELLOS DIFUMINADOS + ante.mp4)
            ========================================================================== */
-        const LITTLE_SEEDS_TITLE_HTML = '<span class="let-l1">L</span><span class="let-i1">i</span><span class="let-t1">t</span><span class="let-t2">t</span><span class="let-l2">l</span><span class="let-e1">e</span> <span class="let-s1">S</span><span class="let-ee1">e</span><span class="let-ee2">e</span><span class="let-d1">d</span><span class="let-ss2">s</span> <span class="let-m">M</span><span class="let-o1">o</span><span class="let-n">n</span><span class="let-t">t</span><span class="let-e2">e</span><span class="let-s3">s</span><span class="let-s4">s</span><span class="let-o2">o</span><span class="let-r">r</span><span class="let-i2">i</span>';
-        const LITTLE_SEEDS_MULTILINE_HTML = '<span class="let-l1">L</span><span class="let-i1">i</span><span class="let-t1">t</span><span class="let-t2">t</span><span class="let-l2">l</span><span class="let-e1">e</span> <span class="let-s1">S</span><span class="let-ee1">e</span><span class="let-ee2">e</span><span class="let-d1">d</span><span class="let-ss2">s</span><br><span class="let-m">M</span><span class="let-o1">o</span><span class="let-n">n</span><span class="let-t">t</span><span class="let-e2">e</span><span class="let-s3">s</span><span class="let-s4">s</span><span class="let-o2">o</span><span class="let-r">r</span><span class="let-i2">i</span>';
+        document.addEventListener("DOMContentLoaded", () => {
+            const overlay = document.getElementById("antesalaOverlay");
+            const sparklesContainer = document.getElementById("liquidSparkles");
+            const welcomeStage = document.getElementById("antesalaWelcomeStage");
+            const btnBienvenidos = document.getElementById("btnBienvenidos");
+            const videoCard = document.getElementById("antesalaVideoCard");
+            const video = document.getElementById("videoAntesala");
+            const btnCerrar = document.getElementById("btnCerrarAntesala");
+
+            if (sparklesContainer) {
+                const tints = [
+                    "rgba(97, 198, 216, 0.55)",
+                    "rgba(246, 199, 26, 0.5)",
+                    "rgba(99, 170, 52, 0.48)",
+                    "rgba(239, 102, 144, 0.48)",
+                    "rgba(31, 134, 225, 0.5)"
+                ];
+                for (let i = 0; i < 14; i++) {
+                    const dot = document.createElement("span");
+                    dot.className = "sparkle-dot";
+                    const size = 28 + Math.random() * 42;
+                    dot.style.width = size + "px";
+                    dot.style.height = size + "px";
+                    dot.style.top = (Math.random() * 90 + 5) + "%";
+                    dot.style.left = (Math.random() * 90 + 5) + "%";
+                    dot.style.setProperty("--dur", (4.0 + Math.random() * 3.5).toFixed(2) + "s");
+                    dot.style.setProperty("--delay", (Math.random() * 4.0).toFixed(2) + "s");
+                    dot.style.setProperty("--sparkle-tint", tints[i % tints.length]);
+                    sparklesContainer.appendChild(dot);
+                }
+            }
+
+            if (overlay && welcomeStage && btnBienvenidos && videoCard && video && btnCerrar) {
+                btnBienvenidos.addEventListener("click", () => {
+                    welcomeStage.classList.add("saliendo");
+                    overlay.classList.add("modo-video");
+
+                    video.muted = false;
+                    video.volume = 1.0;
+                    video.play().catch(() => {
+                        btnCerrar.classList.add("visible");
+                    });
+
+                    setTimeout(() => {
+                        welcomeStage.classList.add("hidden");
+                        videoCard.classList.remove("hidden");
+                        requestAnimationFrame(() => {
+                            videoCard.classList.add("visible");
+                        });
+                    }, 360);
+                });
+
+                video.addEventListener("ended", () => {
+                    btnCerrar.classList.add("visible");
+                });
+
+                video.addEventListener("error", () => {
+                    btnCerrar.classList.add("visible");
+                });
+
+                btnCerrar.addEventListener("click", () => {
+                    overlay.classList.add("cerrando");
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, 550);
+                });
+            }
+        });
+
+        /* ==========================================================================
+           DATOS DE INSTITUCIONES Y NAVEGACIÓN (ACTUALIZADOS CON TODOS LOS CAMBIOS DEL PDF)
+           ========================================================================== */
+        const LITTLE_SEEDS_TITLE_HTML = '<span class="brand-nowrap"><span class="let-l1">L</span><span class="let-i1">i</span><span class="let-t1">t</span><span class="let-t2">t</span><span class="let-l2">l</span><span class="let-e1">e</span></span> <span class="brand-nowrap"><span class="let-s1">S</span><span class="let-ee1">e</span><span class="let-ee2">e</span><span class="let-d1">d</span><span class="let-ss2">s</span></span> <span class="brand-nowrap"><span class="let-m">M</span><span class="let-o1">o</span><span class="let-n">n</span><span class="let-t">t</span><span class="let-e2">e</span><span class="let-s3">s</span><span class="let-s4">s</span><span class="let-o2">o</span><span class="let-r">r</span><span class="let-i2">i</span></span>';
+        const LITTLE_SEEDS_MULTILINE_HTML = '<span class="brand-nowrap"><span class="let-l1">L</span><span class="let-i1">i</span><span class="let-t1">t</span><span class="let-t2">t</span><span class="let-l2">l</span><span class="let-e1">e</span></span> <span class="brand-nowrap"><span class="let-s1">S</span><span class="let-ee1">e</span><span class="let-ee2">e</span><span class="let-d1">d</span><span class="let-ss2">s</span></span><br><span class="brand-nowrap"><span class="let-m">M</span><span class="let-o1">o</span><span class="let-n">n</span><span class="let-t">t</span><span class="let-e2">e</span><span class="let-s3">s</span><span class="let-s4">s</span><span class="let-o2">o</span><span class="let-r">r</span><span class="let-i2">i</span></span>';
         const ARBOLEDA_TITLE_HTML = 'Colegio Integral La Arboleda';
         const ARBOLEDA_MULTILINE_HTML = 'Colegio Integral<br>La Arboleda';
 
@@ -1034,21 +1506,29 @@
                 motto: 'Inspirados en metodología Montessori',
                 description: 'Un ambiente preparado con calidez, respeto y estimulación temprana para acompañar los primeros descubrimientos de tus hijos en Maternal, Nursery, Pre kínder y Kínder.',
                 mission: 'Brindar en la primera infancia un ambiente preparado, afectivo y seguro inspirado en la metodología Montessori, respetando el ritmo individual de cada niño.',
-                vision: 'Ser el centro referente por nuestra calidez humana y excelencia en neurodesarrollo infantil, formando niños felices, seguros y con bases sólidas.',
+                vision: 'Ser el centro referente por nuestra calidez humana y excelencia en neurodesarrollo infantil, formando niños felices, seguros y con bases sólidas autónomos.',
                 values: [
                     '<strong>Respeto al ritmo individual:</strong> Acompañamiento cercano y personalizado.',
-                    '<strong>Autonomía y confianza:</strong> Fomentamos la seguridad y el "yo puedo hacerlo solo".',
+                    '<strong>Autonomía y confianza:</strong> Fomentamos la seguridad y el "Puedo hacerlo por mi mismo".',
                     '<strong>Curiosidad y juego sensorial:</strong> Aprendizaje activo mediante materiales concretos.',
                     '<strong>Alianza con la familia:</strong> Comunicación cálida y constante.'
                 ],
                 levels: [
-                    { name: 'Maternal', stage: 'Semillero • 1 y 2 años', summary: 'Estimulación sensorial temprana, vínculo afectivo seguro y primeros descubrimientos.', detail: 'Acompañamos los primeros pasos educativos en un entorno amoroso.' },
-                    { name: 'Nursery', stage: '3 años', summary: 'Desarrollo del lenguaje oral, hábitos de autonomía y coordinación motriz.', detail: 'Fortalecemos vocabulario expresivo y rutinas de independencia Montessori.' },
-                    { name: 'Pre-kinder', stage: '4 años', summary: 'Socialización positiva, materiales Montessori concretos e iniciación STEAM.', detail: 'Trabajo con materiales de vida práctica, sensorial y lenguaje.' },
-                    { name: 'Kinder', stage: '5 años', summary: 'Consolidación de destrezas de aprendizaje, STEAM y madurez socioemocional.', detail: 'Preparación integral para su siguiente etapa escolar.' }
+                    { name: 'Maternal', stage: 'Semillero • 18 meses y 2 años', summary: 'Estimulación sensorial temprana, vínculo afectivo seguro y primeros descubrimientos.', detail: 'Acompañamos los primeros pasos educativos en un entorno amoroso.' },
+                    { name: 'Nursery', stage: '3 años', summary: 'Desarrollo del lenguaje oral, hábitos de autonomía y coordinación motriz.', detail: 'Fortalecemos vocabulario expresivo y rutinas de independencia para fomentar la autonomía.' },
+                    { name: 'Pre-kinder', stage: '4 años', summary: 'Socialización positiva, materiales Montessori concretos e iniciación STEAM.', detail: 'Programa de Pre-lectoescritura, área numérica y área de lenguaje por medio de materiales sensoriales.' },
+                    { name: 'Kinder', stage: '5 años', summary: 'Consolidación de destrezas de aprendizaje, STEAM y madurez socioemocional.', detail: 'Inician formalmente el proceso de lectura y escritura. Aprenden a leer y a escribir con letra de molde.' }
                 ],
-                areasHeading: 'Clases y áreas desarrolladas en Little Seeds Montessori:',
-                areas: ['Destrezas de aprendizaje', 'Comunicación y lenguaje', 'Medio social y natural', 'STEAM y Computación', 'Desarrollo motriz'],
+                areasHeading: 'Estas son las áreas que trabajamos en la pre-primaria:',
+                areas: [
+                    'Comunicación y Lenguaje',
+                    'Aprendizaje Matemático',
+                    'Área integradora de ciencia, desarrollo integral y sociocultural',
+                    'Educación artística',
+                    'Educación física',
+                    'STEAM',
+                    'Inglés'
+                ],
                 calendar: [
                     { trimester: 'T1', date: '18 Enero 2027', title: 'Bienvenida e Inducción Familiar', desc: 'Adaptación progresiva y recorrido por los ambientes preparados.' },
                     { trimester: 'T1', date: '12 Marzo 2027', title: 'Mañana de Vida Práctica Montessori', desc: 'Actividad abierta donde los niños muestran autonomía.' },
@@ -1060,14 +1540,39 @@
                 modelTitle: 'Inspirados en Metodología Montessori',
                 modelDesc: 'Creamos ambientes preparados donde cada niño aprende explorando con sus manos, desarrollando concentración y alegría.',
                 pillars: [
-                    { title: 'Ambiente Preparado', text: 'Materiales Montessori accesibles y ordenados.' },
-                    { title: 'Neurodesarrollo', text: 'Estimulación integral de destrezas y motricidad.' },
-                    { title: 'STEAM y Naturaleza', text: 'Conexión viva con la ciencia y el entorno.' }
+                    { title: 'Ambiente Preparado', text: 'Materiales accesibles al niño y mobiliario adecuado a cada edad.' },
+                    { title: 'Neurodesarrollo', text: 'Estimulación integral de destrezas cognitivas y motrices.' },
+                    { title: 'STEAM', text: 'Integra las 5 áreas para resolver problemas reales mediante proyectos prácticos y creativos según la edad.' }
                 ],
                 blog: [
-                    { tag: 'Montessori', title: '5 formas de fomentar la autonomía en casa', excerpt: 'Pequeños ajustes que ayudan a ganar seguridad.', content: 'Colocar libros y juguetes a su altura y permitir elegir prendas fortalece la autoestima.' },
-                    { tag: 'Desarrollo Motriz', title: 'La importancia de la psicomotricidad', excerpt: 'Cómo el movimiento libre prepara el cerebro.', content: 'Integra equilibrio, coordinación ojo-mano y motricidad fina.' },
-                    { tag: 'STEAM', title: 'Despertando la curiosidad científica', excerpt: 'Aprender haciendo mediante experimentos.', content: 'Combinamos exploración natural con retos lógicos.' }
+                    {
+                        tag: 'Autoestima',
+                        title: '5 formas de fomentar la autonomía en casa',
+                        excerpt: 'Pequeños ajustes que ayudan a ganar seguridad.',
+                        contentHTML: `
+                            <p style="font-weight: 700; margin-bottom: 10px;">5 formas de fomentar la autonomía en casa:</p>
+                            <ol style="padding-left: 20px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+                                <li><strong>Poner sus cosas a su alcance.</strong> Coloca sus zapatos, juguetes o su vaso en un lugar bajo para que pueda tomarlos y guardarlos por sí mismo.</li>
+                                <li><strong>Darle tiempo para vestirse.</strong> Anímalo a ponerse los zapatos o la chaqueta. Si se le dificulta, ayúdalo con el paso que necesita y deja que termine.</li>
+                                <li><strong>Ofrecerle dos opciones.</strong> Pregúntale «¿Prefieres la camiseta azul o la verde?». Así practica tomar decisiones sencillas.</li>
+                                <li><strong>Invitarlo a colaborar en casa.</strong> Puede poner las servilletas en la mesa, regar una planta o servirse agua con una jarra pequeña. Elige tareas acordes a su edad.</li>
+                                <li><strong>Dejar que corrija pequeños errores.</strong> Si derrama agua, muéstrale dónde está el paño y dale tiempo para limpiar. Así aprende qué hacer la próxima vez.</li>
+                            </ol>
+                            <p style="font-weight: 700; color: var(--secondary-color);">El niño que descubre todo lo que puede hacer por sí mismo fortalece su autoestima.</p>
+                        `
+                    },
+                    {
+                        tag: 'Desarrollo Motriz',
+                        title: 'La importancia de la psicomotricidad',
+                        excerpt: 'Cómo el movimiento libre prepara el cerebro.',
+                        contentHTML: `<p>A través del movimiento y el juego, los niños conocen su cuerpo, aprenden a coordinar sus movimientos y ganan autonomía en las actividades de todos los días. Esto se consigue trabajando el área de Vida Práctica Montessori.</p>`
+                    },
+                    {
+                        tag: 'STEAM',
+                        title: 'Despertando la curiosidad científica',
+                        excerpt: 'Aprender haciendo mediante experimentos.',
+                        contentHTML: `<p>Combinamos exploración natural con retos lógicos.</p>`
+                    }
                 ]
             },
             arboleda: {
@@ -1106,9 +1611,9 @@
                     { title: 'Emprendimiento', text: 'Formación temprana en liderazgo.' }
                 ],
                 blog: [
-                    { tag: 'Liderazgo', title: 'Espíritu emprendedor en primaria', excerpt: 'Desarrollando creatividad e iniciativa.', content: 'Enseña a identificar oportunidades y trabajar en equipo.' },
-                    { tag: 'Math', title: 'Matemáticas comprensivas', excerpt: 'Más allá de memorizar fórmulas.', content: 'Situaciones reales y juegos de estrategia.' },
-                    { tag: 'Bilingüismo', title: 'Beneficios del Inglés en la niñez', excerpt: 'Ampliando horizontes cognitivos.', content: 'Mejora flexibilidad mental y confianza.' }
+                    { tag: 'Liderazgo', title: 'Espíritu emprendedor en primaria', excerpt: 'Desarrollando creatividad e iniciativa.', contentHTML: '<p>Enseña a identificar oportunidades y trabajar en equipo.</p>' },
+                    { tag: 'Math', title: 'Matemáticas comprensivas', excerpt: 'Más allá de memorizar fórmulas.', contentHTML: '<p>Situaciones reales y juegos de estrategia.</p>' },
+                    { tag: 'Bilingüismo', title: 'Beneficios del Inglés en la niñez', excerpt: 'Ampliando horizontes cognitivos.', contentHTML: '<p>Mejora flexibilidad mental y confianza.</p>' }
                 ]
             }
         };
@@ -1141,7 +1646,7 @@
             document.getElementById('identity-values').innerHTML = data.values.map(v => `<li>${v}</li>`).join('');
             document.getElementById('map-inst-label').innerHTML = isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML;
 
-            document.getElementById('levels-title').innerHTML = `Niveles y Clases • ${isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML}`;
+            document.getElementById('levels-title').innerHTML = `<span>Niveles y Clases •</span><span>${isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML}</span>`;
             document.getElementById('levels-sub').textContent = `${data.motto} — Selecciona un grado para conocer más.`;
 
             const lvGrid = document.getElementById('levels-cards-grid');
@@ -1159,7 +1664,7 @@
 
             document.getElementById('areas-heading').textContent = data.areasHeading;
             document.getElementById('areas-badges-list').innerHTML = data.areas.map(a => `<span class="area-badge">${a}</span>`).join('');
-            document.getElementById('cal-title').innerHTML = `Calendario Escolar 2027 • ${isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML}`;
+            document.getElementById('cal-title').innerHTML = `<span>Calendario Escolar 2027 •</span><span>${isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML}</span>`;
             renderCalendar();
 
             document.getElementById('mod-title').textContent = data.modelTitle;
@@ -1171,7 +1676,7 @@
                 </div>
             `).join('');
 
-            document.getElementById('blog-title').innerHTML = `Blog Educativo • ${isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML}`;
+            document.getElementById('blog-title').innerHTML = `<span>Blog Educativo •</span><span>${isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML}</span>`;
             document.getElementById('blog-posts-grid').innerHTML = data.blog.map((post, idx) => `
                 <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
@@ -1183,8 +1688,8 @@
                 </div>
             `).join('');
 
-            document.getElementById('adm-title').innerHTML = `Inscripción 2027 • ${isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML}`;
-            document.getElementById('adm-form-heading').innerHTML = `Solicitud de Admisión 2027 — ${isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML}`;
+            document.getElementById('adm-title').innerHTML = `<span>Inscripción 2027 •</span><span>${isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML}</span>`;
+            document.getElementById('adm-form-heading').innerHTML = `<span>Solicitud de Admisión 2027 —</span><span>${isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML}</span>`;
             document.getElementById('adm-inst-display').value = isArboleda ? 'Colegio Integral La Arboleda' : 'Little Seeds Montessori';
             document.getElementById('adm-grade-select').innerHTML = data.levels.map(lv => `<option value="${lv.name}">${lv.name}</option>`).join('');
             document.getElementById('footer-brand-title').innerHTML = isArboleda ? ARBOLEDA_TITLE_HTML : LITTLE_SEEDS_TITLE_HTML;
@@ -1240,7 +1745,7 @@
             openInfoModal(`
                 <span class="kicker">${post.tag}</span>
                 <h3 style="font-size: 21px; font-weight: 800; margin-bottom: 12px;">${post.title}</h3>
-                <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.65;">${post.content}</p>
+                <div style="font-size: 14.5px; color: var(--text-muted); line-height: 1.65;">${post.contentHTML}</div>
             `);
         }
 
@@ -1261,7 +1766,7 @@
         }
         function copyLocationText() {
             const isArboleda = activeInstitution === 'arboleda';
-            const textToCopy = `${isArboleda ? 'Colegio Integral La Arboleda' : 'Little Seeds Montessori'} - Ciudad de Guatemala - Tel: (502) 2393-5249`;
+            const textToCopy = `${isArboleda ? 'Colegio Integral La Arboleda' : 'Little Seeds Montessori'} - 16 avenida 1-05 sector B1 zona 8 Mixco, Ciudad San Cristóbal - Tel: (502) 2393-5249 - WhatsApp: +502 5893 6495`;
             const helper = document.createElement('textarea');
             helper.value = textToCopy;
             document.body.appendChild(helper);
@@ -1351,7 +1856,6 @@
             document.getElementById('rev-selection-popover').classList.add('hidden');
         }
 
-        // Selección de texto con mouse
         document.addEventListener('mouseup', function (e) {
             if (!isReviewMode) return;
             if (e.target.closest('.rev-floating-dock, .rev-drawer, .rev-form-modal, .rev-selection-popover, #info-modal')) return;
@@ -1385,7 +1889,6 @@
             }, 10);
         });
 
-        // Clic directo sobre tarjeta o bloque en Modo Revisión
         document.addEventListener('click', function (e) {
             if (!isReviewMode) return;
             if (e.target.closest('.rev-floating-dock, .rev-drawer, .rev-form-modal, .rev-selection-popover, #info-modal, header, .filter-bar')) return;
@@ -1448,7 +1951,6 @@
             if (event.target.id === 'rev-form-modal') closeCorrectionForm();
         }
 
-        // Pegado con Ctrl + V dentro del modal
         document.addEventListener('paste', async function (e) {
             const modal = document.getElementById('rev-form-modal');
             if (modal.classList.contains('hidden')) return;
@@ -1475,7 +1977,6 @@
             event.target.value = '';
         }
 
-        // Compresión en Canvas JPEG ligero para soportar hasta 10 fotos sin exceder límites
         function compressImageFileToBase64(file, maxDimension = 720, quality = 0.68) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
