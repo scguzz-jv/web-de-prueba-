@@ -393,44 +393,42 @@
         /* Header & Banner */
         header { position: sticky; top: 0; z-index: 100; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18); }
         .banner-top {
-            background: linear-gradient(135deg, rgba(97, 198, 216, 0.95) 0%, rgba(31, 134, 225, 0.95) 50%, rgba(239, 102, 144, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(97, 198, 216, 0.96) 0%, rgba(31, 134, 225, 0.96) 50%, rgba(239, 102, 144, 0.96) 100%);
             backdrop-filter: blur(10px);
-            padding: 14px 24px;
+            padding: 12px 20px;
             border-bottom: 3px solid #F6C71A;
         }
         body.theme-arboleda .banner-top {
-            background: linear-gradient(135deg, rgba(0, 106, 122, 0.95) 0%, rgba(46, 159, 25, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(0, 106, 122, 0.96) 0%, rgba(46, 159, 25, 0.96) 100%);
             border-bottom-color: #FDC101;
         }
 
         .banner-inner {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
-            min-height: 94px;
+            gap: 16px;
         }
         .logos-selector {
             display: flex;
             align-items: center;
-            gap: 28px;
+            gap: 20px;
         }
 
         .logo-emblem-card {
             background: transparent;
             border: none;
             box-shadow: none;
-            padding: 4px;
-            width: 155px;
-            height: 98px;
+            padding: 2px;
+            width: 140px;
+            height: 86px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease, filter 0.25s ease;
             opacity: 0.85;
-            transform: scale(0.96);
+            transform: scale(0.95);
         }
         .logo-emblem-card:hover {
             opacity: 1;
@@ -458,15 +456,14 @@
         .let-ss2 { color: #F6C71A; } .let-m, .let-n, .let-e2, .let-s4, .let-r { color: #DD3F42; }
         .let-o1, .let-t, .let-s3, .let-o2, .let-i2 { color: #1F86E1; }
 
-        /* Clase para evitar que palabras como "Little" o "Seeds" se corten a mitad en móvil (PDF p. 4-5) */
         .brand-nowrap {
             display: inline-block;
             white-space: nowrap;
         }
 
-        .header-title-custom { font-size: 24px; font-weight: 900; text-shadow: 0 2px 6px rgba(0,0,0,0.35); line-height: 1.25; text-align: right; }
+        .header-title-custom { font-size: 22px; font-weight: 900; text-shadow: 0 2px 6px rgba(0,0,0,0.35); line-height: 1.2; text-align: right; }
         .header-brand-info { text-align: right; color: #FFFFFF; }
-        .header-brand-info .contact-links { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 13.5px; font-weight: 700; }
+        .header-brand-info .contact-links { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 13px; font-weight: 700; }
         .header-brand-info a { color: #FFFFFF; text-decoration: none; }
         .header-brand-info a:hover { color: #F6C71A; text-decoration: underline; }
 
@@ -475,25 +472,26 @@
         .nav-list { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; list-style: none; gap: 6px; padding: 2px 0; }
         .nav-btn {
             background: transparent; border: none; border-bottom: 3px solid transparent; color: #FFFFFF;
-            font-family: inherit; font-size: 14.5px; font-weight: 600; padding: 12px 18px; cursor: pointer; transition: all 0.2s;
+            font-family: inherit; font-size: 14px; font-weight: 600; padding: 11px 16px; cursor: pointer; transition: all 0.2s;
+            white-space: nowrap;
         }
         .nav-btn:hover { color: #F6C71A; background: rgba(168, 85, 247, 0.25); }
         .nav-btn.active { color: #F6C71A; font-weight: 800; border-bottom-color: #F6C71A; background: rgba(168, 85, 247, 0.35); }
 
         /* Secciones y Tarjetas */
-        .section { padding: 52px 0; }
-        .section-header { text-align: center; max-width: 720px; margin: 0 auto 38px; }
+        .section { padding: 48px 0; }
+        .section-header { text-align: center; max-width: 720px; margin: 0 auto 34px; }
         .kicker {
             display: inline-block; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.1px;
             color: #FFFFFF; background: var(--secondary-color); padding: 6px 16px; border-radius: 99px; margin-bottom: 10px;
             border: 2px solid #7e22ce; animation: purpleGlowMove 5s infinite;
         }
-        h1 { font-size: 34px; font-weight: 800; line-height: 1.18; }
-        h2 { font-size: 29px; font-weight: 800; line-height: 1.22; }
-        .subtitle-text { color: var(--text-muted); font-size: 15.5px; margin-top: 10px; font-weight: 500; }
+        h1 { font-size: 32px; font-weight: 800; line-height: 1.18; }
+        h2 { font-size: 28px; font-weight: 800; line-height: 1.22; }
+        .subtitle-text { color: var(--text-muted); font-size: 15px; margin-top: 10px; font-weight: 500; }
 
         .section-heading-flex {
-            font-size: 29px;
+            font-size: 28px;
             font-weight: 800;
             line-height: 1.25;
             display: flex;
@@ -503,19 +501,19 @@
             flex-wrap: wrap;
         }
 
-        .hero-wrapper { background: rgba(255, 255, 255, 0.78); backdrop-filter: blur(8px); border-bottom: 2px solid var(--border-soft); padding: 44px 0 54px; }
+        .hero-wrapper { background: rgba(255, 255, 255, 0.78); backdrop-filter: blur(8px); border-bottom: 2px solid var(--border-soft); padding: 36px 0 46px; }
         .hero-box {
-            background: var(--card-bg); border-radius: 26px; padding: 36px; box-shadow: var(--shadow-soft);
+            background: var(--card-bg); border-radius: 26px; padding: 32px; box-shadow: var(--shadow-soft);
             border: 2.5px solid #7e22ce; animation: purpleGlowMove 4.5s infinite;
-            display: grid; grid-template-columns: 230px 1fr; gap: 34px; align-items: center;
+            display: grid; grid-template-columns: 210px 1fr; gap: 30px; align-items: center;
         }
         .hero-logo-showcase {
-            width: 220px; height: 220px; margin: 0 auto; background: #FFFFFF; border-radius: 24px; padding: 12px;
+            width: 200px; height: 200px; margin: 0 auto; background: #FFFFFF; border-radius: 24px; padding: 12px;
             border: 2.5px solid #9333ea; animation: purpleGlowMove 4s infinite; display: flex; align-items: center; justify-content: center;
         }
         .hero-logo-showcase img { width: 100%; height: 100%; object-fit: contain; border-radius: 12px; }
         .hero-motto { font-size: 16px; font-weight: 800; color: var(--secondary-color); margin-top: 6px; }
-        .grades-pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 24px; }
+        .grades-pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 22px; }
         .grade-tag { background: #FFFFFF; border: 2px solid #7e22ce; padding: 6px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; }
 
         .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -535,34 +533,34 @@
         .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 
         .card, .level-card, .quick-link-card, .areas-panel, .bridge-card, .map-card {
-            background: var(--card-bg); border-radius: var(--radius-lg); padding: 26px;
+            background: var(--card-bg); border-radius: var(--radius-lg); padding: 24px;
             border: 2.5px solid #7e22ce; box-shadow: var(--shadow-soft);
         }
-        .quick-link-card { padding: 20px; cursor: pointer; text-align: left; transition: transform 0.18s ease; }
+        .quick-link-card { padding: 18px; cursor: pointer; text-align: left; transition: transform 0.18s ease; }
         .quick-link-card:hover, .level-card:hover { transform: translateY(-3px); }
-        .level-card { padding: 22px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.18s ease; }
+        .level-card { padding: 20px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.18s ease; }
         .icon-circle {
-            width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center;
-            font-size: 22px; margin-bottom: 16px; color: #FFFFFF;
+            width: 48px; height: 48px; border-radius: 15px; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; margin-bottom: 14px; color: #FFFFFF;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border: 2px solid #7e22ce;
         }
 
-        .areas-panel { margin-top: 28px; }
-        .areas-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
-        .area-badge { background: #FFFFFF; border: 2px solid #9333ea; border-radius: 12px; padding: 10px 16px; font-size: 13.5px; font-weight: 700; }
+        .areas-panel { margin-top: 26px; }
+        .areas-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+        .area-badge { background: #FFFFFF; border: 2px solid #9333ea; border-radius: 12px; padding: 9px 14px; font-size: 13.5px; font-weight: 700; }
 
-        .filter-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 28px; }
+        .filter-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 24px; }
         .filter-chip {
-            background: #FFFFFF; border: 2px solid #7e22ce; border-radius: 99px; padding: 8px 18px;
+            background: #FFFFFF; border: 2px solid #7e22ce; border-radius: 99px; padding: 8px 16px;
             font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
         }
         .filter-chip.active { background: #7e22ce; color: #FFFFFF; }
 
         .modelo-banner {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: #FFFFFF; border-radius: 26px; padding: 38px; margin-bottom: 28px; border: 2.5px solid #7e22ce;
+            color: #FFFFFF; border-radius: 26px; padding: 34px; margin-bottom: 26px; border: 2.5px solid #7e22ce;
         }
-        .glass-pillar { background: rgba(255, 255, 255, 0.22); border: 2px solid rgba(168, 85, 247, 0.7); border-radius: 18px; padding: 22px; }
+        .glass-pillar { background: rgba(255, 255, 255, 0.22); border: 2px solid rgba(168, 85, 247, 0.7); border-radius: 18px; padding: 20px; }
         .bridge-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
 
         /* Mapa y Formularios */
@@ -584,38 +582,38 @@
         .feedback-banner { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: #D8F3DC; border: 2px solid #63AA34; color: #1B5E20; font-size: 13.5px; font-weight: 700; }
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(34, 34, 34, 0.65); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; padding: 18px; z-index: 250; }
-        .modal-window { background: #FFFFFF; border-radius: 22px; max-width: 540px; width: 100%; padding: 28px; position: relative; max-height: 90vh; overflow-y: auto; border: 3px solid #7e22ce; }
-        .modal-close-btn { position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 50%; border: 2px solid #7e22ce; background: #F6C71A; font-weight: 800; cursor: pointer; }
+        .modal-window { background: #FFFFFF; border-radius: 22px; max-width: 540px; width: 100%; padding: 26px; position: relative; max-height: 90vh; overflow-y: auto; border: 3px solid #7e22ce; }
+        .modal-close-btn { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 50%; border: 2px solid #7e22ce; background: #F6C71A; font-weight: 800; cursor: pointer; }
 
-        footer { background: #1e1b4b; color: #E0F2FE; padding: 36px 0; margin-top: 40px; border-top: 3px solid #7e22ce; }
+        footer { background: #1e1b4b; color: #E0F2FE; padding: 32px 0 84px; margin-top: 40px; border-top: 3px solid #7e22ce; }
 
         /* ==========================================================================
-           ESTILOS DEL ÁREA DE CORRECCIÓN COLABORATIVA (MODO INSTAGRAM)
+           ESTILOS DEL ÁREA DE CORRECCIÓN COLABORATIVA
            ========================================================================== */
         body.review-mode-active [data-rev-block] { cursor: crosshair !important; transition: outline 0.15s ease; }
         body.review-mode-active [data-rev-block]:hover { outline: 3px dashed #f59e0b !important; outline-offset: 4px; }
 
         .rev-floating-dock {
-            position: fixed; bottom: 18px; left: 18px; z-index: 320;
-            display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
-            background: rgba(30, 27, 75, 0.95); backdrop-filter: blur(10px);
-            padding: 8px 12px; border-radius: 99px; border: 2.5px solid #a855f7;
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+            position: fixed; bottom: 14px; left: 14px; z-index: 320;
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(30, 27, 75, 0.94); backdrop-filter: blur(10px);
+            padding: 6px 10px; border-radius: 99px; border: 2px solid #a855f7;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
         }
 
         .rev-dock-btn {
-            border: none; border-radius: 99px; padding: 9px 15px; font-family: inherit;
-            font-size: 13px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+            border: none; border-radius: 99px; padding: 7px 12px; font-family: inherit;
+            font-size: 12px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
         }
         .rev-dock-btn.mode-btn { background: #ffffff; color: #1e1b4b; }
-        .rev-dock-btn.mode-btn.is-on { background: #f59e0b; color: #111827; box-shadow: 0 0 14px rgba(245, 158, 11, 0.7); }
+        .rev-dock-btn.mode-btn.is-on { background: #f59e0b; color: #111827; box-shadow: 0 0 12px rgba(245, 158, 11, 0.7); }
         .rev-dock-btn.list-btn { background: #7e22ce; color: #ffffff; }
-        .rev-badge-count { background: #f6c71a; color: #1e1b4b; font-size: 11.5px; font-weight: 900; padding: 2px 7px; border-radius: 99px; }
+        .rev-badge-count { background: #f6c71a; color: #1e1b4b; font-size: 11px; font-weight: 900; padding: 1px 6px; border-radius: 99px; }
 
         .rev-mode-ribbon {
             position: fixed; top: 0; left: 50%; transform: translateX(-50%); z-index: 330;
-            background: #f59e0b; color: #111827; font-size: 12.5px; font-weight: 800;
-            padding: 6px 18px; border-radius: 0 0 14px 14px; border: 2px solid #1e1b4b; border-top: none;
+            background: #f59e0b; color: #111827; font-size: 12px; font-weight: 800;
+            padding: 5px 16px; border-radius: 0 0 12px 12px; border: 2px solid #1e1b4b; border-top: none;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25); white-space: nowrap;
         }
 
@@ -638,14 +636,13 @@
         .rev-block-flagged { position: relative; outline: 3px solid #f59e0b !important; outline-offset: 2px; }
         .rev-block-flagged.is-resolved { outline-color: #16a34a !important; }
 
-        /* Modal de Nueva Corrección */
         .rev-form-modal {
             position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72); backdrop-filter: blur(5px);
             z-index: 360; display: flex; align-items: center; justify-content: center; padding: 16px;
         }
         .rev-form-card {
             background: #ffffff; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto;
-            border-radius: 22px; padding: 24px; border: 3px solid #7e22ce; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+            border-radius: 22px; padding: 22px; border: 3px solid #7e22ce; box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
         }
         .rev-quote-preview {
             background: #fefce8; border-left: 4px solid #eab308; padding: 10px 12px;
@@ -671,7 +668,6 @@
         }
         .rev-layout-option.active { border-color: #7e22ce; background: #f3e8ff; }
 
-        /* Panel Lateral Deslizable */
         .rev-drawer {
             position: fixed; top: 0; right: 0; bottom: 0; width: 100%; max-width: 450px;
             background: #f8fafc; z-index: 350; box-shadow: -10px 0 36px rgba(0, 0, 0, 0.28);
@@ -705,7 +701,6 @@
         .rev-item-comment-box { background: #faf5ff; border: 1.5px solid #e9d5ff; border-radius: 10px; padding: 10px; margin-bottom: 10px; }
         .rev-item-comment { font-size: 13.5px; font-weight: 600; color: #0f172a; white-space: pre-wrap; }
 
-        /* Vista Previa Estilo Instagram */
         .ig-preview-wrapper { margin: 10px 0 12px; border: 1.5px solid #e2e8f0; border-radius: 14px; overflow: hidden; background: #ffffff; }
         .ig-preview-header {
             display: flex; justify-content: space-between; align-items: center; padding: 7px 11px;
@@ -743,20 +738,127 @@
         .rev-mini-btn.del { background: #fee2e2; color: #b91c1c; }
 
         .rev-toast {
-            position: fixed; bottom: 78px; left: 18px; z-index: 380; background: #1e1b4b; color: #ffffff;
+            position: fixed; bottom: 72px; left: 14px; z-index: 380; background: #1e1b4b; color: #ffffff;
             border: 2px solid #f6c71a; padding: 10px 16px; border-radius: 12px; font-size: 13px; font-weight: 700;
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
         }
 
-        /* Responsive */
+        /* ==========================================================================
+           OPTIMIZACIÓN MÓVIL COMPLETA (ENCABEZADO COMPACTO + CARRUSEL DE PESTAÑAS)
+           ========================================================================== */
         @media (max-width: 900px) {
             .hero-box, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-            .header-title-custom { text-align: left; }
-            .header-brand-info { text-align: left; }
-            .header-brand-info .contact-links { align-items: flex-start; }
         }
 
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
+            header {
+                position: relative;
+            }
+            .banner-top {
+                padding: 8px 12px;
+                border-bottom-width: 2px;
+            }
+            .banner-top .container {
+                padding: 0;
+            }
+            .banner-inner {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px;
+                min-height: auto;
+            }
+            .logos-selector {
+                gap: 8px;
+                flex-shrink: 0;
+            }
+            .logo-emblem-card {
+                width: 64px;
+                height: 46px;
+                padding: 0;
+            }
+            .header-brand-info {
+                text-align: right;
+                flex: 1;
+                min-width: 0;
+            }
+            .header-title-custom {
+                font-size: 15px;
+                line-height: 1.15;
+                text-align: right;
+            }
+            .header-brand-info .contact-links {
+                display: none !important;
+            }
+
+            .main-navbar {
+                border-top-width: 2px;
+            }
+            .main-navbar .container {
+                padding: 0;
+            }
+            .nav-list {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                gap: 4px;
+                padding: 6px 10px;
+            }
+            .nav-list::-webkit-scrollbar {
+                display: none;
+            }
+            .nav-btn {
+                font-size: 13px;
+                padding: 7px 13px;
+                border-radius: 99px;
+                border-bottom: none;
+                background: rgba(255, 255, 255, 0.08);
+            }
+            .nav-btn.active {
+                background: #F6C71A;
+                color: #1e1b4b;
+                font-weight: 800;
+            }
+
+            .hero-wrapper {
+                padding: 18px 0 28px;
+            }
+            .hero-box {
+                padding: 20px 16px;
+                gap: 16px;
+                text-align: center;
+            }
+            .hero-logo-showcase {
+                width: 120px;
+                height: 120px;
+                padding: 8px;
+                border-radius: 18px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            h2, .section-heading-flex {
+                font-size: 22px;
+            }
+            .grades-pill-row, .cta-row {
+                justify-content: center;
+            }
+            .cta-row .btn-main, .cta-row .btn-outline {
+                width: 100%;
+                text-align: center;
+            }
+            .section {
+                padding: 32px 0;
+            }
+            .card, .level-card, .areas-panel, .bridge-card {
+                padding: 18px;
+            }
+            .modelo-banner {
+                padding: 22px 18px;
+            }
             .btn-bienvenidos {
                 font-size: 24px;
                 padding: 16px 34px;
@@ -765,15 +867,8 @@
                 gap: 24px;
             }
             .antesala-logo-pure {
-                width: 140px;
-                height: 120px;
-            }
-            .logo-emblem-card {
-                width: 122px;
-                height: 82px;
-            }
-            .section-heading-flex {
-                font-size: 23px;
+                width: 135px;
+                height: 115px;
             }
         }
     </style>
@@ -786,14 +881,13 @@
     <div id="antesalaOverlay" class="antesala-overlay">
         <div id="liquidSparkles" class="liquid-sparkles" aria-hidden="true"></div>
 
-        <!-- Fase 1: Portada con logos grandes relucientes y botón Liquid Glass -->
         <div id="antesalaWelcomeStage" class="antesala-welcome-stage">
             <div class="antesala-logos-row">
                 <div class="antesala-logo-pure">
-                    <img src="lit.png" alt="Little Seeds Montessori" onerror="this.src='https://placehold.co/220x175/61C6D8/FFFFFF?text=Little+Seeds'">
+                    <img src="lit.jpeg" alt="Little Seeds Montessori" onerror="this.src='https://placehold.co/220x175/61C6D8/FFFFFF?text=Little+Seeds'">
                 </div>
                 <div class="antesala-logo-pure">
-                    <img src="arb.png" alt="Colegio Integral La Arboleda" onerror="this.src='https://placehold.co/220x175/006A7A/FFFFFF?text=La+Arboleda'">
+                    <img src="arb.jpeg" alt="Colegio Integral La Arboleda" onerror="this.src='https://placehold.co/220x175/006A7A/FFFFFF?text=La+Arboleda'">
                 </div>
             </div>
 
@@ -805,7 +899,6 @@
             </button>
         </div>
 
-        <!-- Fase 2: Reproductor del video con audio completo -->
         <div id="antesalaVideoCard" class="antesala-card hidden">
             <button id="btnCerrarAntesala" class="antesala-close" aria-label="Cerrar">✕</button>
             <video id="videoAntesala" src="ante.mp4" playsinline preload="auto"></video>
@@ -825,10 +918,10 @@
                 <div class="banner-inner">
                     <div class="logos-selector">
                         <div id="logo-card-seeds" class="logo-emblem-card is-active" onclick="switchInstitution('seeds')" title="Little Seeds Montessori">
-                            <img src="lit.png" alt="Little Seeds" onerror="this.src='https://placehold.co/155x98/61C6D8/FFFFFF?text=Little+Seeds'">
+                            <img src="lit.jpeg" alt="Little Seeds" onerror="this.src='https://placehold.co/155x98/61C6D8/FFFFFF?text=Little+Seeds'">
                         </div>
                         <div id="logo-card-arboleda" class="logo-emblem-card" onclick="switchInstitution('arboleda')" title="Colegio Integral La Arboleda">
-                            <img src="arb.png" alt="La Arboleda" onerror="this.src='https://placehold.co/155x98/006A7A/FFFFFF?text=La+Arboleda'">
+                            <img src="arb.jpeg" alt="La Arboleda" onerror="this.src='https://placehold.co/155x98/006A7A/FFFFFF?text=La+Arboleda'">
                         </div>
                     </div>
 
@@ -952,7 +1045,7 @@
                                     <strong>Correo electrónico:</strong> <a href="mailto:mlittleseeds@gmail.com" style="color: var(--secondary-color); font-weight: 700; text-decoration: none;">mlittleseeds@gmail.com</a>
                                 </div>
                                 <div style="padding: 12px 14px; border-radius: 12px; background: rgba(246,199,26,0.22); border: 2px solid #7e22ce;">
-                                    <strong>Dirección y Horario:</strong> 16 avenida 1-05 sector B1 zona 8 Mixco, Ciudad San Cristóbal • Lunes a Viernes de 7:30 a.m. a 4:00 p.m.
+                                    <strong>Dirección y Horario:</strong> 16 Avenida A 1-05, Sector B1, Ciudad San Cristóbal, Zona 8 de Mixco • Lunes a Viernes de 7:30 a.m. a 4:00 p.m.
                                 </div>
                             </div>
 
@@ -999,14 +1092,15 @@
                                 <div class="map-overlay-info">
                                     <div>
                                         <div id="map-inst-label" style="font-size: 13.5px; font-weight: 800;"></div>
-                                        <span style="font-size: 12px; color: var(--text-muted);">16 avenida 1-05 sector B1 zona 8 Mixco, Ciudad San Cristóbal • Tel: (502) 2393-5249 • WhatsApp: +502 5893 6495</span>
+                                        <span style="font-size: 12px; color: var(--text-muted);">16 Avenida A 1-05, Sector B1, Ciudad San Cristóbal • Tel: (502) 2393-5249 • WhatsApp: +502 5893 6495</span>
                                     </div>
                                     <button type="button" onclick="copyLocationText()" style="background: rgba(97,198,216,0.3); color: var(--accent-blue); border: 2px solid #7e22ce; border-radius: 9px; padding: 7px 12px; font-size: 12px; font-weight: 800; cursor: pointer;">Copiar</button>
                                 </div>
                             </div>
                             <div class="map-external-actions">
                                 <a href="https://maps.app.goo.gl/GEagU6GSPFqQ9hMEA" target="_blank" rel="noopener noreferrer" class="btn-maps-ext" style="background: #1F86E1;">Google Maps</a>
-                                <a href="https://www.waze.com/ul?q=Centro%20Educativo%20Little%20Seeds%20Montessori%20LSM%20y%20Colegio%20La%20Arboleda&navigate=yes" target="_blank" rel="noopener noreferrer" class="btn-maps-ext" style="background: #006A7A;">Waze</a>                            </div>
+                                <a href="https://waze.com/ul/h9fxe4ckee" target="_blank" rel="noopener noreferrer" class="btn-maps-ext" style="background: #006A7A;">Waze</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1202,7 +1296,6 @@
         ➕ Marcar corrección
     </div>
 
-    <!-- Modal de Nueva Corrección / Solicitud de Contenido -->
     <div id="rev-form-modal" class="rev-form-modal hidden" onclick="closeCorrectionFormBackdrop(event)">
         <div class="rev-form-card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
@@ -1218,7 +1311,6 @@
                     <textarea id="rev-input-comment" rows="3" required class="input-box"></textarea>
                 </div>
 
-                <!-- Carga y pegado de hasta 10 fotos -->
                 <div class="field">
                     <label style="display: flex; justify-content: space-between; align-items: center;">
                         <span>📸 Fotos (máx. 10)</span>
@@ -1233,7 +1325,6 @@
                     <div id="rev-thumbs-preview" class="rev-thumbs-grid hidden"></div>
                 </div>
 
-                <!-- Selector visual estilo Instagram: Carrusel vs Collage -->
                 <div id="rev-layout-selector-box" class="field hidden">
                     <label>Diseño de fotos:</label>
                     <div class="rev-layout-selector">
@@ -1256,7 +1347,6 @@
         </div>
     </div>
 
-    <!-- Panel Lateral: Área de Correcciones -->
     <aside id="rev-drawer" class="rev-drawer" aria-label="Área de Correcciones">
         <div class="rev-drawer-header">
             <h3 style="font-size: 17px; font-weight: 800;">🛠️ Área de Correcciones</h3>
@@ -1491,7 +1581,7 @@
         });
 
         /* ==========================================================================
-           DATOS DE INSTITUCIONES Y NAVEGACIÓN (ACTUALIZADOS CON TODOS LOS CAMBIOS DEL PDF)
+           DATOS DE INSTITUCIONES Y NAVEGACIÓN (ACTUALIZADOS CON PDF, MAPS, WAZE Y MÓVIL)
            ========================================================================== */
         const LITTLE_SEEDS_TITLE_HTML = '<span class="brand-nowrap"><span class="let-l1">L</span><span class="let-i1">i</span><span class="let-t1">t</span><span class="let-t2">t</span><span class="let-l2">l</span><span class="let-e1">e</span></span> <span class="brand-nowrap"><span class="let-s1">S</span><span class="let-ee1">e</span><span class="let-ee2">e</span><span class="let-d1">d</span><span class="let-ss2">s</span></span> <span class="brand-nowrap"><span class="let-m">M</span><span class="let-o1">o</span><span class="let-n">n</span><span class="let-t">t</span><span class="let-e2">e</span><span class="let-s3">s</span><span class="let-s4">s</span><span class="let-o2">o</span><span class="let-r">r</span><span class="let-i2">i</span></span>';
         const LITTLE_SEEDS_MULTILINE_HTML = '<span class="brand-nowrap"><span class="let-l1">L</span><span class="let-i1">i</span><span class="let-t1">t</span><span class="let-t2">t</span><span class="let-l2">l</span><span class="let-e1">e</span></span> <span class="brand-nowrap"><span class="let-s1">S</span><span class="let-ee1">e</span><span class="let-ee2">e</span><span class="let-d1">d</span><span class="let-ss2">s</span></span><br><span class="brand-nowrap"><span class="let-m">M</span><span class="let-o1">o</span><span class="let-n">n</span><span class="let-t">t</span><span class="let-e2">e</span><span class="let-s3">s</span><span class="let-s4">s</span><span class="let-o2">o</span><span class="let-r">r</span><span class="let-i2">i</span></span>';
@@ -1765,7 +1855,7 @@
         }
         function copyLocationText() {
             const isArboleda = activeInstitution === 'arboleda';
-            const textToCopy = `${isArboleda ? 'Colegio Integral La Arboleda' : 'Little Seeds Montessori'} - 16 avenida 1-05 sector B1 zona 8 Mixco, Ciudad San Cristóbal - Tel: (502) 2393-5249 - WhatsApp: +502 5893 6495`;
+            const textToCopy = `${isArboleda ? 'Colegio Integral La Arboleda' : 'Little Seeds Montessori'} - 16 Avenida A 1-05, Sector B1, Ciudad San Cristóbal, Zona 8 de Mixco - Tel: (502) 2393-5249 - WhatsApp: +502 5893 6495`;
             const helper = document.createElement('textarea');
             helper.value = textToCopy;
             document.body.appendChild(helper);
