@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Seeds Montessori & Colegio Integral La Arboleda</title>
+    <title>Little Seeds Montessori &amp; Colegio Integral La Arboleda</title>
     <style>
         /* ==========================================================================
            VARIABLES DE TEMA LIQUID GLASS: LITTLE SEEDS MONTESSORI (COLORES DEL LOGO)
@@ -64,7 +64,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
 
-        /* Animación GPU ultra fluida para el haz de luz en bordes */
         @property --beam-angle {
             syntax: "<angle>";
             inherits: false;
@@ -98,6 +97,11 @@
         .let-d1 { color: #1D8FE1; } .let-ss2 { color: #FFD015; }
         .let-m, .let-n, .let-e2, .let-s4, .let-r { color: #E83F44; }
         .let-o1, .let-t, .let-s3, .let-o2, .let-i2 { color: #1D8FE1; }
+
+        /* Letras con los colores institucionales de Colegio Integral La Arboleda */
+        .arb-g { color: #2E9F19; }
+        .arb-t { color: #006A7A; }
+        .arb-y { color: #D99B00; }
 
         /* ==========================================================================
            PANTALLA DE ANTESALA LIQUID GLASS (OPTIMIZADA PARA MÓVIL Y PC)
@@ -279,7 +283,7 @@
         .btn-cerrar-video:hover { background: #E83F44; transform: scale(1.08); }
 
         /* ==========================================================================
-           ENCABEZADO ESTILIZADO Y LIGERO (SIN CAJAS TOSCAS)
+           ENCABEZADO ESTILIZADO Y LIGERO
            ========================================================================== */
         header {
             position: sticky;
@@ -342,7 +346,9 @@
             align-items: flex-end;
             gap: 4px;
         }
-.header-title-custom {
+
+        /* Cápsula Liquid Glass animada para ambos colegios */
+        .header-title-custom {
             padding: 6px 18px;
             border-radius: 16px;
             font-size: 20px;
@@ -351,7 +357,7 @@
             border: 2.5px solid transparent !important;
             background-color: transparent !important;
             background-image:
-                linear-gradient(135deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.25)),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.28)),
                 conic-gradient(from var(--beam-angle), var(--beam-1) 0%, var(--beam-2) 25%, var(--beam-3) 50%, var(--beam-4) 75%, var(--beam-1) 100%) !important;
             background-origin: border-box !important;
             background-clip: padding-box, border-box !important;
@@ -359,21 +365,11 @@
             backdrop-filter: blur(12px) saturate(160%);
             -webkit-backdrop-filter: blur(12px) saturate(160%);
             box-shadow:
-                inset 0 1.5px 1px rgba(255, 255, 255, 0.90),
-                0 6px 16px rgba(15, 23, 42, 0.14);
-            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.95);
+                inset 0 1.5px 1px rgba(255, 255, 255, 0.92),
+                0 6px 16px rgba(15, 23, 42, 0.15);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.92);
         }
-body.theme-arboleda .header-title-custom {
-            background: transparent !important;
-            background-image: none !important;
-            border: none !important;
-            animation: none !important;
-            box-shadow: none;
-            padding: 0;
-            color: #FFFFFF;
-            font-size: 22px;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.30);
-        }
+
         .header-brand-info .contact-links {
             display: flex;
             flex-wrap: wrap;
@@ -486,6 +482,7 @@ body.theme-arboleda .header-title-custom {
         body:not(.theme-arboleda) .grade-tag:nth-child(2) { border-color: #6CC02E; background: #F0FDF4; color: #166534; }
         body:not(.theme-arboleda) .grade-tag:nth-child(3) { border-color: #35C2D6; background: #ECFEFF; color: #155E75; }
         body:not(.theme-arboleda) .grade-tag:nth-child(4) { border-color: #F4649A; background: #FDF2F8; color: #9D174D; }
+        body:not(.theme-arboleda) .grade-tag:nth-child(5) { border-color: #1D8FE1; background: #EFF6FF; color: #1E40AF; }
 
         .hero-cta-group { display: flex; flex-wrap: wrap; gap: 12px; }
 
@@ -534,7 +531,7 @@ body.theme-arboleda .header-title-custom {
 
         .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+        .grid-levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
 
         .card, .level-card, .quick-link-card, .areas-panel, .bridge-card, .map-card {
             border-radius: var(--radius-lg);
@@ -650,7 +647,6 @@ body.theme-arboleda .header-title-custom {
             border-radius: 99px;
             margin-bottom: 10px;
         }
-        .blog-meta { font-size: 12px; color: var(--text-muted); font-weight: 700; margin-top: 12px; }
 
         .modal-backdrop {
             position: fixed;
@@ -778,14 +774,13 @@ body.theme-arboleda .header-title-custom {
         .footer-links a { color: #FDE68A; text-decoration: none; font-weight: 700; }
 
         /* ==========================================================================
-           OPTIMIZACIÓN MÓVIL COMPLETA (ENCABEZADO COMPACTO + ANTESALA FLUIDA 60 FPS)
+           OPTIMIZACIÓN MÓVIL COMPLETA
            ========================================================================== */
         @media (max-width: 900px) {
-            .hero-box, .grid-2, .grid-3, .grid-4, .form-grid { grid-template-columns: 1fr; }
+            .hero-box, .grid-2, .grid-3, .grid-levels, .form-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
-            /* Encabezado compacto que NO roba la pantalla en celular */
             header { position: relative; }
             .banner-top { padding: 6px 0; backdrop-filter: blur(8px); }
             .banner-inner {
@@ -799,11 +794,9 @@ body.theme-arboleda .header-title-custom {
             .logo-emblem-card { height: 46px; min-width: 68px; padding: 3px 6px; border-radius: 12px; }
             .logo-emblem-card img { max-height: 38px; max-width: 62px; }
             .header-brand-info { align-items: flex-end; text-align: right; min-width: 0; }
-            .header-title-custom { font-size: 13.5px; padding: 3px 9px; border-radius: 10px; }
-            body.theme-arboleda .header-title-custom { font-size: 14px; }
+            .header-title-custom { font-size: 13px; padding: 3px 9px; border-radius: 10px; }
             .header-brand-info .contact-links { display: none; }
 
-            /* Pestañas deslizables horizontales en 1 sola línea */
             .main-navbar {
                 position: sticky;
                 top: 0;
@@ -834,7 +827,6 @@ body.theme-arboleda .header-title-custom {
                 font-weight: 900;
             }
 
-            /* Hero proporcionado para teléfono */
             .hero-wrapper { padding: 18px 0 22px; }
             .hero-box { padding: 20px 16px; gap: 16px; text-align: center; border-radius: 22px; }
             .hero-logo-showcase { width: 135px; height: 135px; padding: 8px; }
@@ -842,7 +834,6 @@ body.theme-arboleda .header-title-custom {
             .hero-grades-pills, .hero-cta-group { justify-content: center; }
             .btn-main, .btn-outline { width: 100%; }
 
-            /* Antesala ultra ligera en celular (60 FPS sin trabas) */
             .antesala-glass-panel {
                 padding: 26px 18px;
                 backdrop-filter: blur(8px);
@@ -861,31 +852,28 @@ body.theme-arboleda .header-title-custom {
     <!-- ==========================================================================
          ANTESALA LIQUID GLASS + VIDEO DE BIENVENIDA (ante.mp4)
          ========================================================================== -->
-    <div id="antesalaOverlay" class="antesala-overlay" role="dialog" aria-modal="true" aria-label="Bienvenida">
-        <div id="antesalaSparkles" class="antesala-sparkles" aria-hidden="true"></div>
-
+    <div id="antesalaOverlay" class="antesala-overlay">
+        <div id="antesalaSparkles" class="antesala-sparkles"></div>
         <div id="antesalaGlassPanel" class="antesala-glass-panel">
             <div class="antesala-logos-row">
                 <div class="antesala-logo-pure">
-                    <img src="lit.png" alt="Little Seeds Montessori">
+                    <img src="lit.png" alt="Logo Little Seeds Montessori">
                 </div>
                 <div class="antesala-logo-pure">
-                    <img src="arb.png" alt="Colegio Integral La Arboleda">
+                    <img src="arb.png" alt="Logo Colegio Integral La Arboleda">
                 </div>
             </div>
-
-            <p class="antesala-subtitle">Formación integral desde la primera infancia hasta Primaria</p>
-
-            <button type="button" id="btnBienvenidos" class="btn-bienvenidos-liquid">
-                ✨ Bienvenidos
-            </button>
+            <p class="antesala-subtitle">Formación Integral desde la Primera Infancia hasta Primaria</p>
+            <button id="btnBienvenidos" type="button" class="btn-bienvenidos-liquid">✨ Bienvenidos</button>
         </div>
     </div>
 
-    <div id="antesalaVideoStage" class="antesala-video-stage" aria-hidden="true">
+    <div id="antesalaVideoStage" class="antesala-video-stage">
         <div class="antesala-video-box">
-            <button type="button" id="btnCerrarVideo" class="btn-cerrar-video" title="Saltar video">✕</button>
-            <video id="anteVideoPlayer" src="ante.mp4" playsinline preload="metadata"></video>
+            <button id="btnCerrarVideo" type="button" class="btn-cerrar-video" title="Saltar video">✕</button>
+            <video id="anteVideoPlayer" playsinline preload="metadata">
+                <source src="ante.mp4" type="video/mp4">
+            </video>
         </div>
     </div>
 
@@ -936,7 +924,7 @@ body.theme-arboleda .header-title-custom {
                 <div class="hero-box">
                     <div id="hero-logo-display" class="hero-logo-showcase"></div>
                     <div>
-                        <span id="hero-kicker" class="kicker">Etapa Inicial • Montessori</span>
+                        <span id="hero-kicker" class="kicker"></span>
                         <h1 id="hero-title"></h1>
                         <p id="hero-motto" class="hero-subtitle"></p>
                         <p id="hero-description" class="hero-desc"></p>
@@ -984,7 +972,7 @@ body.theme-arboleda .header-title-custom {
                 <div class="bridge-card">
                     <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
                         <div style="max-width: 720px;">
-                            <span class="kicker" id="bridge-kicker">Continuidad Educativa</span>
+                            <span class="kicker" id="bridge-kicker"></span>
                             <h3 id="bridge-title" style="font-size: 22px; font-weight: 800; margin-bottom: 8px;"></h3>
                             <p id="bridge-text" style="font-size: 14.5px; color: var(--text-muted);"></p>
                         </div>
@@ -1029,20 +1017,20 @@ body.theme-arboleda .header-title-custom {
                                 <button type="button" class="zoom-btn" onclick="changeMapZoom(-0.25)" title="Alejar">−</button>
                             </div>
                             <svg id="campus-map-svg" viewBox="0 0 600 320" width="100%" height="100%" style="transition: transform 0.25s ease; transform-origin: center;">
-                                <rect width="600" height="320" fill="#E8F6F3"/>
-                                <path d="M0 105 H600 M0 215 H600 M165 0 V320 M435 0 V320" stroke="#FFFFFF" stroke-width="18"/>
-                                <path d="M0 105 H600 M0 215 H600 M165 0 V320 M435 0 V320" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="6,6"/>
-                                <rect x="195" y="128" width="210" height="66" rx="16" fill="#DCFCE7" stroke="#22C55E" stroke-width="2"/>
+                                <rect width="600" height="320" fill="#E8F6F3"></rect>
+                                <path d="M0 105 H600 M0 215 H600 M165 0 V320 M435 0 V320" stroke="#FFFFFF" stroke-width="18"></path>
+                                <path d="M0 105 H600 M0 215 H600 M165 0 V320 M435 0 V320" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="6,6"></path>
+                                <rect x="195" y="128" width="210" height="66" rx="16" fill="#DCFCE7" stroke="#22C55E" stroke-width="2"></rect>
                                 <text x="300" y="155" text-anchor="middle" font-size="11" font-weight="800" fill="#166534">16 Avenida A 1-05, Sector B1</text>
                                 <text x="300" y="172" text-anchor="middle" font-size="10.5" font-weight="700" fill="#15803D">Ciudad San Cristóbal • Zona 8 Mixco</text>
                                 <g transform="translate(300, 118)">
-                                    <circle cx="0" cy="0" r="14" fill="#E83F44" stroke="#FFFFFF" stroke-width="3"/>
-                                    <circle cx="0" cy="0" r="5" fill="#FFFFFF"/>
+                                    <circle cx="0" cy="0" r="14" fill="#E83F44" stroke="#FFFFFF" stroke-width="3"></circle>
+                                    <circle cx="0" cy="0" r="5" fill="#FFFFFF"></circle>
                                 </g>
                             </svg>
                             <div class="map-overlay-info">
                                 <div>
-                                    <div id="map-inst-label" style="font-size: 13.5px; font-weight: 800;"></div>
+                                    <div id="map-inst-label" style="font-size: 13.5px; font-weight: 800;">Little Seeds Montessori</div>
                                     <span style="font-size: 12px; color: var(--text-muted);">16 Avenida A 1-05, Sector B1, Ciudad San Cristóbal • Tel: (502) 2393-5249</span>
                                 </div>
                                 <button type="button" onclick="copyLocationText()" style="background: rgba(53, 194, 214, 0.22); color: var(--primary); border: 2px solid var(--primary); border-radius: 10px; padding: 7px 13px; font-size: 12px; font-weight: 800; cursor: pointer;">Copiar</button>
@@ -1064,10 +1052,10 @@ body.theme-arboleda .header-title-custom {
     <section id="tab-niveles" class="tab-content page-section hidden">
         <div class="container">
             <div class="section-header">
-                <h2 id="niveles-heading">Niveles Educativos</h2>
+                <h2 id="niveles-heading"></h2>
                 <p id="niveles-subheading"></p>
             </div>
-            <div id="levels-cards-grid" class="grid-4"></div>
+            <div id="levels-cards-grid" class="grid-levels"></div>
             <div class="areas-panel" style="margin-top: 28px;">
                 <h3 id="areas-heading" style="font-size: 20px; font-weight: 800;"></h3>
                 <p id="areas-subheading" style="font-size: 14px; color: var(--text-muted); margin-top: 4px;"></p>
@@ -1082,7 +1070,7 @@ body.theme-arboleda .header-title-custom {
     <section id="tab-calendario" class="tab-content page-section hidden">
         <div class="container">
             <div class="section-header">
-                <h2 id="cal-heading">Calendario Escolar 2027</h2>
+                <h2 id="cal-heading"></h2>
                 <p id="cal-subheading">Fechas importantes, actividades académicas y encuentros familiares.</p>
             </div>
             <div class="filter-bar">
@@ -1114,7 +1102,7 @@ body.theme-arboleda .header-title-custom {
     <section id="tab-blog" class="tab-content page-section hidden">
         <div class="container">
             <div class="section-header">
-                <h2 id="blog-heading">Blog Educativo</h2>
+                <h2 id="blog-heading"></h2>
                 <p id="blog-subheading">Artículos, orientación para padres y experiencias de aprendizaje.</p>
             </div>
             <div id="blog-posts-grid" class="grid-3"></div>
@@ -1189,7 +1177,7 @@ body.theme-arboleda .header-title-custom {
     <footer>
         <div class="container footer-grid">
             <div>
-                <div style="font-size: 16px; font-weight: 900; color: #FFFFFF;">Little Seeds Montessori & Colegio Integral La Arboleda</div>
+                <div style="font-size: 16px; font-weight: 900; color: #FFFFFF;">Little Seeds Montessori &amp; Colegio Integral La Arboleda</div>
                 <div style="font-size: 13px; color: #CBD5E1; margin-top: 4px;">16 Avenida A 1-05, Sector B1, Ciudad San Cristóbal, Zona 8 de Mixco • © 2027</div>
             </div>
             <div class="footer-links">
@@ -1264,28 +1252,31 @@ body.theme-arboleda .header-title-custom {
            ========================================================================== */
         const LITTLE_SEEDS_TITLE_HTML = '<span class="brand-nowrap"><span class="let-l1">L</span><span class="let-i1">i</span><span class="let-t1">t</span><span class="let-t2">t</span><span class="let-l2">l</span><span class="let-e1">e</span> <span class="let-s1">S</span><span class="let-ee1">e</span><span class="let-ee2">e</span><span class="let-d1">d</span><span class="let-ss2">s</span></span> <span class="brand-nowrap"><span class="let-m">M</span><span class="let-o1">o</span><span class="let-n">n</span><span class="let-t">t</span><span class="let-e2">e</span><span class="let-s3">s</span><span class="let-s4">s</span><span class="let-o2">o</span><span class="let-r">r</span><span class="let-i2">i</span></span>';
 
+        const ARBOLEDA_TITLE_HTML = '<span class="brand-nowrap"><span class="arb-t">C</span><span class="arb-g">o</span><span class="arb-y">l</span><span class="arb-t">e</span><span class="arb-g">g</span><span class="arb-y">i</span><span class="arb-t">o</span> <span class="arb-g">I</span><span class="arb-y">n</span><span class="arb-t">t</span><span class="arb-g">e</span><span class="arb-y">g</span><span class="arb-t">r</span><span class="arb-g">a</span><span class="arb-y">l</span></span> <span class="brand-nowrap"><span class="arb-t">L</span><span class="arb-g">a</span> <span class="arb-y">A</span><span class="arb-t">r</span><span class="arb-g">b</span><span class="arb-y">o</span><span class="arb-t">l</span><span class="arb-g">e</span><span class="arb-y">d</span><span class="arb-t">a</span></span>';
+
         const INSTITUTIONS_DATA = {
             seeds: {
                 name: 'Little Seeds Montessori',
                 titleHtml: LITTLE_SEEDS_TITLE_HTML,
                 logo: 'lit.png',
-                kicker: 'Etapa Inicial • Montessori',
+                kicker: 'Etapa Inicial • Semillero Montessori',
                 motto: 'Inspirados en metodología Montessori',
-                description: 'Un ambiente preparado con calidez, respeto y estimulación temprana para acompañar los primeros descubrimientos de tus hijos en Maternal, Nursery, Pre-kinder y Kinder.',
-                grades: ['Maternal', 'Nursery', 'Pre-kinder', 'Kinder'],
+                description: 'Un ambiente preparado con calidez, respeto y estimulación temprana para acompañar los primeros descubrimientos de tus hijos desde los 18 meses hasta los 6 años en Maternal 1 y 2, Nursery, Pre-kinder, Kinder y Preparatoria.',
+                grades: ['Maternal 1 y 2', 'Nursery', 'Pre-kinder', 'Kinder', 'Preparatoria'],
                 mission: 'Brindar en la primera infancia un ambiente preparado, afectivo y seguro inspirado en la metodología Montessori, respetando el ritmo individual de cada niño para despertar su curiosidad natural y amor por aprender.',
                 vision: 'Ser el centro de educación inicial referente por nuestra calidez humana y excelencia en neurodesarrollo infantil, formando niños felices, seguros, autónomos y con bases sólidas para su vida escolar.',
                 values: 'Respeto al ritmo individual, autonomía ("Puedo hacerlo por mí mismo"), curiosidad sensorial, empatía y alianza cercana con la familia.',
                 bridgeKicker: 'Continuidad hacia Primaria',
-                bridgeTitle: '¿Tu hijo está listo para dar el siguiente paso a Preparatoria o Primaria?',
-                bridgeText: 'Conoce Colegio Integral La Arboleda, nuestra institución hermana que da continuidad académica bilingüe e integral en Preparatoria, Primero y Segundo Primaria.',
+                bridgeTitle: '¿Tu hijo está listo para dar el siguiente paso a Primaria?',
+                bridgeText: 'Conoce Colegio Integral La Arboleda, nuestra institución hermana que da continuidad académica bilingüe e integral en Primero Primaria y Segundo Primaria.',
                 bridgeBtn: 'Conocer Colegio Integral La Arboleda →',
-                nivelesSub: 'Acompañamiento personalizado desde los 18 meses hasta los 6 años.',
+                nivelesSub: 'Grados del Semillero: acompañamiento personalizado desde los 18 meses hasta los 6 años.',
                 levels: [
-                    { name: 'Maternal', age: '18 meses y 2 años', desc: 'Estimulación sensorial temprana, desarrollo motor grueso y fino, vínculos afectivos seguros y exploración guiada.' },
+                    { name: 'Maternal 1 y 2', age: '18 meses y 2 años', desc: 'Estimulación sensorial temprana, desarrollo motor grueso y fino, vínculos afectivos seguros y exploración guiada.' },
                     { name: 'Nursery', age: '3 años', desc: 'Fortalecemos vocabulario expresivo y rutinas de independencia para fomentar la autonomía.' },
                     { name: 'Pre-kinder', age: '4 años', desc: 'Programa de Pre-lectoescritura, área numérica y área de lenguaje por medio de materiales sensoriales.' },
-                    { name: 'Kinder', age: '5 a 6 años', desc: 'Inician formalmente el proceso de lectura y escritura. Aprenden a leer y a escribir con letra de molde.' }
+                    { name: 'Kinder', age: '5 años', desc: 'Inician formalmente el proceso de lectura y escritura. Aprenden a leer y a escribir con letra de molde.' },
+                    { name: 'Preparatoria', age: '6 años', desc: 'Consolidación de lectoescritura, pensamiento lógico-matemático, inglés comunicativo y madurez socioemocional para Primaria.' }
                 ],
                 areasTitle: 'Áreas de Pre-primaria • Little Seeds Montessori',
                 areasSub: 'Desarrollo integral equilibrado en cada jornada.',
@@ -1311,7 +1302,7 @@ body.theme-arboleda .header-title-custom {
                     { trim: 'T2', date: '15 de Mayo 2027', title: 'Festival Sensorial y Artístico', desc: 'Exposición de arte infantil, música y expresión corporal.' },
                     { trim: 'T2', date: '26 de Junio 2027', title: 'Mini Olimpiadas Motrices', desc: 'Circuito de psicomotricidad, equilibrio y juego cooperativo al aire libre.' },
                     { trim: 'T3', date: '11 de Septiembre 2027', title: 'Celebración Cultural y Folklórica', desc: 'Actividades lúdicas de identidad, tradiciones y convivencia.' },
-                    { trim: 'T3', date: '22 de Octubre 2027', title: 'Transición Kinder → La Arboleda', desc: 'Visita vivencial de los alumnos de Kinder a las aulas de Preparatoria.' }
+                    { trim: 'T3', date: '22 de Octubre 2027', title: 'Transición Preparatoria → La Arboleda', desc: 'Visita vivencial de los alumnos de Preparatoria a las aulas de Primero Primaria.' }
                 ],
                 blog: [
                     {
@@ -1353,24 +1344,23 @@ body.theme-arboleda .header-title-custom {
             },
             arboleda: {
                 name: 'Colegio Integral La Arboleda',
-                titleHtml: 'Colegio Integral La Arboleda',
+                titleHtml: ARBOLEDA_TITLE_HTML,
                 logo: 'arb.png',
-                kicker: 'Preparatoria y Primaria',
+                kicker: 'Nivel Primaria',
                 motto: 'Sembrando valores, cosechando líderes',
-                description: 'Formación académica integral, bilingüismo, pensamiento lógico-matemático, tecnología STEAM y espíritu emprendedor para Preparatoria, Primero y Segundo Primaria.',
-                grades: ['Preparatoria', 'Primero primaria', 'Segundo primaria'],
-                mission: 'Formar estudiantes íntegros en Preparatoria y Primaria mediante una educación bilingüe, participativa e innovadora que equilibra rigor académico, pensamiento crítico y valores humanos.',
+                description: 'Formación académica integral, bilingüismo, pensamiento lógico-matemático, tecnología STEAM y espíritu emprendedor para Primero Primaria y Segundo Primaria.',
+                grades: ['Primero primaria', 'Segundo primaria'],
+                mission: 'Formar estudiantes íntegros en Primaria mediante una educación bilingüe, participativa e innovadora que equilibra rigor académico, pensamiento crítico y valores humanos.',
                 vision: 'Ser una institución educativa líder reconocida por sembrar valores éticos sólidos y cosechar líderes creativos, bilingües y comprometidos con su comunidad.',
                 values: 'Valores e integridad, liderazgo y emprendimiento, excelencia académica bilingüe, pensamiento científico y formación física integral.',
-                bridgeKicker: 'Etapa Previa • Primera Infancia',
+                bridgeKicker: 'Etapa Previa • Semillero Montessori',
                 bridgeTitle: '¿Tienes hijos pequeños entre 18 meses y 6 años?',
-                bridgeText: 'Conoce Little Seeds Montessori, nuestro centro hermano especializado en estimulación temprana y educación inicial.',
+                bridgeText: 'Conoce Little Seeds Montessori, nuestro centro hermano especializado en estimulación temprana y pre-primaria (Maternal 1 y 2, Nursery, Pre-kinder, Kinder y Preparatoria).',
                 bridgeBtn: '← Conocer Little Seeds Montessori',
-                nivelesSub: 'Continuidad académica sólida en Preparatoria y primeros grados de Primaria.',
+                nivelesSub: 'Continuidad académica sólida en los primeros grados de Primaria.',
                 levels: [
-                    { name: 'Preparatoria', age: '6 años', desc: 'Consolidación de lectoescritura, pensamiento lógico-matemático, inglés comunicativo y madurez socioemocional para Primaria.' },
-                    { name: 'Primero Primaria', age: '7 años', desc: 'Comprensión lectora fluida, resolución creativa de problemas matemáticos, ciencias experimentales y proyectos STEAM.' },
-                    { name: 'Segundo Primaria', age: '8 años', desc: 'Autonomía académica, redacción estructurada, bilingüismo activo, liderazgo colaborativo y cultura emprendedora.' },
+                    { name: 'Primero Primaria', age: '6 a 7 años', desc: 'Comprensión lectora fluida, resolución creativa de problemas matemáticos, ciencias experimentales y proyectos STEAM.' },
+                    { name: 'Segundo Primaria', age: '7 a 8 años', desc: 'Autonomía académica, redacción estructurada, bilingüismo activo, liderazgo colaborativo y cultura emprendedora.' },
                     { name: 'Acompañamiento Integral', age: 'Todos los grados', desc: 'Seguimiento personalizado por docente titular, orientación psicopedagógica y comunicación constante con familias.' }
                 ],
                 areasTitle: 'Áreas Curriculares • Colegio Integral La Arboleda',
@@ -1394,7 +1384,7 @@ body.theme-arboleda .header-title-custom {
                 ],
                 calendar: [
                     { trim: 'T1', date: '15 de Enero 2027', title: 'Inauguración Ciclo Escolar 2027', desc: 'Acto cívico de bienvenida y presentación de proyectos anuales.' },
-                    { trim: 'T1', date: '26 de Marzo 2027', title: 'Spelling Bee & English Showcase', desc: 'Demostración de habilidades comunicativas en inglés de Prepa a 2.º Primaria.' },
+                    { trim: 'T1', date: '26 de Marzo 2027', title: 'Spelling Bee & English Showcase', desc: 'Demostración de habilidades comunicativas en inglés en Primaria.' },
                     { trim: 'T2', date: '22 de Mayo 2027', title: 'Feria de Ciencias y Proyectos STEAM', desc: 'Exposición de experimentos, prototipos y soluciones creativas.' },
                     { trim: 'T2', date: '03 de Julio 2027', title: 'Torneo Deportivo y Convivencia', desc: 'Juegos deportivos intergrados fomentando el juego limpio y trabajo en equipo.' },
                     { trim: 'T3', date: '14 de Septiembre 2027', title: 'Festival Cívico "Sembrando Valores"', desc: 'Presentaciones artísticas y culturales celebrando nuestra identidad.' },
@@ -1403,10 +1393,10 @@ body.theme-arboleda .header-title-custom {
                 blog: [
                     {
                         tag: 'Transición Escolar',
-                        title: 'Del juego Montessori a los retos de Primaria',
-                        summary: 'Cómo una base concreta y autónoma facilita el éxito académico en Preparatoria, Primero y Segundo Primaria.',
+                        title: 'Del Semillero Montessori a los retos de Primaria',
+                        summary: 'Cómo una base concreta y autónoma facilita el éxito académico en Primero y Segundo Primaria.',
                         paragraphs: [
-                            'Cuando un niño ha manipulado cantidades concretas y desarrollado hábitos de concentración en etapa inicial, su paso a Primaria ocurre con seguridad y entusiasmo.',
+                            'Cuando un niño ha manipulado cantidades concretas y desarrollado hábitos de concentración desde Maternal hasta Preparatoria, su paso a Primaria ocurre con seguridad y entusiasmo.',
                             'En Colegio Integral La Arboleda aprovechamos esa autonomía para introducir proyectos de investigación, lectura comprensiva y trabajo colaborativo.'
                         ]
                     },
@@ -1415,7 +1405,7 @@ body.theme-arboleda .header-title-custom {
                         title: 'Sembrando valores, cosechando líderes desde Primaria',
                         summary: 'El liderazgo infantil comienza con la empatía, la responsabilidad personal y saber escuchar a los demás.',
                         paragraphs: [
-                            'Fomentar el liderazgo en niños de 6 a 8 años significa brindarles oportunidades reales para proponer ideas, resolver conflictos con diálogo y asumir responsabilidades en su aula.',
+                            'Fomentar el liderazgo en niños de Primaria significa brindarles oportunidades reales para proponer ideas, resolver conflictos con diálogo y asumir responsabilidades en su aula.',
                             'Cada estudiante descubre sus fortalezas únicas y aprende a colaborar con respeto.'
                         ]
                     },
