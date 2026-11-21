@@ -1064,22 +1064,24 @@
         </div>
     </section>
 
-    <!-- ==========================================================================
+<!-- ======================================================================
          PESTAÑA 3: CALENDARIO
-         ========================================================================== -->
-    <section id="tab-calendario" class="tab-content page-section hidden">
+         ====================================================================== -->
+    <section id="tab-calendario" class="tab-content-page section hidden">
         <div class="container">
-            <div class="section-header">
-                <h2 id="cal-heading"></h2>
-                <p id="cal-subheading">Fechas importantes, actividades académicas y encuentros familiares.</p>
+            <div class="section-header" data-rev-block="calendario-header">
+                <span class="kicker">Ciclo Escolar 2027</span>
+                <div id="cal-title" style="font-size: 29px; font-weight: 800; line-height: 1.22; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;"></div>
+                <p class="subtitle-text">Consulta las actividades académicas, culturales y familiares programadas.</p>
             </div>
             <div class="filter-bar">
-                <button class="filter-chip active" data-trim="all" onclick="filterCalendar('all')">Todos los trimestres</button>
-                <button class="filter-chip" data-trim="T1" onclick="filterCalendar('T1')">Trimestre I (Ene – Abr)</button>
-                <button class="filter-chip" data-trim="T2" onclick="filterCalendar('T2')">Trimestre II (May – Jul)</button>
-                <button class="filter-chip" data-trim="T3" onclick="filterCalendar('T3')">Trimestre III (Ago – Oct)</button>
+                <button class="filter-chip active" data-trimester="all" onclick="filterCalendar('all')">Todos</button>
+                <button class="filter-chip" data-trimester="T1" onclick="filterCalendar('T1')">Trimestre I</button>
+                <button class="filter-chip" data-trimester="T2" onclick="filterCalendar('T2')">Trimestre II</button>
+                <button class="filter-chip" data-trimester="T3" onclick="filterCalendar('T3')">Trimestre III</button>
             </div>
-            <div id="calendar-events-grid" class="grid-3"></div>
+            <div id="cal-sync-status" style="text-align: center; font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-bottom: 18px;"></div>
+            <div id="calendar-events-grid" class="grid-3" data-rev-block="calendario-eventos"></div>
         </div>
     </section>
 
@@ -1522,17 +1524,187 @@
             renderCalendarCards();
         }
 
-        function renderCalendarCards() {
-            const events = INSTITUTIONS_DATA[activeInstitution].calendar;
-            const filtered = activeTrimFilter === 'all' ? events : events.filter(e => e.trim === activeTrimFilter);
-            document.getElementById('calendar-events-grid').innerHTML = filtered.map(ev => `
-                <div class="card">
-                    <span class="cal-date-tag">${ev.date}</span>
-                    <h3>${ev.title}</h3>
-                    <p>${ev.desc}</p>
-                </div>
-            `).join('');
+        /* ==========================================================================
+       INTEGRACIÓN DINÁMICA CON GOOGLE CALENDAR (CON FOTOS Y TRIMESTRES)
+       ========================================================================== */
+    const GOOGLE_CALENDAR_CONFIG = {
+        enabled: true, // Mantener en true cuando pegues tus credenciales abajo
+        apiKey: 'TU_GOOGLE_API_KEY_AQUI',
+        calendars: {
+            seeds: 'ID_CALENDARIO_LITTLE_SEEDS@group.calendar.google.com',
+            arboleda: 'ID_CALENDARIO_LA_ARBOLEDA@group.calendar.google.com'
         }
+    };
+
+    const dynamicCalendarCache = {
+        seeds: null,
+        arboleda: null
+    };
+
+    function escapeHtml(str) {
+        return String(str || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function detectTrimesterFromDate(dateObj) {
+        const month = dateObj.getMonth();
+        if (month <= 3) return 'T1';
+        if (month <= 7) return 'T2';
+        return 'T3';
+    }
+
+    function formatSpanishCalendarDate(rawStart) {
+        const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        const dateStr = rawStart.date || rawStart.dateTime;
+        const d = new Date(dateStr.includes('T') ? dateStr : dateStr + 'T12:00:00');
+        return {
+            label: `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`,
+            trim: detectTrimesterFromDate(d)
+        };
+    }
+
+    function extractEventPhotoUrl(ev) {
+        if (Array.isArray(ev.attachments)) {
+            const imgAttachment = ev.attachments.find(att =>
+                (att.mimeType && att.mimeType.startsWith('image/')) ||
+                (att.fileUrl && att.fileUrl.includes('drive.google.com'))
+            );
+            if (imgAttachment) {
+                const match = (imgAttachment.fileId || imgAttachment.fileUrl || '').match(/[-\w]{25,}/);
+                if (match) {
+                    return `https://drive.google.com/thumbnail?id=${match[0]}&sz=w1000`;
+                }
+            }
+        }
+        if (ev.description) {
+            const driveMatch = ev.description.match(/https:\/\/drive\.google\.com\/(?:file\/d\/|open\?id=)([-\w]{25,})/);
+            if (driveMatch) {
+                return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1000`;
+            }
+            const directImg = ev.description.match(/https?:\/\/[^\s"'<>]+\.(?:jpg|jpeg|png|webp)/i);
+            if (directImg) return directImg[0];
+        }
+        return null;
+    }
+
+    function cleanEventDescription(desc) {
+        if (!desc) return 'Actividad programada en nuestro calendario escolar.';
+        return desc
+            .replace(/<[^>]*>/g, ' ')
+            .replace(/https:\/\/drive\.google\.com\/[^\s]+/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    async function fetchGoogleCalendarEvents(instKey) {
+        const calId = GOOGLE_CALENDAR_CONFIG.calendars[instKey];
+        const apiKey = GOOGLE_CALENDAR_CONFIG.apiKey;
+
+        if (!GOOGLE_CALENDAR_CONFIG.enabled || !apiKey || apiKey.includes('TU_GOOGLE') || !calId || calId.includes('ID_CALENDARIO')) {
+            return null;
+        }
+
+        const timeMin = new Date('2027-01-01T00:00:00Z').toISOString();
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calId)}/events?key=${encodeURIComponent(apiKey)}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=50`;
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Error al leer Google Calendar');
+        const json = await response.json();
+
+        return (json.items || []).map(item => {
+            const parsedDate = formatSpanishCalendarDate(item.start);
+            return {
+                trim: parsedDate.trim,
+                date: parsedDate.label,
+                title: item.summary || 'Actividad Escolar',
+                desc: cleanEventDescription(item.description),
+                photo: extractEventPhotoUrl(item)
+            };
+        });
+    }
+
+    function openCalendarEventPhoto(instKey, eventIndex) {
+        const list = dynamicCalendarCache[instKey] || INSTITUTIONS_DATA[instKey].calendar;
+        const ev = list[eventIndex];
+        if (!ev) return;
+
+        openInfoModal(`
+            <span class="cal-date-tag">${ev.date}</span>
+            <h3 style="font-size: 21px; font-weight: 800; margin: 10px 0;">${escapeHtml(ev.title)}</h3>
+            ${ev.photo ? `
+                <div style="margin: 12px 0; border-radius: 14px; overflow: hidden; border: 2px solid #7e22ce; background: #f8fafc;">
+                    <img src="${ev.photo}" alt="${escapeHtml(ev.title)}" style="width: 100%; max-height: 55vh; object-fit: cover; display: block;">
+                </div>
+            ` : ''}
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6;">${escapeHtml(ev.desc)}</p>
+        `);
+    }
+
+    async function renderCalendarCards() {
+        const instKey = activeInstitution;
+        const gridEl = document.getElementById('calendar-events-grid');
+        const statusEl = document.getElementById('cal-sync-status');
+
+        let sourceEvents = dynamicCalendarCache[instKey];
+
+        if (!sourceEvents) {
+            if (statusEl && GOOGLE_CALENDAR_CONFIG.enabled && !GOOGLE_CALENDAR_CONFIG.apiKey.includes('TU_GOOGLE')) {
+                statusEl.textContent = '🔄 Sincronizando eventos con Google Calendar...';
+            }
+            try {
+                const fetched = await fetchGoogleCalendarEvents(instKey);
+                if (fetched && fetched.length > 0) {
+                    dynamicCalendarCache[instKey] = fetched;
+                    sourceEvents = fetched;
+                    if (statusEl) statusEl.textContent = '✅ Calendario sincronizado en vivo';
+                } else {
+                    sourceEvents = INSTITUTIONS_DATA[instKey].calendar;
+                    if (statusEl) statusEl.textContent = '';
+                }
+            } catch (err) {
+                sourceEvents = INSTITUTIONS_DATA[instKey].calendar;
+                if (statusEl) statusEl.textContent = '';
+            }
+        }
+
+        const filtered = activeTrimFilter === 'all'
+            ? sourceEvents
+            : sourceEvents.filter(e => e.trim === activeTrimFilter);
+
+        if (filtered.length === 0) {
+            gridEl.innerHTML = `
+                <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 32px;">
+                    <p style="font-size: 15px; color: var(--text-muted); font-weight: 700;">No hay actividades programadas para este trimestre todavía.</p>
+                </div>
+            `;
+            return;
+        }
+
+        gridEl.innerHTML = filtered.map((ev) => {
+            const realIndex = sourceEvents.indexOf(ev);
+            return `
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span class="cal-date-tag">${ev.date}</span>
+                        ${ev.photo ? `
+                            <div onclick="openCalendarEventPhoto('${instKey}', ${realIndex})" style="margin: 10px 0 12px; border-radius: 12px; overflow: hidden; border: 2px solid #7e22ce; cursor: pointer; position: relative;">
+                                <img src="${ev.photo}" alt="${escapeHtml(ev.title)}" style="width: 100%; height: 170px; object-fit: cover; display: block;" onerror="this.parentElement.style.display='none'">
+                                <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(15,23,42,0.78); color: #fff; font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 999px;">🔍 Ver foto</span>
+                            </div>
+                        ` : ''}
+                        <h3>${escapeHtml(ev.title)}</h3>
+                        <p>${escapeHtml(ev.desc)}</p>
+                    </div>
+                    ${ev.photo ? `
+                        <button type="button" class="btn-outline" style="margin-top: 14px; width: 100%; padding: 8px 12px; font-size: 12.5px;" onclick="openCalendarEventPhoto('${instKey}', ${realIndex})">Ver detalle y foto</button>
+                    ` : ''}
+                </div>
+            `;
+        }).join('');
+    }
 
         function openBlogModal(idx) {
             const post = INSTITUTIONS_DATA[activeInstitution].blog[idx];
