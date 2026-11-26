@@ -1,0 +1,25 @@
+{
+  "id": "pwa-colegio-integral-la-arboleda",
+  "name": "Colegio Integral La Arboleda",
+  "short_name": "La Arboleda",
+  "description": "Portal oficial de Colegio Integral La Arboleda",
+  "start_url": "./index.html?colegio=arboleda",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#DCECE2",
+  "theme_color": "#006A7A",
+  "icons": [
+    {
+      "src": "media/arb.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "media/arb.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
