@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#1D8FE1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Blog Educativo">
+    <meta name="apple-mobile-web-app-title" content="Blog Little Seeds">
     <link rel="apple-touch-icon" href="media/lit.png">
     <title>Little Seeds Montessori &amp; Colegio Integral La Arboleda</title>
     <style>
@@ -417,7 +417,7 @@
         }
 
         /* ==========================================================================
-           MODO SOLO BLOG (CUANDO SE ABRE O INSTALA LA APP DE BLOG)
+           MODO SOLO BLOG (CUANDO SE ABRE O INSTALA LA APP DE BLOG POR COLEGIO)
            ========================================================================== */
         body.blog-app-mode .nav-list li:not(.nav-item-blog),
         body.blog-app-mode #antesalaOverlay,
@@ -932,7 +932,7 @@
         .footer-links a { color: #FDE68A; text-decoration: none; font-weight: 700; }
 
         /* ==========================================================================
-           MODAL DESCARGA APP DEL BLOG (ANDROID E IOS)
+           MODAL DESCARGA APP DEL BLOG (ANDROID E IOS POR COLEGIO)
            ========================================================================== */
         #app-download-modal {
             position: fixed;
@@ -959,6 +959,22 @@
             position: relative;
             max-height: 90vh;
             overflow-y: auto;
+        }
+        .app-school-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 16px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            margin-bottom: 14px;
+        }
+        .app-school-badge img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            flex-shrink: 0;
         }
 
         /* ==========================================================================
@@ -1211,7 +1227,7 @@
                 <li><button class="nav-btn" data-tab="modelo" onclick="switchTab('modelo')">Modelo educativo</button></li>
                 <li class="nav-item-blog"><button class="nav-btn" data-tab="blog" onclick="switchTab('blog')">Blog</button></li>
                 <li><button class="nav-btn" data-tab="inscripcion" onclick="switchTab('inscripcion')">Inscripción 2027</button></li>
-                <li class="nav-item-blog"><button class="nav-btn" type="button" onclick="openAppDownloadModal()" style="color: var(--accent);">📲 App Blog</button></li>
+                <li class="nav-item-blog"><button id="nav-app-blog-btn" class="nav-btn" type="button" onclick="openAppDownloadModal()" style="color: var(--accent);">📲 App Blog</button></li>
             </ul>
         </nav>
     </header>
@@ -1234,7 +1250,7 @@
                             <button class="btn-main" onclick="switchTab('niveles')">Explorar Niveles y Clases</button>
                             <button class="btn-outline" onclick="switchTab('inscripcion')">Inscripción 2027</button>
                             <button class="btn-outline" onclick="document.getElementById('contacto-inicio').scrollIntoView({behavior:'smooth'})">Contactos y Ubicación</button>
-                            <button type="button" class="btn-outline" onclick="openAppDownloadModal()">📲 Descargar App Blog</button>
+                            <button id="hero-app-blog-btn" type="button" class="btn-outline" onclick="openAppDownloadModal()">📲 Descargar App Blog</button>
                         </div>
                     </div>
                 </div>
@@ -1405,9 +1421,9 @@
          ========================================================================== -->
     <section id="tab-blog" class="tab-content page-section hidden">
         <div class="container">
-            <!-- Barra superior cuando se abre en modo App de Blog -->
+            <!-- Barra superior cuando se abre en modo App de Blog por colegio -->
             <div class="blog-app-banner">
-                <span>📱 App Blog Educativo • Cambia de colegio tocando el logo arriba</span>
+                <span id="blog-app-banner-text">📱 App Blog Educativo</span>
                 <button type="button" class="btn-outline" style="padding: 6px 12px; font-size: 12.5px;" onclick="exitBlogAppMode()">Ver sitio completo</button>
             </div>
 
@@ -1416,8 +1432,8 @@
                 <div id="blog-title" style="font-size: 29px; font-weight: 800; line-height: 1.22; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;"></div>
                 <p class="subtitle-text">Orientación pedagógica y consejos prácticos elaborados por nuestro equipo docente.</p>
                 <div style="margin-top: 14px;">
-                    <button type="button" class="btn-main" onclick="openAppDownloadModal()" style="padding: 10px 20px; font-size: 13.5px;">
-                        📲 Descargar App del Blog (Android / iOS)
+                    <button id="blog-app-download-btn" type="button" class="btn-main" onclick="openAppDownloadModal()" style="padding: 10px 20px; font-size: 13.5px;">
+                        📲 Descargar App del Blog
                     </button>
                 </div>
             </div>
@@ -1490,7 +1506,7 @@
     </section>
 
     <!-- ==========================================================================
-         MODAL DE DESCARGA APP DEL BLOG (ANDROID E IOS + PASO A PASO)
+         MODAL DE DESCARGA APP DEL BLOG (ANDROID E IOS POR COLEGIO)
          ========================================================================== -->
     <div id="app-download-modal" class="hidden" onclick="if(event.target===this) closeAppDownloadModal()">
         <div class="app-download-card">
@@ -1519,9 +1535,20 @@
 
     <script>
         /* ==========================================================================
-           DETECCIÓN INICIAL DE MODO APP BLOG (?app=blog)
+           DETECCIÓN INICIAL DE MODO APP BLOG (?app=blog&inst=seeds|arboleda)
            ========================================================================== */
-        const IS_BLOG_APP_START = new URLSearchParams(window.location.search).get('app') === 'blog';
+        const INITIAL_PARAMS = new URLSearchParams(window.location.search);
+        const IS_BLOG_APP_START = INITIAL_PARAMS.get('app') === 'blog';
+        const SAVED_BLOG_INST = (() => {
+            const qInst = INITIAL_PARAMS.get('inst');
+            if (qInst === 'seeds' || qInst === 'arboleda') return qInst;
+            try {
+                const st = localStorage.getItem('blog_app_last_inst');
+                if (st === 'seeds' || st === 'arboleda') return st;
+            } catch (e) {}
+            return 'seeds';
+        })();
+
         if (IS_BLOG_APP_START) {
             document.body.classList.add('blog-app-mode');
         }
@@ -1942,7 +1969,7 @@
             }
         };
 
-        let activeInstitution = 'seeds';
+        let activeInstitution = SAVED_BLOG_INST;
         let activeTab = 'inicio';
         let activeTrimFilter = 'all';
         let mapZoomLevel = 1;
@@ -1963,10 +1990,14 @@
         }
 
         function switchInstitution(instKey) {
-            activeInstitution = instKey;
+            activeInstitution = instKey === 'arboleda' ? 'arboleda' : 'seeds';
             activeBlogGradeFilter = 'Todos';
-            const data = INSTITUTIONS_DATA[instKey];
-            const isArb = instKey === 'arboleda';
+            try {
+                localStorage.setItem('blog_app_last_inst', activeInstitution);
+            } catch (e) {}
+
+            const data = INSTITUTIONS_DATA[activeInstitution];
+            const isArb = activeInstitution === 'arboleda';
 
             document.body.classList.toggle('theme-arboleda', isArb);
             document.getElementById('selector-seeds').classList.toggle('is-active', !isArb);
@@ -2048,11 +2079,13 @@
                 </div>
             `).join('');
 
-            document.getElementById('blog-title').innerHTML = buildBlogTitleHtml(instKey);
+            document.getElementById('blog-title').innerHTML = buildBlogTitleHtml(activeInstitution);
             renderBlogCards(data.blog);
 
-            document.getElementById('form-inst').value = instKey;
+            document.getElementById('form-inst').value = activeInstitution;
             updateFormGradeOptions();
+
+            updateBlogAppBrandingForInstitution(activeInstitution);
         }
 
         function toggleOtherInstitution() {
@@ -2226,14 +2259,6 @@
         let currentAreaPhotos = [];
         let currentAreaPhotoIndex = 0;
 
-        function escapeAreaHtml(str) {
-            return String(str || '')
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;');
-        }
-
         function renderAreaModalCarousel() {
             const holder = document.getElementById('area-modal-carousel-holder');
             if (!holder || !Array.isArray(currentAreaPhotos) || currentAreaPhotos.length === 0) return;
@@ -2246,8 +2271,8 @@
                 <div class="area-carousel-wrap">
                     <div class="area-carousel-stage">
                         <img
-                            src="${escapeAreaHtml(src)}"
-                            alt="${escapeAreaHtml(caption || 'Foto del área')}"
+                            src="${escapeHtml(src)}"
+                            alt="${escapeHtml(caption || 'Foto del área')}"
                             onerror="this.style.display='none'"
                         >
                         <span class="area-car-badge">${currentAreaPhotoIndex + 1} / ${currentAreaPhotos.length}</span>
@@ -2257,7 +2282,7 @@
                         ` : ''}
                     </div>
                     <div class="area-carousel-bar">
-                        <span class="area-car-caption">${escapeAreaHtml(caption)}</span>
+                        <span class="area-car-caption">${escapeHtml(caption)}</span>
                         <div class="area-car-dots">
                             ${currentAreaPhotos.map((_, idx) => `
                                 <button
@@ -2569,45 +2594,118 @@
         }
 
         /* ==========================================================================
-           APP DE BLOG INSTALABLE (PWA DINÁMICA + MODAL ANDROID / IOS PASO A PASO)
+           APP DE BLOG EXCLUSIVA POR COLEGIO (LITTLE SEEDS O LA ARBOLEDA)
            ========================================================================== */
-        let deferredInstallPrompt = null;
+        const BLOG_APP_PROFILES = {
+            seeds: {
+                key: 'seeds',
+                name: 'Little Seeds Montessori',
+                appName: 'Blog Little Seeds',
+                shortName: 'Little Seeds',
+                logo: 'media/lit.png',
+                themeColor: '#1D8FE1',
+                bgColor: '#DDF5FA',
+                accentColor: '#16a34a',
+                tintBg: '#f0fdf4',
+                tintText: '#14532d'
+            },
+            arboleda: {
+                key: 'arboleda',
+                name: 'Colegio Integral La Arboleda',
+                appName: 'Blog La Arboleda',
+                shortName: 'La Arboleda',
+                logo: 'media/arb.png',
+                themeColor: '#006A7A',
+                bgColor: '#DCECE2',
+                accentColor: '#006A7A',
+                tintBg: '#ecfeff',
+                tintText: '#134e4a'
+            }
+        };
 
-        function getBlogAppUrl() {
+        let deferredInstallPrompt = null;
+        let currentManifestBlobUrl = null;
+
+        function getBlogAppConfig(instKey = activeInstitution) {
+            const key = instKey === 'arboleda' ? 'arboleda' : 'seeds';
+            const profile = BLOG_APP_PROFILES[key];
             const url = new URL(window.location.href);
             url.searchParams.set('app', 'blog');
-            return url.toString();
+            url.searchParams.set('inst', key);
+            return {
+                ...profile,
+                appUrl: url.toString(),
+                iconAbsUrl: new URL(profile.logo, window.location.href).toString()
+            };
         }
 
-        function setupDynamicBlogManifest() {
+        function setupDynamicBlogManifest(instKey = activeInstitution) {
             try {
-                const blogAppUrl = getBlogAppUrl();
-                const iconUrl = new URL('media/lit.png', window.location.href).toString();
+                const cfg = getBlogAppConfig(instKey);
+
+                const themeMeta = document.querySelector('meta[name="theme-color"]');
+                if (themeMeta) themeMeta.setAttribute('content', cfg.themeColor);
+
+                const appleTitleMeta = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+                if (appleTitleMeta) appleTitleMeta.setAttribute('content', cfg.appName);
+
+                const appleIconLink = document.querySelector('link[rel="apple-touch-icon"]');
+                if (appleIconLink) appleIconLink.setAttribute('href', cfg.logo);
+
                 const manifestObj = {
-                    name: 'Blog Educativo • Little Seeds y La Arboleda',
-                    short_name: 'Blog Escolar',
-                    description: 'Blog educativo de Little Seeds Montessori y Colegio Integral La Arboleda.',
-                    start_url: blogAppUrl,
+                    name: `${cfg.appName} • ${cfg.name}`,
+                    short_name: cfg.shortName,
+                    description: `Blog educativo exclusivo de ${cfg.name}.`,
+                    start_url: cfg.appUrl,
                     scope: new URL('.', window.location.href).toString(),
                     display: 'standalone',
-                    background_color: '#DDF5FA',
-                    theme_color: '#1D8FE1',
+                    background_color: cfg.bgColor,
+                    theme_color: cfg.themeColor,
                     icons: [
-                        { src: iconUrl, sizes: '192x192', type: 'image/png' },
-                        { src: iconUrl, sizes: '512x512', type: 'image/png' }
+                        { src: cfg.iconAbsUrl, sizes: '192x192', type: 'image/png' },
+                        { src: cfg.iconAbsUrl, sizes: '512x512', type: 'image/png' }
                     ]
                 };
+
+                if (currentManifestBlobUrl) {
+                    URL.revokeObjectURL(currentManifestBlobUrl);
+                }
                 const blob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
-                const manifestUrl = URL.createObjectURL(blob);
+                currentManifestBlobUrl = URL.createObjectURL(blob);
+
                 let linkEl = document.querySelector('link[rel="manifest"]');
                 if (!linkEl) {
                     linkEl = document.createElement('link');
                     linkEl.rel = 'manifest';
                     document.head.appendChild(linkEl);
                 }
-                linkEl.href = manifestUrl;
+                linkEl.href = currentManifestBlobUrl;
             } catch (err) {
-                // Ignorar si el navegador restringe Blob manifest en file://
+                // Ignorar restricciones de manifest en entornos locales file://
+            }
+        }
+
+        function updateBlogAppBrandingForInstitution(instKey = activeInstitution) {
+            const cfg = getBlogAppConfig(instKey);
+            setupDynamicBlogManifest(cfg.key);
+
+            const navBtn = document.getElementById('nav-app-blog-btn');
+            if (navBtn) navBtn.textContent = `📲 App ${cfg.shortName}`;
+
+            const heroBtn = document.getElementById('hero-app-blog-btn');
+            if (heroBtn) heroBtn.textContent = `📲 Descargar App ${cfg.shortName}`;
+
+            const blogBtn = document.getElementById('blog-app-download-btn');
+            if (blogBtn) blogBtn.textContent = `📲 Descargar App del Blog (${cfg.shortName})`;
+
+            const bannerText = document.getElementById('blog-app-banner-text');
+            if (bannerText) {
+                bannerText.innerHTML = `<span style="display:inline-flex;align-items:center;gap:8px;"><img src="${escapeHtml(cfg.logo)}" alt="${escapeHtml(cfg.name)}" style="width:24px;height:24px;object-fit:contain;"> ${escapeHtml(cfg.appName)} • ${escapeHtml(cfg.name)}</span>`;
+            }
+
+            const modal = document.getElementById('app-download-modal');
+            if (modal && !modal.classList.contains('hidden')) {
+                renderAppPlatformSelector();
             }
         }
 
@@ -2617,25 +2715,26 @@
         });
 
         async function triggerAndroidInstall() {
-            const blogAppUrl = getBlogAppUrl();
+            const cfg = getBlogAppConfig(activeInstitution);
             if (deferredInstallPrompt) {
                 deferredInstallPrompt.prompt();
                 const choice = await deferredInstallPrompt.userChoice;
                 deferredInstallPrompt = null;
                 if (choice && choice.outcome === 'accepted') {
                     closeAppDownloadModal();
-                    showToast('✅ App del Blog instalada en tu dispositivo');
+                    showToast(`✅ ${cfg.appName} instalada en tu dispositivo`);
                     return;
                 }
             }
-            window.location.href = blogAppUrl;
+            window.location.href = cfg.appUrl;
         }
 
         function openBlogAppPreview() {
+            const cfg = getBlogAppConfig(activeInstitution);
             closeAppDownloadModal();
             document.body.classList.add('blog-app-mode');
             switchTab('blog');
-            showToast('📱 Vista App del Blog activada');
+            showToast(`📱 Vista de ${cfg.appName} activada`);
         }
 
         function exitBlogAppMode() {
@@ -2643,14 +2742,18 @@
             const url = new URL(window.location.href);
             if (url.searchParams.has('app')) {
                 url.searchParams.delete('app');
-                window.history.replaceState({}, '', url.toString());
             }
+            if (url.searchParams.has('inst')) {
+                url.searchParams.delete('inst');
+            }
+            window.history.replaceState({}, '', url.toString());
             switchTab('inicio');
         }
 
         function openAppDownloadModal() {
             const modal = document.getElementById('app-download-modal');
             if (!modal) return;
+            updateBlogAppBrandingForInstitution(activeInstitution);
             modal.classList.remove('hidden');
             renderAppPlatformSelector();
         }
@@ -2665,24 +2768,32 @@
             const body = document.getElementById('app-download-body');
             if (!body) return;
 
+            const cfg = getBlogAppConfig(activeInstitution);
+
             body.innerHTML = `
-                <span class="kicker" style="margin-bottom: 8px;">App Blog • Little Seeds y La Arboleda</span>
-                <h3 style="font-size: 22px; font-weight: 900; margin: 4px 0 8px;">
-                    Elige tu dispositivo
+                <div class="app-school-badge">
+                    <img src="${escapeHtml(cfg.logo)}" alt="${escapeHtml(cfg.name)}">
+                    <div>
+                        <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--primary);">App exclusiva de este colegio</div>
+                        <div style="font-size: 15px; font-weight: 900; color: #0f172a;">${escapeHtml(cfg.appName)}</div>
+                    </div>
+                </div>
+                <h3 style="font-size: 20px; font-weight: 900; margin: 4px 0 8px;">
+                    Instalar solo la app de ${escapeHtml(cfg.shortName)}
                 </h3>
-                <p style="font-size: 14px; color: #475569; margin-bottom: 18px;">
-                    Selecciona <strong>Android</strong> o <strong>iOS</strong> para ver el paso a paso e instalar la app exclusiva del Blog en tu pantalla de inicio.
+                <p style="font-size: 13.5px; color: #475569; margin-bottom: 16px;">
+                    Se instalará únicamente el Blog de <strong>${escapeHtml(cfg.name)}</strong> con su logo oficial. Elige tu dispositivo:
                 </p>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
-                    <button type="button" onclick="renderAppSteps('android')" style="padding: 18px 12px; border-radius: 16px; border: 2.5px solid #16a34a; background: #f0fdf4; color: #14532d; font-weight: 900; font-size: 15.5px; cursor: pointer;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                    <button type="button" onclick="renderAppSteps('android')" style="padding: 16px 12px; border-radius: 16px; border: 2.5px solid #16a34a; background: #f0fdf4; color: #14532d; font-weight: 900; font-size: 15px; cursor: pointer;">
                         🤖 Android
                     </button>
-                    <button type="button" onclick="renderAppSteps('ios')" style="padding: 18px 12px; border-radius: 16px; border: 2.5px solid #1d8fe1; background: #eff6ff; color: #1e3a8a; font-weight: 900; font-size: 15.5px; cursor: pointer;">
+                    <button type="button" onclick="renderAppSteps('ios')" style="padding: 16px 12px; border-radius: 16px; border: 2.5px solid #1d8fe1; background: #eff6ff; color: #1e3a8a; font-weight: 900; font-size: 15px; cursor: pointer;">
                         🍎 iOS (iPhone / iPad)
                     </button>
                 </div>
                 <button type="button" onclick="openBlogAppPreview()" class="btn-outline" style="width: 100%; font-size: 13px; padding: 10px 14px;">
-                    👀 Abrir vista previa de la App Blog aquí mismo
+                    👀 Abrir vista previa de ${escapeHtml(cfg.appName)} aquí mismo
                 </button>
             `;
         }
@@ -2691,49 +2802,55 @@
             const body = document.getElementById('app-download-body');
             if (!body) return;
 
+            const cfg = getBlogAppConfig(activeInstitution);
             const isAndroid = platform === 'android';
-            const title = isAndroid ? 'Instalar App del Blog en Android' : 'Instalar App del Blog en iOS';
+            const title = isAndroid
+                ? `Instalar ${cfg.appName} en Android`
+                : `Instalar ${cfg.appName} en iOS`;
             const badgeColor = isAndroid ? '#16a34a' : '#1d8fe1';
-            const blogAppUrl = getBlogAppUrl();
 
             const stepsHtml = isAndroid
                 ? `
                     <ol style="padding-left: 20px; margin: 0 0 18px; font-size: 14px; line-height: 1.65; color: #334155;">
-                        <li>Toca el botón verde <strong>"Instalar / Abrir App Blog"</strong> de abajo (se abrirá la vista exclusiva del Blog).</li>
+                        <li>Toca el botón verde <strong>"Instalar / Abrir ${escapeHtml(cfg.appName)}"</strong> de abajo (carga la app configurada solo para <strong>${escapeHtml(cfg.name)}</strong>).</li>
                         <li>Si aparece el aviso automático <em>"Instalar aplicación"</em>, toca <strong>Instalar</strong>.</li>
                         <li>Si no aparece automático, toca los <strong>tres puntos (⋮)</strong> arriba a la derecha en Chrome y elige <strong>Instalar aplicación</strong> o <strong>Agregar a la pantalla principal</strong>.</li>
-                        <li>¡Listo! Al abrir el ícono desde tu teléfono entrarás directo al Blog de ambos colegios.</li>
+                        <li>¡Listo! El ícono con el logo de <strong>${escapeHtml(cfg.shortName)}</strong> abrirá directo su blog.</li>
                     </ol>
                 `
                 : `
                     <ol style="padding-left: 20px; margin: 0 0 18px; font-size: 14px; line-height: 1.65; color: #334155;">
-                        <li>Asegúrate de abrir esta página en <strong>Safari</strong> y toca el botón azul <strong>"Abrir vista App del Blog"</strong> de abajo.</li>
+                        <li>Abre el enlace de <strong>${escapeHtml(cfg.appName)}</strong> en <strong>Safari</strong> con el botón azul de abajo.</li>
                         <li>En la barra inferior de Safari, toca el ícono <strong>Compartir</strong> (el cuadro con una flecha hacia arriba ⬆️).</li>
                         <li>Desliza hacia abajo en el menú y selecciona <strong>Agregar a inicio</strong>.</li>
-                        <li>Toca <strong>Agregar</strong> arriba a la derecha. ¡Listo! Ya tendrás el ícono de la App del Blog en tu iPhone o iPad.</li>
+                        <li>Toca <strong>Agregar</strong> arriba a la derecha. ¡Listo! Tendrás el ícono de <strong>${escapeHtml(cfg.shortName)}</strong> en tu iPhone o iPad.</li>
                     </ol>
                 `;
 
             const primaryActionBtn = isAndroid
                 ? `<button type="button" onclick="triggerAndroidInstall()" style="width: 100%; padding: 13px 16px; border-radius: 13px; border: none; background: ${badgeColor}; color: #ffffff; font-weight: 800; cursor: pointer; font-size: 14.5px;">
-                        📲 Instalar / Abrir App Blog en Android
+                        📲 Instalar / Abrir ${escapeHtml(cfg.appName)}
                    </button>`
-                : `<a href="${escapeHtml(blogAppUrl)}" style="display: block; text-align: center; padding: 13px 16px; border-radius: 13px; background: ${badgeColor}; color: #ffffff; font-weight: 800; text-decoration: none; font-size: 14.5px;">
-                        📲 Abrir vista App del Blog (Paso 1)
+                : `<a href="${escapeHtml(cfg.appUrl)}" style="display: block; text-align: center; padding: 13px 16px; border-radius: 13px; background: ${badgeColor}; color: #ffffff; font-weight: 800; text-decoration: none; font-size: 14.5px;">
+                        📲 Abrir vista ${escapeHtml(cfg.appName)} (Paso 1)
                    </a>`;
 
             body.innerHTML = `
-                <span style="display: inline-block; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: ${badgeColor};">
-                    Paso a paso • ${isAndroid ? 'Android' : 'iOS (iPhone / iPad)'}
-                </span>
-                <h3 style="font-size: 20px; font-weight: 900; margin: 6px 0 12px;">
+                <div class="app-school-badge">
+                    <img src="${escapeHtml(cfg.logo)}" alt="${escapeHtml(cfg.name)}">
+                    <div>
+                        <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: ${badgeColor};">${isAndroid ? 'Android' : 'iOS (iPhone / iPad)'}</div>
+                        <div style="font-size: 14.5px; font-weight: 900; color: #0f172a;">${escapeHtml(cfg.name)}</div>
+                    </div>
+                </div>
+                <h3 style="font-size: 19px; font-weight: 900; margin: 4px 0 12px;">
                     ${title}
                 </h3>
                 ${stepsHtml}
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     ${primaryActionBtn}
                     <button type="button" onclick="openBlogAppPreview()" style="padding: 10px 14px; border-radius: 12px; border: 1.5px solid var(--primary); background: #f8fafc; color: var(--primary); font-weight: 800; cursor: pointer; font-size: 13px;">
-                        👀 Probar vista App Blog ahora mismo
+                        👀 Probar vista ${escapeHtml(cfg.appName)} ahora mismo
                     </button>
                     <button type="button" onclick="renderAppPlatformSelector()" style="padding: 10px 14px; border-radius: 12px; border: 1px solid #cbd5e1; background: #ffffff; color: #334155; font-weight: 700; cursor: pointer; font-size: 13px;">
                         ← Cambiar entre Android y iOS
@@ -2742,10 +2859,8 @@
             `;
         }
 
-        setupDynamicBlogManifest();
-
         window.addEventListener('DOMContentLoaded', function() {
-            switchInstitution('seeds');
+            switchInstitution(SAVED_BLOG_INST);
             if (IS_BLOG_APP_START) {
                 switchTab('blog');
             }
