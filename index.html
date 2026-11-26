@@ -1537,15 +1537,18 @@
             (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
             window.navigator.standalone === true
         );
-        const IS_APP_LOCKED_MODE = IS_STANDALONE_DISPLAY || COLEGIO_PARAM === 'little' || COLEGIO_PARAM === 'seeds' || COLEGIO_PARAM === 'arboleda';
+        const HAS_EXPLICIT_SCHOOL_PARAM = (COLEGIO_PARAM === 'little' || COLEGIO_PARAM === 'seeds' || COLEGIO_PARAM === 'arboleda');
+        const IS_APP_LOCKED_MODE = IS_STANDALONE_DISPLAY || HAS_EXPLICIT_SCHOOL_PARAM;
 
         const INITIAL_INSTITUTION = (() => {
             if (COLEGIO_PARAM === 'arboleda') return 'arboleda';
             if (COLEGIO_PARAM === 'little' || COLEGIO_PARAM === 'seeds') return 'seeds';
-            try {
-                const st = localStorage.getItem('pwa_installed_school_inst');
-                if (st === 'seeds' || st === 'arboleda') return st;
-            } catch (e) {}
+            if (IS_STANDALONE_DISPLAY) {
+                try {
+                    const st = localStorage.getItem('pwa_installed_school_inst');
+                    if (st === 'seeds' || st === 'arboleda') return st;
+                } catch (e) {}
+            }
             return 'seeds';
         })();
 
@@ -2002,9 +2005,11 @@
             }
             activeInstitution = instKey === 'arboleda' ? 'arboleda' : 'seeds';
             activeBlogGradeFilter = 'Todos';
-            try {
-                localStorage.setItem('pwa_installed_school_inst', activeInstitution);
-            } catch (e) {}
+            if (!IS_APP_LOCKED_MODE) {
+                try {
+                    localStorage.setItem('pwa_installed_school_inst', activeInstitution);
+                } catch (e) {}
+            }
 
             const data = INSTITUTIONS_DATA[activeInstitution];
             const isArb = activeInstitution === 'arboleda';
