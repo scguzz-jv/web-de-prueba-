@@ -3,7 +3,7 @@
   "name": "Little Seeds Montessori",
   "short_name": "Little Seeds",
   "description": "Portal oficial de Little Seeds Montessori",
-  "start_url": "./index.html?colegio=little",
+  "start_url": "./?colegio=little",
   "scope": "./",
   "display": "standalone",
   "background_color": "#DDF5FA",
