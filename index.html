@@ -5,10 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1D8FE1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta id="dynamic-apple-title" name="apple-mobile-web-app-title" content="Little Seeds">
     <link id="dynamic-manifest" rel="manifest" href="manifest-little.json">
     <link id="dynamic-apple-icon" rel="apple-touch-icon" href="media/lit.png">
+    <script>
+        /* Se ejecuta ANTES de que iOS lea el head: fija manifest/título/ícono según la URL */
+        (function () {
+            var q = new URLSearchParams(location.search);
+            var v = (q.get('colegio') || q.get('inst') || '').toLowerCase();
+            var isArb = (v === 'arboleda');
+            var ua = navigator.userAgent || '';
+            var isIOS = /iPad|iPhone|iPod/.test(ua) ||
+                        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            window.__IS_IOS = isIOS;
+
+            var theme = document.querySelector('meta[name="theme-color"]');
+            var title = document.getElementById('dynamic-apple-title');
+            var icon  = document.getElementById('dynamic-apple-icon');
+            var man   = document.getElementById('dynamic-manifest');
+
+            if (theme) theme.setAttribute('content', isArb ? '#006A7A' : '#1D8FE1');
+            if (title) title.setAttribute('content', isArb ? 'La Arboleda' : 'Little Seeds');
+            if (icon)  icon.setAttribute('href', isArb ? 'media/arb.png' : 'media/lit.png');
+
+            if (isIOS) {
+                /* En iOS se usa la URL actual + metas; el manifest solo puede traer el colegio equivocado */
+                if (man && man.parentNode) man.parentNode.removeChild(man);
+            } else if (man) {
+                man.setAttribute('href', isArb ? 'manifest-arboleda.json' : 'manifest-little.json');
+            }
+        })();
+    </script>
     <title>Little Seeds Montessori &amp; Colegio Integral La Arboleda</title>
     <style>
         /* ==========================================================================
@@ -1532,18 +1561,31 @@
            DETECCIÓN DE MODO APP INSTALADA (STANDALONE) Y PARÁMETRO ?colegio=
            ========================================================================== */
         const INITIAL_PARAMS = new URLSearchParams(window.location.search);
-        const COLEGIO_PARAM = (INITIAL_PARAMS.get('colegio') || INITIAL_PARAMS.get('inst') || '').toLowerCase();
+        const IS_IOS = window.__IS_IOS === true;
+
+        function schoolFromParam(v) {
+            v = (v || '').toLowerCase();
+            if (v === 'arboleda') return 'arboleda';
+            if (v === 'little' || v === 'seeds') return 'seeds';
+            return null;
+        }
+
+        /* ?colegio= (viene del manifest) => BLOQUEA.  ?inst= => solo preselecciona. */
+        const LOCK_SCHOOL = schoolFromParam(INITIAL_PARAMS.get('colegio'));
+        const SOFT_SCHOOL = schoolFromParam(INITIAL_PARAMS.get('inst'));
+
         const IS_STANDALONE_DISPLAY = (
             (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
             window.navigator.standalone === true
         );
-        const HAS_EXPLICIT_SCHOOL_PARAM = (COLEGIO_PARAM === 'little' || COLEGIO_PARAM === 'seeds' || COLEGIO_PARAM === 'arboleda');
+        const HAS_EXPLICIT_SCHOOL_PARAM = LOCK_SCHOOL !== null;
         const IS_APP_LOCKED_MODE = IS_STANDALONE_DISPLAY || HAS_EXPLICIT_SCHOOL_PARAM;
 
         const INITIAL_INSTITUTION = (() => {
-            if (COLEGIO_PARAM === 'arboleda') return 'arboleda';
-            if (COLEGIO_PARAM === 'little' || COLEGIO_PARAM === 'seeds') return 'seeds';
+            if (LOCK_SCHOOL) return LOCK_SCHOOL;
+            if (SOFT_SCHOOL) return SOFT_SCHOOL;
             if (IS_STANDALONE_DISPLAY) {
+                /* Último recurso: en iOS este almacenamiento está aislado de Safari */
                 try {
                     const st = localStorage.getItem('pwa_installed_school_inst');
                     if (st === 'seeds' || st === 'arboleda') return st;
@@ -2008,6 +2050,12 @@
             if (!IS_APP_LOCKED_MODE) {
                 try {
                     localStorage.setItem('pwa_installed_school_inst', activeInstitution);
+                } catch (e) {}
+                /* La URL siempre identifica al colegio: es lo que iOS guarda al "Agregar a inicio" */
+                try {
+                    const u = new URL(window.location.href);
+                    u.searchParams.set('inst', activeInstitution === 'arboleda' ? 'arboleda' : 'little');
+                    history.replaceState(null, '', u.pathname + u.search + u.hash);
                 } catch (e) {}
             }
 
@@ -2693,13 +2741,19 @@
             if (appleIconLink) appleIconLink.setAttribute('href', cfg.logo);
 
             let linkEl = document.getElementById('dynamic-manifest') || document.querySelector('link[rel="manifest"]');
-            if (!linkEl) {
-                linkEl = document.createElement('link');
-                linkEl.id = 'dynamic-manifest';
-                linkEl.rel = 'manifest';
-                document.head.appendChild(linkEl);
+
+            if (IS_IOS) {
+                /* iOS: sin manifest; usa URL actual (?inst=...), título e ícono de arriba */
+                if (linkEl && linkEl.parentNode) linkEl.parentNode.removeChild(linkEl);
+            } else {
+                if (!linkEl) {
+                    linkEl = document.createElement('link');
+                    linkEl.id = 'dynamic-manifest';
+                    linkEl.rel = 'manifest';
+                    document.head.appendChild(linkEl);
+                }
+                linkEl.setAttribute('href', cfg.manifestFile);
             }
-            linkEl.setAttribute('href', cfg.manifestFile);
 
             if (IS_APP_LOCKED_MODE) {
                 document.title = cfg.name;
