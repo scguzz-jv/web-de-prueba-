@@ -8,7 +8,6 @@
         /* ==========================================================================
            VARIABLES DE TEMA LIQUID GLASS: LITTLE SEEDS MONTESSORI (COLORES DEL LOGO)
            ========================================================================== */
-        
         :root {
             --bg-base: #DDF5FA;
             --bg-mesh:
@@ -525,14 +524,34 @@
         /* ==========================================================================
            SECCIONES Y TARJETAS LIQUID GLASS CON BORDE LUMINOSO EN MOVIMIENTO
            ========================================================================== */
-        .page-section { padding: 36px 0 48px; }
+        .page-section, .section { padding: 36px 0 48px; }
         .section-header { text-align: center; max-width: 780px; margin: 0 auto 30px; }
         .section-header h2 { font-size: 28px; font-weight: 900; color: var(--text-main); }
-        .section-header p { font-size: 15px; color: var(--text-muted); margin-top: 8px; font-weight: 500; }
+        .section-header p, .subtitle-text { font-size: 15px; color: var(--text-muted); margin-top: 8px; font-weight: 500; }
 
         .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-        .grid-levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+
+        .growth-pathway-wrapper {
+            position: relative;
+            padding: 18px 0 36px;
+        }
+        .growth-arrow-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .growth-steps-row {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+            gap: 18px;
+            align-items: end;
+        }
 
         .card, .level-card, .quick-link-card, .areas-panel, .bridge-card, .map-card {
             border-radius: var(--radius-lg);
@@ -564,6 +583,53 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
         }
+
+        @media (min-width: 960px) {
+            .growth-steps-row.steps-5 .level-card:nth-child(1) { transform: translateY(18px); }
+            .growth-steps-row.steps-5 .level-card:nth-child(2) { transform: translateY(8px); }
+            .growth-steps-row.steps-5 .level-card:nth-child(3) { transform: translateY(-2px); }
+            .growth-steps-row.steps-5 .level-card:nth-child(4) { transform: translateY(-12px); }
+            .growth-steps-row.steps-5 .level-card:nth-child(5) { transform: translateY(-22px); }
+
+            .growth-steps-row.steps-2 {
+                max-width: 760px;
+                margin: 0 auto;
+            }
+            .growth-steps-row.steps-2 .level-card:nth-child(1) { transform: translateY(10px); }
+            .growth-steps-row.steps-2 .level-card:nth-child(2) { transform: translateY(-12px); }
+        }
+        .level-card {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 235px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .level-card:hover {
+            transform: translateY(-16px) scale(1.02) !important;
+            box-shadow: 0 18px 36px rgba(29, 143, 225, 0.20);
+        }
+        .level-step-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .level-step-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         body:not(.theme-arboleda) .grid-3 > div:nth-child(1) .icon-circle { background: linear-gradient(135deg, #35C2D6, #1D8FE1); }
         body:not(.theme-arboleda) .grid-3 > div:nth-child(2) .icon-circle { background: linear-gradient(135deg, #FFD015, #F59E0B); }
         body:not(.theme-arboleda) .grid-3 > div:nth-child(3) .icon-circle { background: linear-gradient(135deg, #F4649A, #E83F44); }
@@ -592,6 +658,13 @@
             font-size: 13.5px;
             font-weight: 800;
             color: var(--text-main);
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.18s ease, background 0.18s ease;
+        }
+        .area-badge:hover {
+            background: #FFFFFF;
+            transform: translateY(-2px);
         }
 
         .filter-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 24px; }
@@ -647,6 +720,58 @@
             padding: 4px 11px;
             border-radius: 99px;
             margin-bottom: 10px;
+        }
+
+        /* Carrusel de fotos dentro del modal del Blog */
+        .modal-carousel {
+            margin-top: 16px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+            background: #F8FAFC;
+        }
+        .modal-carousel-stage {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0F172A;
+            min-height: 220px;
+        }
+        .modal-carousel-stage img {
+            width: 100%;
+            max-height: 46vh;
+            object-fit: cover;
+            display: block;
+        }
+        .carousel-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #FFFFFF;
+            background: rgba(15, 23, 42, 0.78);
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-nav-btn.prev { left: 10px; }
+        .carousel-nav-btn.next { right: 10px; }
+        .modal-carousel-footer {
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
         }
 
         .modal-backdrop {
@@ -778,7 +903,7 @@
            OPTIMIZACIÓN MÓVIL COMPLETA
            ========================================================================== */
         @media (max-width: 900px) {
-            .hero-box, .grid-2, .grid-3, .grid-levels, .form-grid { grid-template-columns: 1fr; }
+            .hero-box, .grid-2, .grid-3, .form-grid, .growth-steps-row { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
@@ -846,6 +971,119 @@
             .btn-bienvenidos-liquid { padding: 14px 34px; font-size: 18px; }
             .sparkle-dot:nth-child(n+7) { display: none; }
         }
+
+        /* ==========================================================================
+   CARRUSEL DE FOTOS DEBAJO DEL TEXTO EN VENTANA DE ÁREAS / CURSOS
+   ========================================================================== */
+.area-modal-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-main, #0f172a);
+    margin-bottom: 18px;
+}
+
+.area-modal-text p + p {
+    margin-top: 10px;
+}
+
+.area-carousel-wrap {
+    margin-top: 14px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid var(--primary, #1F86E1);
+    background: #0f172a;
+}
+
+.area-carousel-stage {
+    position: relative;
+    width: 100%;
+    height: 270px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0f172a;
+}
+
+.area-carousel-stage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.area-car-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    background: rgba(15, 23, 42, 0.78);
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.area-car-arrow.prev { left: 10px; }
+.area-car-arrow.next { right: 10px; }
+
+.area-car-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(15, 23, 42, 0.85);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.area-carousel-bar {
+    background: #ffffff;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.area-car-caption {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted, #475569);
+}
+
+.area-car-dots {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.area-car-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: none;
+    background: #cbd5e1;
+    cursor: pointer;
+    padding: 0;
+}
+
+.area-car-dot.active {
+    background: var(--primary, #1F86E1);
+    transform: scale(1.2);
+}
+
+@media (max-width: 680px) {
+    .area-carousel-stage { height: 205px; }
+}
+
     </style>
 </head>
 <body>
@@ -858,10 +1096,10 @@
         <div id="antesalaGlassPanel" class="antesala-glass-panel">
             <div class="antesala-logos-row">
                 <div class="antesala-logo-pure">
-                    <img src="lit.png" alt="Logo Little Seeds Montessori">
+                    <img src="media/lit.png" alt="Logo Little Seeds Montessori">
                 </div>
                 <div class="antesala-logo-pure">
-                    <img src="arb.png" alt="Logo Colegio Integral La Arboleda">
+                    <img src="media/arb.png" alt="Logo Colegio Integral La Arboleda">
                 </div>
             </div>
             <p class="antesala-subtitle">Formación Integral desde la Primera Infancia hasta Primaria</p>
@@ -873,7 +1111,7 @@
         <div class="antesala-video-box">
             <button id="btnCerrarVideo" type="button" class="btn-cerrar-video" title="Saltar video">✕</button>
             <video id="anteVideoPlayer" playsinline preload="metadata">
-                <source src="ante.mp4" type="video/mp4">
+                <source src="media/ante.mp4" type="video/mp4">
             </video>
         </div>
     </div>
@@ -887,10 +1125,10 @@
                 <div class="brand-logo-wrap">
                     <div class="logos-selector" role="group" aria-label="Seleccionar institución">
                         <div id="selector-seeds" class="logo-emblem-card is-active" onclick="switchInstitution('seeds')" title="Little Seeds Montessori">
-                            <img src="lit.png" alt="Logo Little Seeds Montessori">
+                            <img src="media/lit.png" alt="Logo Little Seeds Montessori">
                         </div>
                         <div id="selector-arboleda" class="logo-emblem-card" onclick="switchInstitution('arboleda')" title="Colegio Integral La Arboleda">
-                            <img src="arb.png" alt="Logo Colegio Integral La Arboleda">
+                            <img src="media/arb.png" alt="Logo Colegio Integral La Arboleda">
                         </div>
                     </div>
                 </div>
@@ -898,7 +1136,7 @@
                     <div id="header-brand-title" class="header-title-custom"></div>
                     <div class="contact-links">
                         <a href="tel:+50223935249">📞 (502) 2393-5249</a>
-                        <a href="https://wa.me/50258936495" target="_blank" rel="noopener noreferrer">💬 WhatsApp: +502 5893-6495</a>
+                        <a href="https://wa.me/50258936495" target="_blank" rel="noopener noreferrer">💬 WhatsApp: +502 5893 6495</a>
                         <a href="mailto:mlittleseeds@gmail.com">✉️ mlittleseeds@gmail.com</a>
                     </div>
                 </div>
@@ -1000,7 +1238,7 @@
                                 <strong>Teléfono:</strong> <a href="tel:+50223935249" style="color: var(--primary); font-weight: 800; text-decoration: none;">(502) 2393-5249</a>
                             </div>
                             <div style="padding: 12px 14px; border-radius: 13px; background: rgba(108, 192, 46, 0.18); border: 2px solid var(--secondary);">
-                                <strong>WhatsApp Educrece:</strong> <a href="https://wa.me/50258936495" target="_blank" rel="noopener noreferrer" style="color: var(--secondary); font-weight: 800; text-decoration: none;">+502 5893-6495</a>
+                                <strong>WhatsApp:</strong> <a href="https://wa.me/50258936495" target="_blank" rel="noopener noreferrer" style="color: var(--secondary); font-weight: 800; text-decoration: none;">+502 5893 6495</a>
                             </div>
                             <div style="padding: 12px 14px; border-radius: 13px; background: rgba(244, 100, 154, 0.16); border: 2px solid #F4649A;">
                                 <strong>Correo:</strong> <a href="mailto:mlittleseeds@gmail.com" style="color: #BE185D; font-weight: 800; text-decoration: none;">mlittleseeds@gmail.com</a>
@@ -1056,7 +1294,7 @@
                 <h2 id="niveles-heading"></h2>
                 <p id="niveles-subheading"></p>
             </div>
-            <div id="levels-cards-grid" class="grid-levels"></div>
+            <div id="levels-cards-grid"></div>
             <div class="areas-panel" style="margin-top: 28px;">
                 <h3 id="areas-heading" style="font-size: 20px; font-weight: 800;"></h3>
                 <p id="areas-subheading" style="font-size: 14px; color: var(--text-muted); margin-top: 4px;"></p>
@@ -1065,24 +1303,24 @@
         </div>
     </section>
 
-<!-- ======================================================================
-         PESTAÑA 3: CALENDARIO
-         ====================================================================== -->
-    <section id="tab-calendario" class="tab-content-page section hidden">
+    <!-- ==========================================================================
+         PESTAÑA 3: CALENDARIO (SINCRONIZACIÓN EN VIVO CON GOOGLE CALENDAR)
+         ========================================================================== -->
+    <section id="tab-calendario" class="tab-content page-section hidden">
         <div class="container">
-            <div class="section-header" data-rev-block="calendario-header">
+            <div class="section-header">
                 <span class="kicker">Ciclo Escolar 2027</span>
-                <div id="cal-title" style="font-size: 29px; font-weight: 800; line-height: 1.22; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;"></div>
-                <p class="subtitle-text">Consulta las actividades académicas, culturales y familiares programadas.</p>
+                <h2 id="cal-heading"></h2>
+                <p>Consulta las actividades académicas, culturales y familiares programadas.</p>
             </div>
             <div class="filter-bar">
-                <button class="filter-chip active" data-trimester="all" onclick="filterCalendar('all')">Todos</button>
-                <button class="filter-chip" data-trimester="T1" onclick="filterCalendar('T1')">Trimestre I</button>
-                <button class="filter-chip" data-trimester="T2" onclick="filterCalendar('T2')">Trimestre II</button>
-                <button class="filter-chip" data-trimester="T3" onclick="filterCalendar('T3')">Trimestre III</button>
+                <button class="filter-chip active" data-trim="all" onclick="filterCalendar('all')">Todos</button>
+                <button class="filter-chip" data-trim="T1" onclick="filterCalendar('T1')">Trimestre I</button>
+                <button class="filter-chip" data-trim="T2" onclick="filterCalendar('T2')">Trimestre II</button>
+                <button class="filter-chip" data-trim="T3" onclick="filterCalendar('T3')">Trimestre III</button>
             </div>
             <div id="cal-sync-status" style="text-align: center; font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-bottom: 18px;"></div>
-            <div id="calendar-events-grid" class="grid-3" data-rev-block="calendario-eventos"></div>
+            <div id="calendar-events-grid" class="grid-3"></div>
         </div>
     </section>
 
@@ -1105,20 +1343,22 @@
     <section id="tab-blog" class="tab-content page-section hidden">
         <div class="container">
             <div class="section-header">
-                <h2 id="blog-heading"></h2>
-                <p id="blog-subheading">Artículos, orientación para padres y experiencias de aprendizaje.</p>
+                <span class="kicker">Comunidad y Familia</span>
+                <div id="blog-title" style="font-size: 29px; font-weight: 800; line-height: 1.22; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;"></div>
+                <p class="subtitle-text">Orientación pedagógica y consejos prácticos elaborados por nuestro equipo docente.</p>
             </div>
+            <div id="blog-filter-bar" class="filter-bar"></div>
             <div id="blog-posts-grid" class="grid-3"></div>
         </div>
     </section>
 
-    <!-- Modal lectura completa de artículo del Blog -->
+    <!-- Modal universal (Blog, Niveles, Áreas y Eventos del Calendario) -->
     <div id="blog-modal" class="modal-backdrop hidden" onclick="if(event.target===this) closeBlogModal()">
         <div class="modal-card">
             <span id="modal-tag" class="blog-tag"></span>
             <h3 id="modal-title" style="font-size: 22px; font-weight: 800; margin-bottom: 14px;"></h3>
             <div id="modal-body"></div>
-            <button class="btn-main" style="margin-top: 18px;" onclick="closeBlogModal()">Cerrar artículo</button>
+            <button id="modal-close-btn" class="btn-main" style="margin-top: 18px;" onclick="closeBlogModal()">Cerrar</button>
         </div>
     </div>
 
@@ -1185,7 +1425,7 @@
             </div>
             <div class="footer-links">
                 <a href="tel:+50223935249">📞 (502) 2393-5249</a>
-                <a href="https://wa.me/50258936495" target="_blank" rel="noopener noreferrer">💬 WhatsApp: +502 5893-6495</a>
+                <a href="https://wa.me/50258936495" target="_blank" rel="noopener noreferrer">💬 WhatsApp: +502 5893 6495</a>
                 <a href="mailto:mlittleseeds@gmail.com">✉️ mlittleseeds@gmail.com</a>
             </div>
         </div>
@@ -1261,37 +1501,203 @@
             seeds: {
                 name: 'Little Seeds Montessori',
                 titleHtml: LITTLE_SEEDS_TITLE_HTML,
-                logo: 'lit.png',
+                logo: 'media/lit.png',
                 kicker: 'Etapa Inicial • Semillero Montessori',
                 motto: 'Inspirados en metodología Montessori',
                 description: 'Un ambiente preparado con calidez, respeto y estimulación temprana para acompañar los primeros descubrimientos de tus hijos desde los 18 meses hasta los 6 años en Maternal 1 y 2, Nursery, Pre-kinder, Kinder y Preparatoria.',
                 grades: ['Maternal 1 y 2', 'Nursery', 'Pre-kinder', 'Kinder', 'Preparatoria'],
                 mission: 'Brindar en la primera infancia un ambiente preparado, afectivo y seguro inspirado en la metodología Montessori, respetando el ritmo individual de cada niño para despertar su curiosidad natural y amor por aprender.',
-                vision: 'Ser el centro de educación inicial referente por nuestra calidez humana y excelencia en neurodesarrollo infantil, formando niños felices, seguros, autónomos y con bases sólidas para su vida escolar.',
-                values: 'Respeto al ritmo individual, autonomía ("Puedo hacerlo por mí mismo"), curiosidad sensorial, empatía y alianza cercana con la familia.',
+                vision: 'Ser el centro referente por nuestra calidez humana y excelencia en neurodesarrollo infantil, formando niños felices, seguros y con bases sólidas autónomos.',
+                values: 'Respeto al ritmo individual, autonomía ("Puedo hacerlo por mi mismo"), curiosidad sensorial, empatía y alianza cercana con la familia.',
                 bridgeKicker: 'Continuidad hacia Primaria',
                 bridgeTitle: '¿Tu hijo está listo para dar el siguiente paso a Primaria?',
                 bridgeText: 'Conoce Colegio Integral La Arboleda, nuestra institución hermana que da continuidad académica bilingüe e integral en Primero Primaria y Segundo Primaria.',
                 bridgeBtn: 'Conocer Colegio Integral La Arboleda →',
                 nivelesSub: 'Grados del Semillero: acompañamiento personalizado desde los 18 meses hasta los 6 años.',
                 levels: [
-                    { name: 'Maternal 1 y 2', age: '18 meses y 2 años', desc: 'Estimulación sensorial temprana, desarrollo motor grueso y fino, vínculos afectivos seguros y exploración guiada.' },
-                    { name: 'Nursery', age: '3 años', desc: 'Fortalecemos vocabulario expresivo y rutinas de independencia para fomentar la autonomía.' },
-                    { name: 'Pre-kinder', age: '4 años', desc: 'Programa de Pre-lectoescritura, área numérica y área de lenguaje por medio de materiales sensoriales.' },
-                    { name: 'Kinder', age: '5 años', desc: 'Inician formalmente el proceso de lectura y escritura. Aprenden a leer y a escribir con letra de molde.' },
-                    { name: 'Preparatoria', age: '6 años', desc: 'Consolidación de lectoescritura, pensamiento lógico-matemático, inglés comunicativo y madurez socioemocional para Primaria.' }
+                    {
+                        step: '01',
+                        name: 'Maternal 1 y 2',
+                        age: '18 meses y 2 años',
+                        desc: 'Estimulación sensorial temprana, desarrollo motor grueso y fino, vínculos afectivos seguros y exploración guiada.',
+                        longDesc: 'Acompañamos los primeros pasos educativos en un ambiente cálido, seguro y preparado a su medida. Trabajamos estimulación multisensorial, coordinación motriz gruesa y fina, lenguaje inicial, música y vínculos afectivos seguros que fortalecen su confianza.'
+                    },
+                    {
+                        step: '02',
+                        name: 'Nursery',
+                        age: '3 años',
+                        desc: 'Fortalecemos vocabulario expresivo y rutinas de independencia para fomentar la autonomía.',
+                        longDesc: 'En Nursery potenciamos la expresión oral, la socialización positiva y las rutinas diarias de Vida Práctica Montessori ("puedo hacerlo por mí mismo"), desarrollando concentración, hábitos de orden y seguridad personal.'
+                    },
+                    {
+                        step: '03',
+                        name: 'Pre-kinder',
+                        age: '4 años',
+                        desc: 'Programa de Pre-lectoescritura, área numérica y área de lenguaje por medio de materiales sensoriales.',
+                        longDesc: 'Mediante materiales concretos y sensoriales Montessori, los niños desarrollan conciencia fonológica, trazo inicial, conteo lógico, clasificación y exploración STEAM mientras fortalecen su creatividad.'
+                    },
+                    {
+                        step: '04',
+                        name: 'Kinder',
+                        age: '5 años',
+                        desc: 'Inician formalmente el proceso de lectura y escritura. Aprenden a leer y a escribir con letra de molde.',
+                        longDesc: 'Inician formalmente la lectura comprensiva y la escritura con letra de molde, combinando matemáticas manipulativas, inglés comunicativo, proyectos STEAM y madurez socioemocional.'
+                    },
+                    {
+                        step: '05',
+                        name: 'Preparatoria',
+                        age: '6 años',
+                        desc: 'Consolidación de lectoescritura, pensamiento lógico-matemático, inglés comunicativo y madurez socioemocional para Primaria.',
+                        longDesc: 'Culminan la etapa inicial consolidando lectura fluida, escritura estructurada, razonamiento lógico-matemático e inmersión en inglés, quedando listos para dar el salto armónico a Primero Primaria en Colegio Integral La Arboleda.'
+                    }
                 ],
                 areasTitle: 'Áreas de Pre-primaria • Little Seeds Montessori',
-                areasSub: 'Desarrollo integral equilibrado en cada jornada.',
+                areasSub: 'Estas son las áreas que trabajamos en la pre-primaria:',
                 areas: [
-                    'Comunicación y Lenguaje',
-                    'Aprendizaje Matemático',
-                    'Área integradora de ciencia, desarrollo integral y sociocultural',
-                    'Educación artística',
-                    'Educación física',
-                    'STEAM',
-                    'Inglés'
-                ],
+    // =========================================================================
+    // editar boton materias
+    // =========================================================================
+    {
+        name: 'Comunicación y Lenguaje', 
+        paragraphs: [
+           
+            'En Little Seeds Montessori acompañamos a cada niño y niña en el descubrimiento natural de la palabra, la escucha atenta y la expresión segura de sus ideas, emociones y descubrimientos diarios.',
+            'Mediante cuentos, conversación cotidiana y experiencias sensoriales con letras y sonidos, fortalecemos su vocabulario, el gusto por los libros y una base sólida para la lectura y la escritura a su propio ritmo.'
+        ],
+        photos: [
+            
+            {
+                src: 'media/libro.webp', 
+                caption: 'Acercamiento a la lectura y exploración de cuentos' 
+            },
+            {
+                src: 'media/texletra.webp', 
+                caption: 'Letras y trazo sensorial Montessori' 
+            },
+            {
+                src: 'media/histo.webp', 
+                caption: 'Creación, diseño y lectura de su propio libro.' 
+            },
+            {
+                src: 'media/cone.webp', 
+                caption: 'Dramatización de su cuento favorito.' 
+            },
+        ]
+    },
+
+    
+    {
+        name: 'Aprendizaje Matemático', 
+        paragraphs: [
+            'En Little Seeds Montessori construimos el pensamiento lógico-matemático desde lo concreto hacia lo manipulativo y visual, respetando el ritmo natural de cada niño y niña.',
+        'A través de materiales Montessori y experiencias cotidianas, exploran formas, tamaños, medidas, equilibrio, cantidades y relaciones espaciales, desarrollando razonamiento, concentración y seguridad al resolver retos.'
+            
+        ],
+        photos: [
+            {
+                src: 'media/medi.webp', 
+                caption: 'Primeros acercamientos a la medición y longitud comparando tamaños en el aula.' 
+            },
+            {
+                src: 'media/bala.webp', 
+                caption: 'Letras y trazo sensorial Montessori' 
+            },
+            {
+                src: 'media/fig.webp', 
+                caption: 'Exploración de figuras geométricas y relaciones espaciales sobre tapete Montessori.' 
+            },
+            {
+                src: 'media/bloc.webp', 
+                caption: '' 
+            },
+        ]
+    },
+    {
+        name: 'Área integradora de ciencia, desarrollo integral y sociocultural', 
+        paragraphs: [
+            
+            'En Little Seeds Montessori impulsamos una mirada integral donde la curiosidad científica, el desarrollo personal y la convivencia sociocultural se entrelazan de forma vivencial.',
+        'A través del juego simbólico, proyectos comunitarios, tradiciones y experiencias participativas, los niños exploran su entorno, fortalecen su identidad, practican el respeto y la empatía, y aprenden a expresarse y colaborar con los demás.'
+        ],
+        photos: [
+            {
+                src: 'media/pad.webp', 
+                caption: 'Juego de roles y expresión en comunidad con disfraces y capas en el patio escolar.' 
+            },
+            {
+                src: 'media/merca.webp', 
+                caption: 'Actividad vivencial de intercambio y convivencia con flores y detalles preparados por los niños.' 
+            },
+            {
+                src: 'media/cola.webp', 
+                caption: 'Experiencias culturales, tradiciones y dinámicas participativas compartidas en el aula.' 
+            },
+
+            {
+                src: 'media/expo.webp', 
+                caption: '' 
+            },
+        ] 
+    },
+    {
+        name: 'Educación artística', 
+        paragraphs: [
+            'En Little Seeds Montessori cultivamos la sensibilidad estética, la imaginación y la libre expresión a través del arte como lenguaje natural de la infancia.',
+            'Mediante el color, las texturas, el movimiento y el juego creativo, los niños experimentan sin presiones, fortalecen su motricidad fina, canalizan emociones y descubren el valor del proceso creativo propio y compartido.'
+        ],
+        photos: [
+            {
+                src: 'media/dis.webp', 
+                caption: '' 
+            },
+            {
+                src: 'mediCreación manual al aire libre decorando cometas y piezas de colores en comunidad.' 
+            },
+            {
+                src: 'media/art.webp', 
+                caption: 'Pintura con pincel y exploración de color y trazo sobre papel y madera.' 
+            },
+        ] 
+    },
+    {
+        name: 'Educación física', 
+        paragraphs: [
+            
+            'FALTAN IMAGENES'
+        ],
+        photos: [] 
+    },
+    {
+        name: 'STEAM', 
+        paragraphs: [
+            
+            'En Little Seeds Montessori despertamos la curiosidad natural de los niños conectando ciencia, tecnología, ingeniería, arte y matemáticas a través de retos prácticos y manipulativos.',
+            'Al construir, experimentar y probar ideas en equipo, desarrollan pensamiento lógico, creatividad, observación y confianza para resolver problemas cotidianos.'
+        ],
+        photos: [
+             {
+                src: 'media/gru.webp', 
+                caption: 'Construcción colaborativa de una estructura tipo puente al aire libre trabajando en equipo.' 
+            },
+             {
+                src: 'media/pir.webp', 
+                caption: 'Diseño y armado de torres y formas geométricas con piezas magnéticas de colores.' 
+            },
+             {
+                src: 'media/nin.webp', 
+                caption: 'Presentación de una estructura armada con piezas conectables reforzando ingenio y coordinación.' 
+            },
+        ] 
+    },
+    {
+        name: 'Inglés', 
+        paragraphs: [
+            
+            'FALTAN IMAGENES'
+        ],
+        photos: [] 
+    }
+],
                 modeloTitle: 'Metodología Montessori & Neurodesarrollo Infantil',
                 modeloDesc: 'En Little Seeds Montessori cada aula está diseñada a la altura y medida del niño para favorecer la concentración, la autodisciplina y el aprendizaje activo mediante materiales concretos.',
                 pillars: [
@@ -1309,38 +1715,85 @@
                 ],
                 blog: [
                     {
-                        tag: 'Neurodesarrollo',
-                        title: 'La importancia de la psicomotricidad',
-                        summary: 'A través del movimiento y el juego el niño descubre su cuerpo, fortalece su coordinación y construye las bases de la lectoescritura.',
+                        tag: 'Autoestima',
+                        title: '5 formas de fomentar la autonomía en casa',
+                        summary: 'Pequeños ajustes que ayudan a ganar seguridad.',
                         paragraphs: [
-                            'A través del movimiento y el juego, el niño descubre su cuerpo, explora el espacio y construye las conexiones neurológicas esenciales para todo aprendizaje futuro.',
-                            'Antes de tomar un lápiz o reconocer letras en un libro, el desarrollo motor grueso (equilibrio, postura, cruce de la línea media) prepara el cerebro y la musculatura del hombro, brazo y mano.',
-                            'En nuestros ambientes acompañamos cada etapa con circuitos motores, trasvases, pinzas y actividades del Área de Vida Práctica Montessori.'
+                            'Acompañar los logros diarios de nuestros hijos con paciencia y confianza construye su seguridad interior:'
+                        ],
+                        orderedList: [
+                            {
+                                text: '<strong>Poner sus cosas a su alcance.</strong> Coloca su ropa, zapatos, libros y juguetes en repisas bajas para que pueda tomarlos y ordenarlos por sí mismo.',
+                                image: 'media/alc.webp',
+                                caption: 'Repisas y objetos a la altura del niño'
+                            },
+                            {
+                                text: '<strong>Permitirle elegir.</strong> Ofrécele dos opciones sencillas de vestimenta o refacción para que practique tomar decisiones propias.',
+                                image: 'media/ordn.webp',
+                                caption: 'Eligiendo entre dos opciones sencillas'
+                            },
+                            {
+                                text: '<strong>Involucrarlo en tareas cotidianas del hogar.</strong> Invítalo a colaborar en acciones simples como llevar su plato o doblar una servilleta.',
+                                image: 'media/cotd.webp',
+                                caption: 'Colaborando en tareas cotidianas del hogar'
+                            },
+                            {
+                                text: '<strong>Brindarle el tiempo necesario.</strong> Dale espacio para intentar abrocharse o vestirse por sí mismo antes de intervenir.',
+                                image: 'media/tiemp.webp',
+                                caption: 'Practicando vestirse a su propio ritmo'
+                            },
+                            {
+                                text: '<strong>Dejar que corrija pequeños errores con calma.</strong> Acompáñalo con paciencia y valora su esfuerzo más que la perfección.',
+                                image: 'media/erro.webp',
+                                caption: 'Aprendiendo con calma y confianza en su esfuerzo'
+                            }
+                        ],
+                        closingNote: 'El niño que descubre todo lo que puede hacer por sí mismo.'
+                    },
+                    {
+                            tag: 'Aprendizaje en casa',
+                            title: '3 maneras de continuar el aprendizaje Montessori en casa',
+                            summary: '3 ideas sencillas para fomentar la autonomía y el aprendizaje en casa.',
+                        paragraphs: [
+                             'Fomenta su autonomía fuera del aula adaptando espacios a su estatura, involucrándolo en tareas diarias del hogar y respetando su propio ritmo de aprendizaje.'
+                        ],
+                        orderedList: [
+                            {
+                                text: '<strong>Invita a tu hijo a participar en las tareas cotidianas.</strong> Poner la mesa, doblar una servilleta o limpiar un derrame son oportunidades para practicar la coordinación y ganar autonomía. Elige una tarea que pueda hacer según su edad y dale tiempo para terminarla.',
+                                image: 'media/part.webp',
+                                caption: 'Participacion activa en actividades cotidianas'
+                            },
+                            {
+                                text: '<strong>Coloca los materiales a su alcance.</strong> Organiza unos pocos libros, rompecabezas o materiales de dibujo en un estante bajo. Así podrá elegir qué usar, encontrarlo por su cuenta y devolverlo a su lugar cuando termine.',
+                                image: 'media/rep.webp',
+                                caption: 'Mejorar la toma de deciones '
+                            },
+                            {
+                                text: '<strong>Confía en tu hijo y permítele hacerlo por sí mismo.</strong> Cuando quiera ponerse los zapatos, servirse agua o guardar sus juguetes, dale tiempo para intentarlo. Acompáñalo con paciencia y, si necesita ayuda, apóyalo solo en el paso que le cuesta. Cada vez que le das la oportunidad de decir ¡Lo hice yo!, le ayudas a confiar más en sus propias capacidades.',
+                                image: 'media/deci.webp',
+                                caption: 'Mejorar la confianza para la toma de decisiones'
+                                }
+                            
+                        ],
+                        closingNote: 'Con pequeños cambios diarios y mucha paciencia, cualquier rincón de tu hogar puede convertirse en su mejor espacio de aprendizaje.'
+                    },
+    
+                    {
+                        grade: 'Maternal 1 y 2',
+                        tag: 'Desarrollo Motriz',
+                        title: 'La importancia de la psicomotricidad',
+                        summary: 'Cómo el movimiento libre prepara el cerebro.',
+                        paragraphs: [
+                            'A través del movimiento y el juego, los niños conocen su cuerpo, aprenden a coordinar sus movimientos y ganan autonomía en las actividades de todos los días. Esto se consigue trabajando el área de Vida Práctica Montessori.'
                         ]
                     },
                     {
-                        tag: 'Crianza Respetuosa',
-                        title: 'Autoestima',
-                        summary: 'Cinco acciones cotidianas en casa para fortalecer la seguridad emocional y el "Puedo hacerlo por mí mismo".',
+                        grade: 'Preparatoria',
+                        tag: 'STEAM',
+                        title: 'Despertando la curiosidad científica',
+                        summary: 'Aprender haciendo mediante experimentos.',
                         paragraphs: [
-                            'Cuando acompañamos con paciencia y confianza los pequeños logros diarios de nuestros hijos, sembramos una seguridad interior que los acompañará toda la vida:'
-                        ],
-                        orderedList: [
-                            'Permite que elija entre dos opciones sencillas de ropa o refacción.',
-                            'Coloca sus juguetes y libros en repisas bajas a su alcance para que pueda ordenarlos.',
-                            'Involúcralo en tareas cotidianas como llevar su plato, regar una planta o doblar una servilleta.',
-                            'Valora su esfuerzo y proceso más que el resultado perfecto.',
-                            'Bríndale tiempo suficiente para intentar abrochar sus zapatos o vestir su suéter antes de intervenir.'
-                        ],
-                        closingNote: 'El niño que descubre todo lo que puede hacer por sí mismo fortalece su autoestima.'
-                    },
-                    {
-                        tag: 'Bilingüismo Temprano',
-                        title: 'Inmersión natural al inglés en la primera infancia',
-                        summary: 'Por qué los primeros 6 años son la ventana ideal para adquirir un segundo idioma sin esfuerzo.',
-                        paragraphs: [
-                            'Durante los primeros años de vida, el cerebro posee una plasticidad auditiva extraordinaria que permite distinguir y reproducir fonemas de distintos idiomas de forma espontánea.',
-                            'A través de canciones, cuentos, rutinas diarias y juegos sensoriales, nuestros alumnos asocian el inglés con experiencias positivas y significativas.'
+                            'Combinamos exploración natural con retos lógicos para que cada niño observe, formule preguntas y descubra cómo funciona su entorno.'
                         ]
                     }
                 ]
@@ -1348,7 +1801,7 @@
             arboleda: {
                 name: 'Colegio Integral La Arboleda',
                 titleHtml: ARBOLEDA_TITLE_HTML,
-                logo: 'arb.png',
+                logo: 'media/arb.png',
                 kicker: 'Nivel Primaria',
                 motto: 'Sembrando valores, cosechando líderes',
                 description: 'Formación académica integral, bilingüismo, pensamiento lógico-matemático, tecnología STEAM y espíritu emprendedor para Primero Primaria y Segundo Primaria.',
@@ -1362,9 +1815,20 @@
                 bridgeBtn: '← Conocer Little Seeds Montessori',
                 nivelesSub: 'Continuidad académica sólida en los primeros grados de Primaria.',
                 levels: [
-                    { name: 'Primero Primaria', age: '6 a 7 años', desc: 'Comprensión lectora fluida, resolución creativa de problemas matemáticos, ciencias experimentales y proyectos STEAM.' },
-                    { name: 'Segundo Primaria', age: '7 a 8 años', desc: 'Autonomía académica, redacción estructurada, bilingüismo activo, liderazgo colaborativo y cultura emprendedora.' },
-                    { name: 'Acompañamiento Integral', age: 'Todos los grados', desc: 'Seguimiento personalizado por docente titular, orientación psicopedagógica y comunicación constante con familias.' }
+                    {
+                        step: '06',
+                        name: 'Primero Primaria',
+                        age: '6 a 7 años',
+                        desc: 'Comprensión lectora fluida, resolución creativa de problemas matemáticos, ciencias experimentales y proyectos STEAM.',
+                        longDesc: 'Continuidad directa desde Preparatoria: fortalecemos la comprensión lectora fluida, redacción, razonamiento lógico-matemático, ciencias experimentales, proyectos STEAM e inglés bilingüe diario.'
+                    },
+                    {
+                        step: '07',
+                        name: 'Segundo Primaria',
+                        age: '7 a 8 años',
+                        desc: 'Autonomía académica, redacción estructurada, bilingüismo activo, liderazgo colaborativo y cultura emprendedora.',
+                        longDesc: 'Consolidamos hábitos de estudio autónomo, pensamiento analítico, expresión oral y escrita bilingüe, robótica/STEAM y proyectos de liderazgo y emprendimiento infantil.'
+                    }
                 ],
                 areasTitle: 'Áreas Curriculares • Colegio Integral La Arboleda',
                 areasSub: 'Currículo integral enfocado en competencias para el futuro.',
@@ -1395,6 +1859,7 @@
                 ],
                 blog: [
                     {
+                        grade: 'Primero primaria',
                         tag: 'Transición Escolar',
                         title: 'Del Semillero Montessori a los retos de Primaria',
                         summary: 'Cómo una base concreta y autónoma facilita el éxito académico en Primero y Segundo Primaria.',
@@ -1404,6 +1869,7 @@
                         ]
                     },
                     {
+                        grade: 'Segundo primaria',
                         tag: 'Liderazgo Infantil',
                         title: 'Sembrando valores, cosechando líderes desde Primaria',
                         summary: 'El liderazgo infantil comienza con la empatía, la responsabilidad personal y saber escuchar a los demás.',
@@ -1413,13 +1879,35 @@
                         ]
                     },
                     {
-                        tag: 'Innovación Educativa',
-                        title: 'Proyectos STEAM en Primeros Grados',
-                        summary: 'Aprender ciencia y matemáticas resolviendo desafíos prácticos en equipo.',
+                        grade: 'Primero primaria',
+                        tag: 'STEAM',
+                        title: 'Despertando la curiosidad científica',
+                        summary: 'Aprender haciendo mediante experimentos.',
                         paragraphs: [
-                            'Los proyectos STEAM permiten que los estudiantes conecten la teoría con la vida real mediante experimentación, diseño y pensamiento lógico.',
-                            'Así desarrollan curiosidad científica y confianza para enfrentar nuevos retos.'
+                            'Combinamos exploración natural con retos lógicos para que cada estudiante observe, formule preguntas y resuelva problemas en equipo.'
                         ]
+                    },
+ {
+                        tag: 'Autoestima',
+                        title: '5 formas de fomentar la autonomía en casa',
+                        summary: 'Pequeños ajustes que ayudan a ganar seguridad.',
+                        paragraphs: [
+                            'Aquí va una breve introducción antes de la lista numerada.'
+                        ],
+                        orderedList: [
+                            {
+                                text: '<strong>Poner sus cosas a su alcance.</strong> Coloca sus zapatos, juguetes o su vaso en un lugar bajo para que pueda tomarlos y guardarlos por sí mismo.',
+                                image: 'media/autonomia-1.webp',
+                                caption: 'Estante bajo a la altura del niño'
+                            },
+                            {
+                                text: '<strong>Darle tiempo para vestirse.</strong> Anímalo a ponerse los zapatos o la chaqueta sin prisa.',
+                                image: 'media/autonomia-2.webp',
+                                caption: 'Practicando ponerse los zapatos'
+                            },
+                            '<strong>Ofrecerle dos opciones.</strong> Pregúntale «¿Prefieres la camiseta azul o la verde?».'
+                        ],
+                        closingNote: 'El niño que descubre todo lo que puede hacer por sí mismo.'
                     }
                 ]
             }
@@ -1430,8 +1918,24 @@
         let activeTrimFilter = 'all';
         let mapZoomLevel = 1;
 
+        const BLOG_GRADE_FILTERS = {
+            seeds: ['Todos', 'Maternal 1 y 2', 'Nursery', 'Pre-kinder', 'Kinder', 'Preparatoria'],
+            arboleda: ['Todos', 'Primero primaria', 'Segundo primaria']
+        };
+        let activeBlogGradeFilter = 'Todos';
+        let currentModalPhotos = [];
+        let currentCarouselIndex = 0;
+
+        function buildBlogTitleHtml(instKey) {
+            if (instKey === 'arboleda') {
+                return `Blog Educativo • ${ARBOLEDA_TITLE_HTML}`;
+            }
+            return `Blog Educativo • ${LITTLE_SEEDS_TITLE_HTML}`;
+        }
+
         function switchInstitution(instKey) {
             activeInstitution = instKey;
+            activeBlogGradeFilter = 'Todos';
             const data = INSTITUTIONS_DATA[instKey];
             const isArb = instKey === 'arboleda';
 
@@ -1460,16 +1964,47 @@
 
             document.getElementById('niveles-heading').innerHTML = `Niveles Educativos • ${data.titleHtml}`;
             document.getElementById('niveles-subheading').textContent = data.nivelesSub;
-            document.getElementById('levels-cards-grid').innerHTML = data.levels.map(lvl => `
-                <div class="level-card">
-                    <span class="level-age">${lvl.age}</span>
-                    <h3>${lvl.name}</h3>
-                    <p>${lvl.desc}</p>
+
+            const gridContainer = document.getElementById('levels-cards-grid');
+            gridContainer.className = 'growth-pathway-wrapper';
+            const stepClass = isArb ? 'steps-2' : 'steps-5';
+
+            gridContainer.innerHTML = `
+                <svg class="growth-arrow-svg" viewBox="0 0 1200 320" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="growthArrowGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="${isArb ? '#006A7A' : '#35C2D6'}" stop-opacity="0.35" />
+                            <stop offset="50%" stop-color="${isArb ? '#2E9F19' : '#FFD015'}" stop-opacity="0.55" />
+                            <stop offset="100%" stop-color="${isArb ? '#FDC101' : '#6CC02E'}" stop-opacity="0.75" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M 30 275 Q 320 265, 580 190 T 1135 65" fill="none" stroke="url(#growthArrowGrad)" stroke-width="18" stroke-linecap="round" />
+                    <polygon points="1125,38 1185,55 1142,102" fill="${isArb ? '#2E9F19' : '#6CC02E'}" opacity="0.82" />
+                </svg>
+
+                <div class="growth-steps-row ${stepClass}">
+                    ${data.levels.map((lvl, idx) => `
+                        <div class="level-card" onclick="openLevelModal(${idx})">
+                            <div>
+                                <div class="level-step-pill">
+                                    <span class="level-age" style="margin-bottom:0;">${lvl.age || lvl.stage || ''}</span>
+                                    <span class="level-step-num">${lvl.step || String(idx + 1).padStart(2, '0')}</span>
+                                </div>
+                                <h3>${lvl.name}</h3>
+                                <p>${lvl.desc || lvl.summary || ''}</p>
+                            </div>
+                            <button type="button" class="btn-outline" style="margin-top: 14px; width: 100%; padding: 8px 12px; font-size: 12.5px;">Ver detalle</button>
+                        </div>
+                    `).join('')}
                 </div>
-            `).join('');
+            `;
+
             document.getElementById('areas-heading').textContent = data.areasTitle;
             document.getElementById('areas-subheading').textContent = data.areasSub;
-            document.getElementById('areas-badges-list').innerHTML = data.areas.map(a => `<span class="area-badge">${a}</span>`).join('');
+            document.getElementById('areas-badges-list').innerHTML = data.areas.map((a, idx) => {
+                const areaName = typeof a === 'string' ? a : a.name;
+                return `<button type="button" class="area-badge" onclick="openAreaModal(${idx})">${areaName}</button>`;
+            }).join('');
 
             document.getElementById('cal-heading').innerHTML = `Calendario Escolar 2027 • ${data.titleHtml}`;
             renderCalendarCards();
@@ -1484,19 +2019,8 @@
                 </div>
             `).join('');
 
-            document.getElementById('blog-heading').innerHTML = `Blog Educativo • ${data.titleHtml}`;
-            document.getElementById('blog-posts-grid').innerHTML = data.blog.map((post, idx) => `
-                <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
-                    <div>
-                        <span class="blog-tag">${post.tag}</span>
-                        <h3>${post.title}</h3>
-                        <p>${post.summary}</p>
-                    </div>
-                    <div>
-                        <button class="btn-outline" style="margin-top:14px; width:100%;" onclick="openBlogModal(${idx})">Leer artículo completo</button>
-                    </div>
-                </div>
-            `).join('');
+            document.getElementById('blog-title').innerHTML = buildBlogTitleHtml(instKey);
+            renderBlogCards(data.blog);
 
             document.getElementById('form-inst').value = instKey;
             updateFormGradeOptions();
@@ -1519,211 +2043,474 @@
 
         function filterCalendar(trim) {
             activeTrimFilter = trim;
-            document.querySelectorAll('.filter-chip').forEach(chip => {
+            document.querySelectorAll('#tab-calendario .filter-chip').forEach(chip => {
                 chip.classList.toggle('active', chip.getAttribute('data-trim') === trim);
             });
             renderCalendarCards();
         }
 
         /* ==========================================================================
-       INTEGRACIÓN DINÁMICA CON GOOGLE CALENDAR (CON FOTOS Y TRIMESTRES)
-       ========================================================================== */
-    const GOOGLE_CALENDAR_CONFIG = {
-        enabled: true, // Mantener en true cuando pegues tus credenciales abajo
-        apiKey: 'TU_GOOGLE_API_KEY_AQUI',
-        calendars: {
-            seeds: 'ID_CALENDARIO_LITTLE_SEEDS@group.calendar.google.com',
-            arboleda: 'ID_CALENDARIO_LA_ARBOLEDA@group.calendar.google.com'
-        }
-    };
-
-    const dynamicCalendarCache = {
-        seeds: null,
-        arboleda: null
-    };
-
-    function escapeHtml(str) {
-        return String(str || '')
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;');
-    }
-
-    function detectTrimesterFromDate(dateObj) {
-        const month = dateObj.getMonth();
-        if (month <= 3) return 'T1';
-        if (month <= 7) return 'T2';
-        return 'T3';
-    }
-
-    function formatSpanishCalendarDate(rawStart) {
-        const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        const dateStr = rawStart.date || rawStart.dateTime;
-        const d = new Date(dateStr.includes('T') ? dateStr : dateStr + 'T12:00:00');
-        return {
-            label: `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`,
-            trim: detectTrimesterFromDate(d)
+           INTEGRACIÓN DINÁMICA CON GOOGLE CALENDAR (CON FOTOS Y TRIMESTRES)
+           ========================================================================== */
+        const GOOGLE_CALENDAR_CONFIG = {
+            enabled: true,
+            apiKey: 'TU_GOOGLE_API_KEY_AQUI',
+            calendars: {
+                seeds: 'ID_CALENDARIO_LITTLE_SEEDS@group.calendar.google.com',
+                arboleda: 'ID_CALENDARIO_LA_ARBOLEDA@group.calendar.google.com'
+            }
         };
-    }
 
-    function extractEventPhotoUrl(ev) {
-        if (Array.isArray(ev.attachments)) {
-            const imgAttachment = ev.attachments.find(att =>
-                (att.mimeType && att.mimeType.startsWith('image/')) ||
-                (att.fileUrl && att.fileUrl.includes('drive.google.com'))
-            );
-            if (imgAttachment) {
-                const match = (imgAttachment.fileId || imgAttachment.fileUrl || '').match(/[-\w]{25,}/);
-                if (match) {
-                    return `https://drive.google.com/thumbnail?id=${match[0]}&sz=w1000`;
+        const dynamicCalendarCache = {
+            seeds: null,
+            arboleda: null
+        };
+
+        function escapeHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function detectTrimesterFromDate(dateObj) {
+            const month = dateObj.getMonth();
+            if (month <= 3) return 'T1';
+            if (month <= 7) return 'T2';
+            return 'T3';
+        }
+
+        function formatSpanishCalendarDate(rawStart) {
+            const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            const dateStr = rawStart.date || rawStart.dateTime;
+            const d = new Date(dateStr.includes('T') ? dateStr : dateStr + 'T12:00:00');
+            return {
+                label: `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`,
+                trim: detectTrimesterFromDate(d)
+            };
+        }
+
+        function extractEventPhotoUrl(ev) {
+            if (Array.isArray(ev.attachments)) {
+                const imgAttachment = ev.attachments.find(att =>
+                    (att.mimeType && att.mimeType.startsWith('image/')) ||
+                    (att.fileUrl && att.fileUrl.includes('drive.google.com'))
+                );
+                if (imgAttachment) {
+                    const match = (imgAttachment.fileId || imgAttachment.fileUrl || '').match(/[-\w]{25,}/);
+                    if (match) {
+                        return `https://drive.google.com/thumbnail?id=${match[0]}&sz=w1000`;
+                    }
                 }
             }
-        }
-        if (ev.description) {
-            const driveMatch = ev.description.match(/https:\/\/drive\.google\.com\/(?:file\/d\/|open\?id=)([-\w]{25,})/);
-            if (driveMatch) {
-                return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1000`;
+            if (ev.description) {
+                const driveMatch = ev.description.match(/https:\/\/drive\.google\.com\/(?:file\/d\/|open\?id=)([-\w]{25,})/);
+                if (driveMatch) {
+                    return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w1000`;
+                }
+                const directImg = ev.description.match(/https?:\/\/[^\s"'<>]+\.(?:jpg|jpeg|png|webp)/i);
+                if (directImg) return directImg[0];
             }
-            const directImg = ev.description.match(/https?:\/\/[^\s"'<>]+\.(?:jpg|jpeg|png|webp)/i);
-            if (directImg) return directImg[0];
-        }
-        return null;
-    }
-
-    function cleanEventDescription(desc) {
-        if (!desc) return 'Actividad programada en nuestro calendario escolar.';
-        return desc
-            .replace(/<[^>]*>/g, ' ')
-            .replace(/https:\/\/drive\.google\.com\/[^\s]+/g, '')
-            .replace(/\s+/g, ' ')
-            .trim();
-    }
-
-    async function fetchGoogleCalendarEvents(instKey) {
-        const calId = GOOGLE_CALENDAR_CONFIG.calendars[instKey];
-        const apiKey = GOOGLE_CALENDAR_CONFIG.apiKey;
-
-        if (!GOOGLE_CALENDAR_CONFIG.enabled || !apiKey || apiKey.includes('TU_GOOGLE') || !calId || calId.includes('ID_CALENDARIO')) {
             return null;
         }
 
-        const timeMin = new Date('2027-01-01T00:00:00Z').toISOString();
-        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calId)}/events?key=${encodeURIComponent(apiKey)}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=50`;
+        function cleanEventDescription(desc) {
+            if (!desc) return 'Actividad programada en nuestro calendario escolar.';
+            return desc
+                .replace(/<[^>]*>/g, ' ')
+                .replace(/https:\/\/drive\.google\.com\/[^\s]+/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
 
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Error al leer Google Calendar');
-        const json = await response.json();
+        async function fetchGoogleCalendarEvents(instKey) {
+            const calId = GOOGLE_CALENDAR_CONFIG.calendars[instKey];
+            const apiKey = GOOGLE_CALENDAR_CONFIG.apiKey;
 
-        return (json.items || []).map(item => {
-            const parsedDate = formatSpanishCalendarDate(item.start);
-            return {
-                trim: parsedDate.trim,
-                date: parsedDate.label,
-                title: item.summary || 'Actividad Escolar',
-                desc: cleanEventDescription(item.description),
-                photo: extractEventPhotoUrl(item)
-            };
-        });
-    }
-
-    function openCalendarEventPhoto(instKey, eventIndex) {
-        const list = dynamicCalendarCache[instKey] || INSTITUTIONS_DATA[instKey].calendar;
-        const ev = list[eventIndex];
-        if (!ev) return;
-
-        openInfoModal(`
-            <span class="cal-date-tag">${ev.date}</span>
-            <h3 style="font-size: 21px; font-weight: 800; margin: 10px 0;">${escapeHtml(ev.title)}</h3>
-            ${ev.photo ? `
-                <div style="margin: 12px 0; border-radius: 14px; overflow: hidden; border: 2px solid #7e22ce; background: #f8fafc;">
-                    <img src="${ev.photo}" alt="${escapeHtml(ev.title)}" style="width: 100%; max-height: 55vh; object-fit: cover; display: block;">
-                </div>
-            ` : ''}
-            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6;">${escapeHtml(ev.desc)}</p>
-        `);
-    }
-
-    async function renderCalendarCards() {
-        const instKey = activeInstitution;
-        const gridEl = document.getElementById('calendar-events-grid');
-        const statusEl = document.getElementById('cal-sync-status');
-
-        let sourceEvents = dynamicCalendarCache[instKey];
-
-        if (!sourceEvents) {
-            if (statusEl && GOOGLE_CALENDAR_CONFIG.enabled && !GOOGLE_CALENDAR_CONFIG.apiKey.includes('TU_GOOGLE')) {
-                statusEl.textContent = '🔄 Sincronizando eventos con Google Calendar...';
+            if (!GOOGLE_CALENDAR_CONFIG.enabled || !apiKey || apiKey.includes('TU_GOOGLE') || !calId || calId.includes('ID_CALENDARIO')) {
+                return null;
             }
-            try {
-                const fetched = await fetchGoogleCalendarEvents(instKey);
-                if (fetched && fetched.length > 0) {
-                    dynamicCalendarCache[instKey] = fetched;
-                    sourceEvents = fetched;
-                    if (statusEl) statusEl.textContent = '✅ Calendario sincronizado en vivo';
-                } else {
+
+            const timeMin = new Date('2027-01-01T00:00:00Z').toISOString();
+            const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calId)}/events?key=${encodeURIComponent(apiKey)}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=50`;
+
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Error al leer Google Calendar');
+            const json = await response.json();
+
+            return (json.items || []).map(item => {
+                const parsedDate = formatSpanishCalendarDate(item.start);
+                return {
+                    trim: parsedDate.trim,
+                    date: parsedDate.label,
+                    title: item.summary || 'Actividad Escolar',
+                    desc: cleanEventDescription(item.description),
+                    photo: extractEventPhotoUrl(item)
+                };
+            });
+        }
+
+        function openCalendarEventPhoto(instKey, eventIndex) {
+            const list = dynamicCalendarCache[instKey] || INSTITUTIONS_DATA[instKey].calendar;
+            const ev = list[eventIndex];
+            if (!ev) return;
+
+            document.getElementById('modal-tag').textContent = ev.date;
+            document.getElementById('modal-title').textContent = ev.title;
+            document.getElementById('modal-body').innerHTML = `
+                ${ev.photo ? `
+                    <div style="margin: 12px 0; border-radius: 14px; overflow: hidden; border: 2px solid var(--primary); background: #f8fafc;">
+                        <img src="${ev.photo}" alt="${escapeHtml(ev.title)}" style="width: 100%; max-height: 55vh; object-fit: cover; display: block;">
+                    </div>
+                ` : ''}
+                <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6;">${escapeHtml(ev.desc)}</p>
+            `;
+            document.getElementById('modal-close-btn').textContent = 'Cerrar evento';
+            document.getElementById('blog-modal').classList.remove('hidden');
+        }
+
+        function openLevelModal(idx) {
+            const data = INSTITUTIONS_DATA[activeInstitution];
+            const lvl = data && data.levels ? data.levels[idx] : null;
+            if (!lvl) return;
+
+            const ageText = lvl.age || lvl.stage || '';
+            const fullText = lvl.longDesc || lvl.detail || lvl.desc || lvl.summary || '';
+
+            document.getElementById('modal-tag').textContent = `${data.name}${ageText ? ' • ' + ageText : ''}`;
+            document.getElementById('modal-title').textContent = lvl.name;
+            document.getElementById('modal-body').innerHTML = `
+                <p style="font-size: 15px; line-height: 1.7; color: var(--text-main); margin-bottom: 18px;">${escapeHtml(fullText)}</p>
+                <button type="button" class="btn-outline" style="width: 100%;" onclick="closeBlogModal(); switchTab('inscripcion');">
+                    Solicitar Inscripción 2027 para este grado →
+                </button>
+            `;
+            document.getElementById('modal-close-btn').textContent = 'Cerrar';
+            document.getElementById('blog-modal').classList.remove('hidden');
+        }
+
+        // =========================================================================
+// LÓGICA DEL MODAL DE ÁREAS: TEXTO ARRIBA + CARRUSEL DE FOTOS ABAJO
+// (Normalmente no necesitas editar aquí; solo agrega fotos/textos en "areas")
+// =========================================================================
+let currentAreaPhotos = [];
+let currentAreaPhotoIndex = 0;
+
+function escapeAreaHtml(str) {
+    return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+function renderAreaModalCarousel() {
+    const holder = document.getElementById('area-modal-carousel-holder');
+    if (!holder || !Array.isArray(currentAreaPhotos) || currentAreaPhotos.length === 0) return;
+
+    const item = currentAreaPhotos[currentAreaPhotoIndex];
+    const src = typeof item === 'string' ? item : (item.src || '');
+    const caption = typeof item === 'string' ? '' : (item.caption || '');
+
+    holder.innerHTML = `
+        <div class="area-carousel-wrap">
+            <div class="area-carousel-stage">
+                <img
+                    src="${escapeAreaHtml(src)}"
+                    alt="${escapeAreaHtml(caption || 'Foto del área')}"
+                    onerror="this.style.display='none'".style.display='none'"
+                >
+                <span class="area-car-badge">${currentAreaPhotoIndex + 1} / ${currentAreaPhotos.length}</span>
+                ${currentAreaPhotos.length > 1 ? `
+                    <button type="button" class="area-car-arrow prev" onclick="stepAreaPhoto(-1)" aria-label="Foto anterior">&#10094;</button>
+                    <button type="button" class="area-car-arrow next" onclick="stepAreaPhoto(1)" aria-label="Foto siguiente">&#10095;</button>
+                ` : ''}
+            </div>
+            <div class="area-carousel-bar">
+                <span class="area-car-caption">${escapeAreaHtml(caption)}</span>
+                <div class="area-car-dots">
+                    ${currentAreaPhotos.map((_, idx) => `
+                        <button
+                            type="button"
+                            class="area-car-dot ${idx === currentAreaPhotoIndex ? 'active' : ''}"
+                            onclick="selectAreaPhoto(${idx})"
+                            aria-label="Ir a foto ${idx + 1}"
+                        ></button>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function stepAreaPhoto(delta) {
+    if (!currentAreaPhotos.length) return;
+    currentAreaPhotoIndex = (currentAreaPhotoIndex + delta + currentAreaPhotos.length) % currentAreaPhotos.length;
+    renderAreaModalCarousel();
+}
+
+function selectAreaPhoto(idx) {
+    if (!currentAreaPhotos.length) return;
+    currentAreaPhotoIndex = idx;
+    renderAreaModalCarousel();
+}
+
+function openAreaModal(idx) {
+    const store = typeof INSTITUTIONS_DATA !== 'undefined' ? INSTITUTIONS_DATA : INSTITUTIONS;
+    const data = store && store[activeInstitution] ? store[activeInstitution] : null;
+    const area = data && Array.isArray(data.areas) ? data.areas[idx] : null;
+    if (!area) return;
+
+    const areaName = typeof area === 'string' ? area : (area.name || 'Área Curricular');
+    const paragraphsList = Array.isArray(area.paragraphs) && area.paragraphs.length > 0
+        ? area.paragraphs
+        : (area.desc ? [area.desc] : []);
+
+    currentAreaPhotos = Array.isArray(area.photos)
+        ? area.photos
+        : (area.image ? [{ src: area.image, caption: areaName }] : []);
+    currentAreaPhotoIndex = 0;
+
+    const instLabel = activeInstitution === 'arboleda'
+        ? 'Colegio Integral La Arboleda'
+        : 'Little Seeds Montessori';
+
+    // 1. Texto arriba
+    const textHtml = `
+        <div class="area-modal-text">
+            ${paragraphsList.map(p => `<p>${p}</p>`).join('')}
+        </div>
+    `;
+
+    // 2. Carrusel hasta abajo del texto
+    const carouselHtml = currentAreaPhotos.length > 0
+        ? '<div id="area-modal-carousel-holder"></div>'
+        : '';
+
+    const fullModalHtml = `
+        <span class="kicker">${instLabel} • Área Curricular</span>
+        <h3 style="font-size: 22px; font-weight: 800; margin: 6px 0 12px;">${escapeAreaHtml(areaName)}</h3>
+        ${textHtml}
+        ${carouselHtml}
+    `;
+
+    if (typeof openInfoModal === 'function') {
+        openInfoModal(fullModalHtml);
+    } else {
+        const bodyEl = document.getElementById('info-modal-content') || document.getElementById('modal-body');
+        const modalEl = document.getElementById('info-modal') || document.getElementById('blog-modal');
+        if (bodyEl && modalEl) {
+            bodyEl.innerHTML = fullModalHtml;
+            modalEl.classList.remove('hidden');
+        }
+    }
+
+    if (currentAreaPhotos.length > 0) {
+        renderAreaModalCarousel();
+    }
+}
+
+        async function renderCalendarCards() {
+            const instKey = activeInstitution;
+            const gridEl = document.getElementById('calendar-events-grid');
+            const statusEl = document.getElementById('cal-sync-status');
+
+            let sourceEvents = dynamicCalendarCache[instKey];
+
+            if (!sourceEvents) {
+                if (statusEl && GOOGLE_CALENDAR_CONFIG.enabled && !GOOGLE_CALENDAR_CONFIG.apiKey.includes('TU_GOOGLE')) {
+                    statusEl.textContent = '🔄 Sincronizando eventos con Google Calendar...';
+                }
+                try {
+                    const fetched = await fetchGoogleCalendarEvents(instKey);
+                    if (fetched && fetched.length > 0) {
+                        dynamicCalendarCache[instKey] = fetched;
+                        sourceEvents = fetched;
+                        if (statusEl) statusEl.textContent = '✅ Calendario sincronizado en vivo';
+                    } else {
+                        sourceEvents = INSTITUTIONS_DATA[instKey].calendar;
+                        if (statusEl) statusEl.textContent = '';
+                    }
+                } catch (err) {
                     sourceEvents = INSTITUTIONS_DATA[instKey].calendar;
                     if (statusEl) statusEl.textContent = '';
                 }
-            } catch (err) {
-                sourceEvents = INSTITUTIONS_DATA[instKey].calendar;
-                if (statusEl) statusEl.textContent = '';
             }
-        }
 
-        const filtered = activeTrimFilter === 'all'
-            ? sourceEvents
-            : sourceEvents.filter(e => e.trim === activeTrimFilter);
+            const filtered = activeTrimFilter === 'all'
+                ? sourceEvents
+                : sourceEvents.filter(e => e.trim === activeTrimFilter);
 
-        if (filtered.length === 0) {
-            gridEl.innerHTML = `
-                <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 32px;">
-                    <p style="font-size: 15px; color: var(--text-muted); font-weight: 700;">No hay actividades programadas para este trimestre todavía.</p>
-                </div>
-            `;
-            return;
-        }
-
-        gridEl.innerHTML = filtered.map((ev) => {
-            const realIndex = sourceEvents.indexOf(ev);
-            return `
-                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <span class="cal-date-tag">${ev.date}</span>
-                        ${ev.photo ? `
-                            <div onclick="openCalendarEventPhoto('${instKey}', ${realIndex})" style="margin: 10px 0 12px; border-radius: 12px; overflow: hidden; border: 2px solid #7e22ce; cursor: pointer; position: relative;">
-                                <img src="${ev.photo}" alt="${escapeHtml(ev.title)}" style="width: 100%; height: 170px; object-fit: cover; display: block;" onerror="this.parentElement.style.display='none'">
-                                <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(15,23,42,0.78); color: #fff; font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 999px;">🔍 Ver foto</span>
-                            </div>
-                        ` : ''}
-                        <h3>${escapeHtml(ev.title)}</h3>
-                        <p>${escapeHtml(ev.desc)}</p>
+            if (filtered.length === 0) {
+                gridEl.innerHTML = `
+                    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 32px;">
+                        <p style="font-size: 15px; color: var(--text-muted); font-weight: 700;">No hay actividades programadas para este trimestre todavía.</p>
                     </div>
-                    ${ev.photo ? `
-                        <button type="button" class="btn-outline" style="margin-top: 14px; width: 100%; padding: 8px 12px; font-size: 12.5px;" onclick="openCalendarEventPhoto('${instKey}', ${realIndex})">Ver detalle y foto</button>
-                    ` : ''}
-                </div>
-            `;
-        }).join('');
-    }
+                `;
+                return;
+            }
+
+            gridEl.innerHTML = filtered.map((ev) => {
+                const realIndex = sourceEvents.indexOf(ev);
+                return `
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <span class="cal-date-tag">${ev.date}</span>
+                            ${ev.photo ? `
+                                <div onclick="openCalendarEventPhoto('${instKey}', ${realIndex})" style="margin: 10px 0 12px; border-radius: 12px; overflow: hidden; border: 2px solid var(--primary); cursor: pointer; position: relative;">
+                                    <img src="${ev.photo}" alt="${escapeHtml(ev.title)}" style="width: 100%; height: 170px; object-fit: cover; display: block;" onerror="this.parentElement.style.display='none'">
+                                    <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(15,23,42,0.78); color: #fff; font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 999px;">🔍 Ver foto</span>
+                                </div>
+                            ` : ''}
+                            <h3>${escapeHtml(ev.title)}</h3>
+                            <p>${escapeHtml(ev.desc)}</p>
+                        </div>
+                        ${ev.photo ? `
+                            <button type="button" class="btn-outline" style="margin-top: 14px; width: 100%; padding: 8px 12px; font-size: 12.5px;" onclick="openCalendarEventPhoto('${instKey}', ${realIndex})">Ver detalle y foto</button>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderCarouselSlide() {
+            const imgEl = document.getElementById('carousel-active-img');
+            const capEl = document.getElementById('carousel-active-caption');
+            const countEl = document.getElementById('carousel-counter');
+            if (!imgEl || !currentModalPhotos.length) return;
+
+            const item = currentModalPhotos[currentCarouselIndex];
+            imgEl.src = item.src;
+            imgEl.alt = item.caption || 'Foto de actividad';
+            if (capEl) capEl.textContent = item.caption || '';
+            if (countEl) countEl.textContent = `${currentCarouselIndex + 1} / ${currentModalPhotos.length}`;
+        }
+
+        function stepBlogCarousel(delta) {
+            if (!currentModalPhotos.length) return;
+            currentCarouselIndex = (currentCarouselIndex + delta + currentModalPhotos.length) % currentModalPhotos.length;
+            renderCarouselSlide();
+        }
 
         function openBlogModal(idx) {
             const post = INSTITUTIONS_DATA[activeInstitution].blog[idx];
-            document.getElementById('modal-tag').textContent = post.tag;
+            if (!post) return;
+
+            document.getElementById('modal-tag').textContent = post.grade ? `${post.tag} • ${post.grade}` : post.tag;
             document.getElementById('modal-title').textContent = post.title;
-            let html = post.paragraphs.map(p => `<p>${p}</p>`).join('');
-            if (post.orderedList) {
-                html += '<ol>' + post.orderedList.map(item => `<li>${item}</li>`).join('') + '</ol>';
-            }
+
+            let html = (post.paragraphs || []).map(p => `<p>${escapeHtml(p)}</p>`).join('');
+            if (Array.isArray(post.orderedList)) {
+    html += '<ol class="blog-modal-list">' + post.orderedList.map(item => {
+        // Formato anterior: solo texto
+        if (typeof item === 'string') {
+            return `<li>${item}</li>`;
+        }
+
+        // Formato nuevo: objeto con text, image (opcional) y caption (opcional)
+        const textPart = item.text ? `<div>${item.text}</div>` : '';
+        const imagePart = item.image ? `
+            <figure style="margin: 10px 0 6px; border-radius: 12px; overflow: hidden; border: 1.5px solid #e2e8f0; background: #f8fafc;">
+                <img src="${escapeHtml(item.image)}"
+                     alt="${escapeHtml(item.caption || '')}"
+                     onerror="this.parentElement.style.display='none'"
+                     style="width: 100%; max-height: 240px; object-fit: cover; display: block;">
+                ${item.caption ? `<figcaption style="padding: 6px 10px; font-size: 12px; color: #64748b;">${escapeHtml(item.caption)}</figcaption>` : ''}
+            </figure>
+        ` : '';
+
+        return `<li>${textPart}${imagePart}</li>`;
+    }).join('') + '</ol>';
+}
             if (post.closingNote) {
-                html += `<p style="font-weight:800; color:var(--primary); margin-top:12px;">${post.closingNote}</p>`;
+                html += `<p style="font-weight:800; color:var(--primary); margin-top:12px;">${escapeHtml(post.closingNote)}</p>`;
             }
+
+            currentModalPhotos = Array.isArray(post.photos) ? post.photos : [];
+            currentCarouselIndex = 0;
+
+            if (currentModalPhotos.length > 0) {
+                const first = currentModalPhotos[0];
+                html += `
+                    <div class="modal-carousel" id="blog-carousel-box">
+                        <div class="modal-carousel-stage">
+                            ${currentModalPhotos.length > 1 ? `<button type="button" class="carousel-nav-btn prev" onclick="stepBlogCarousel(-1)" aria-label="Anterior">‹</button>` : ''}
+                            <img id="carousel-active-img" src="${escapeHtml(first.src)}" alt="${escapeHtml(first.caption || post.title)}" onerror="document.getElementById('blog-carousel-box').style.display='none'">
+                            ${currentModalPhotos.length > 1 ? `<button type="button" class="carousel-nav-btn next" onclick="stepBlogCarousel(1)" aria-label="Siguiente">›</button>` : ''}
+                        </div>
+                        <div class="modal-carousel-footer">
+                            <span id="carousel-active-caption">${escapeHtml(first.caption || '')}</span>
+                            <span id="carousel-counter" style="color: var(--primary);">1 / ${currentModalPhotos.length}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
             document.getElementById('modal-body').innerHTML = html;
+            document.getElementById('modal-close-btn').textContent = 'Cerrar artículo';
             document.getElementById('blog-modal').classList.remove('hidden');
         }
 
         function closeBlogModal() {
             document.getElementById('blog-modal').classList.add('hidden');
+        }
+
+        function renderBlogFilterBar() {
+            const bar = document.getElementById('blog-filter-bar');
+            if (!bar) return;
+
+            const options = BLOG_GRADE_FILTERS[activeInstitution] || ['Todos'];
+            if (!options.includes(activeBlogGradeFilter)) {
+                activeBlogGradeFilter = 'Todos';
+            }
+
+            bar.innerHTML = options.map(grade => `
+                <button
+                    type="button"
+                    class="filter-chip ${activeBlogGradeFilter === grade ? 'active' : ''}"
+                    onclick="filterBlogByGrade('${grade.replace(/'/g, "\\'")}')"
+                >
+                    ${grade}
+                </button>
+            `).join('');
+        }
+
+        function filterBlogByGrade(grade) {
+            activeBlogGradeFilter = grade;
+            renderBlogCards(INSTITUTIONS_DATA[activeInstitution]?.blog || []);
+        }
+
+        function renderBlogCards(posts = []) {
+            const grid = document.getElementById('blog-posts-grid');
+            if (!grid) return;
+
+            renderBlogFilterBar();
+
+            const indexed = posts.map((post, idx) => ({ post, idx }));
+            const filtered = activeBlogGradeFilter === 'Todos'
+                ? indexed
+                : indexed.filter(({ post }) => (post.grade || 'Todos') === activeBlogGradeFilter);
+
+            if (!filtered.length) {
+                grid.innerHTML = `
+                    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 32px;">
+                        <p style="font-size: 15px; color: var(--text-muted); font-weight: 700;">No hay publicaciones para "${escapeHtml(activeBlogGradeFilter)}" todavía.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(({ post, idx }) => `
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span class="kicker">${escapeHtml(post.tag || 'Artículo')}${post.grade ? ' • ' + escapeHtml(post.grade) : ''}</span>
+                        <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">${escapeHtml(post.title)}</h3>
+                        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 16px;">${escapeHtml(post.summary || '')}</p>
+                    </div>
+                    <button type="button" class="btn-outline" style="width: 100%; padding: 9px 14px; font-size: 13px;" onclick="openBlogModal(${idx})">Leer artículo</button>
+                </div>
+            `).join('');
         }
 
         function updateFormGradeOptions() {
@@ -1749,7 +2536,7 @@
         }
 
         function copyLocationText() {
-            const textToCopy = `${INSTITUTIONS_DATA[activeInstitution].name} - 16 Avenida A 1-05, Sector B1, Ciudad San Cristóbal, Zona 8 de Mixco - Tel: (502) 2393-5249 - WhatsApp: +502 5893-6495`;
+            const textToCopy = `${INSTITUTIONS_DATA[activeInstitution].name} - 16 Avenida A 1-05, Sector B1, Ciudad San Cristóbal, Zona 8 de Mixco - Tel: (502) 2393-5249 - WhatsApp: +502 5893 6495`;
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(textToCopy);
             } else {
@@ -1775,6 +2562,25 @@
         window.onload = function() {
             switchInstitution('seeds');
         };
+
+        
     </script>
+
+    <!-- Botón en la sección del Blog -->
+<button type="button" class="btn-outline" onclick="openAppDownloadModal()" style="font-weight: 800;">
+    Descargar App del Blog
+</button>
+
+<!-- Modal de Descarga (Android / iOS + Paso a paso) -->
+<div id="app-download-modal" class="hidden" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 9999;">
+    <div style="background: #ffffff; color: #0f172a; border-radius: 20px; max-width: 480px; width: 100%; padding: 24px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25); position: relative;">
+        <button type="button" onclick="closeAppDownloadModal()" aria-label="Cerrar" style="position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 999px; border: none; background: #f1f5f9; font-weight: 800; cursor: pointer;">
+            ✕
+        </button>
+
+        <div id="app-download-body"></div>
+    </div>
+</div>
+
 </body>
 </html>
