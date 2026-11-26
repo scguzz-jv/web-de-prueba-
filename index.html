@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#1D8FE1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta id="dynamic-apple-title" name="apple-mobile-web-app-title" content="Little Seeds Montessori">
+    <meta id="dynamic-apple-title" name="apple-mobile-web-app-title" content="Little Seeds">
     <link id="dynamic-manifest" rel="manifest" href="">
     <link id="dynamic-apple-icon" rel="apple-touch-icon" href="media/lit.png">
     <title>Little Seeds Montessori &amp; Colegio Integral La Arboleda</title>
@@ -415,6 +415,37 @@
             color: var(--accent);
             border-bottom-color: var(--accent);
             background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* ==========================================================================
+           MODO APP EXCLUSIVA POR COLEGIO (MANTIENE TODA LA WEB DE ESE COLEGIO)
+           ========================================================================== */
+        body.single-school-app #antesalaOverlay,
+        body.single-school-app #antesalaVideoStage,
+        body.single-school-app #bridge-section {
+            display: none !important;
+        }
+        body.single-school-app.app-inst-seeds #selector-arboleda {
+            display: none !important;
+        }
+        body.single-school-app.app-inst-arboleda #selector-seeds {
+            display: none !important;
+        }
+        .single-app-switch-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.22);
+            border: 1.5px solid rgba(255, 255, 255, 0.65);
+            color: #FFFFFF;
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        body.single-school-app .single-app-switch-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
         /* ==========================================================================
@@ -1182,6 +1213,7 @@
                             <img src="media/arb.png" alt="Logo Colegio Integral La Arboleda">
                         </div>
                     </div>
+                    <button type="button" class="single-app-switch-btn" onclick="exitSingleSchoolMode()" title="Mostrar ambos colegios">⇄ Ambos</button>
                 </div>
                 <div class="header-brand-info">
                     <div id="header-brand-title" class="header-title-custom"></div>
@@ -1201,7 +1233,7 @@
                 <li><button class="nav-btn" data-tab="modelo" onclick="switchTab('modelo')">Modelo educativo</button></li>
                 <li><button class="nav-btn" data-tab="blog" onclick="switchTab('blog')">Blog</button></li>
                 <li><button class="nav-btn" data-tab="inscripcion" onclick="switchTab('inscripcion')">Inscripción 2027</button></li>
-                <li><button id="nav-app-web-btn" class="nav-btn" type="button" onclick="openAppDownloadModal()" style="color: var(--accent);">📲 Descargar App</button></li>
+                <li><button id="nav-app-blog-btn" class="nav-btn" type="button" onclick="openAppDownloadModal()" style="color: var(--accent);">📲 Descargar App</button></li>
             </ul>
         </nav>
     </header>
@@ -1224,7 +1256,7 @@
                             <button class="btn-main" onclick="switchTab('niveles')">Explorar Niveles y Clases</button>
                             <button class="btn-outline" onclick="switchTab('inscripcion')">Inscripción 2027</button>
                             <button class="btn-outline" onclick="document.getElementById('contacto-inicio').scrollIntoView({behavior:'smooth'})">Contactos y Ubicación</button>
-                            <button id="hero-app-web-btn" type="button" class="btn-outline" onclick="openAppDownloadModal()">📲 Descargar App</button>
+                            <button id="hero-app-blog-btn" type="button" class="btn-outline" onclick="openAppDownloadModal()">📲 Descargar App</button>
                         </div>
                     </div>
                 </div>
@@ -1259,7 +1291,7 @@
         </section>
 
         <!-- Continuidad Educativa -->
-        <section class="page-section" style="padding-top: 0;">
+        <section id="bridge-section" class="page-section" style="padding-top: 0;">
             <div class="container">
                 <div class="bridge-card">
                     <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
@@ -1285,7 +1317,7 @@
                     <div class="card">
                         <div class="icon-circle">📍</div>
                         <h3>Canales de Atención</h3>
-                        <p style="margin-bottom: 16px;">Atendemos familias interesadas tanto en <strong>Little Seeds Montessori</strong> como en <strong>Colegio Integral La Arboleda</strong>.</p>
+                        <p id="contact-card-desc" style="margin-bottom: 16px;">Atendemos familias interesadas en <strong>Little Seeds Montessori</strong>.</p>
                         <div style="display: flex; flex-direction: column; gap: 11px; font-size: 14px;">
                             <div style="padding: 12px 14px; border-radius: 13px; background: rgba(53, 194, 214, 0.18); border: 2px solid var(--primary);">
                                 <strong>Teléfono:</strong> <a href="tel:+50223935249" style="color: var(--primary); font-weight: 800; text-decoration: none;">(502) 2393-5249</a>
@@ -1474,7 +1506,7 @@
     </section>
 
     <!-- ==========================================================================
-         MODAL DE DESCARGA APP WEB COMPLETA (ANDROID E IOS)
+         MODAL DE DESCARGA APP WEB COMPLETA (ANDROID E IOS POR COLEGIO)
          ========================================================================== -->
     <div id="app-download-modal" class="hidden" onclick="if(event.target===this) closeAppDownloadModal()">
         <div class="app-download-card">
@@ -1490,7 +1522,7 @@
     <footer>
         <div class="container footer-grid">
             <div>
-                <div style="font-size: 16px; font-weight: 900; color: #FFFFFF;">Little Seeds Montessori &amp; Colegio Integral La Arboleda</div>
+                <div id="footer-brand-name" style="font-size: 16px; font-weight: 900; color: #FFFFFF;">Little Seeds Montessori &amp; Colegio Integral La Arboleda</div>
                 <div style="font-size: 13px; color: #CBD5E1; margin-top: 4px;">16 Avenida A 1-05, Sector B1, Ciudad San Cristóbal, Zona 8 de Mixco • © 2027</div>
             </div>
             <div class="footer-links">
@@ -1503,27 +1535,32 @@
 
     <script>
         /* ==========================================================================
-           DETECCIÓN DE INSTITUCIÓN INICIAL (SIEMPRE ABRE LA PÁGINA WEB COMPLETA)
+           DETECCIÓN DE APP POR COLEGIO (?app=web&inst=seeds|arboleda)
+           Cada app muestra la PÁGINA WEB COMPLETA únicamente del colegio elegido.
            ========================================================================== */
         const INITIAL_PARAMS = new URLSearchParams(window.location.search);
-        const SAVED_WEB_INST = (() => {
+        const APP_MODE_PARAM = INITIAL_PARAMS.get('app');
+        const IS_SINGLE_SCHOOL_APP = APP_MODE_PARAM === 'web' || APP_MODE_PARAM === 'blog';
+        const SAVED_APP_INST = (() => {
             const qInst = INITIAL_PARAMS.get('inst');
             if (qInst === 'seeds' || qInst === 'arboleda') return qInst;
             try {
-                const st = localStorage.getItem('web_app_last_inst');
+                const st = localStorage.getItem('school_app_last_inst');
                 if (st === 'seeds' || st === 'arboleda') return st;
             } catch (e) {}
             return 'seeds';
         })();
 
-        // Limpiar parámetros viejos (?app=blog) si alguien entra con un enlace anterior
-        if (INITIAL_PARAMS.has('app')) {
-            try {
-                const cleanUrl = new URL(window.location.href);
-                cleanUrl.searchParams.delete('app');
-                window.history.replaceState({}, '', cleanUrl.toString());
-            } catch (e) {}
+        function applySingleSchoolAppClasses(instKey) {
+            document.body.classList.remove('app-inst-seeds', 'app-inst-arboleda');
+            if (IS_SINGLE_SCHOOL_APP) {
+                document.body.classList.add('single-school-app', `app-inst-${instKey}`);
+            } else {
+                document.body.classList.remove('single-school-app');
+            }
         }
+
+        applySingleSchoolAppClasses(SAVED_APP_INST);
 
         let enterMainSiteHandler = null;
 
@@ -1539,9 +1576,7 @@
             const videoPlayer = document.getElementById('anteVideoPlayer');
             const btnCerrarVideo = document.getElementById('btnCerrarVideo');
 
-            // Si ya se abrió desde el ícono instalado en pantalla de inicio (standalone), ir directo a la web completa
-            const isStandaloneApp = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-            if (isStandaloneApp) {
+            if (IS_SINGLE_SCHOOL_APP) {
                 if (overlay) overlay.remove();
                 if (videoStage) videoStage.remove();
                 return;
@@ -1943,7 +1978,7 @@
             }
         };
 
-        let activeInstitution = SAVED_WEB_INST;
+        let activeInstitution = SAVED_APP_INST;
         let activeTab = 'inicio';
         let activeTrimFilter = 'all';
         let mapZoomLevel = 1;
@@ -1967,13 +2002,18 @@
             activeInstitution = instKey === 'arboleda' ? 'arboleda' : 'seeds';
             activeBlogGradeFilter = 'Todos';
             try {
-                localStorage.setItem('web_app_last_inst', activeInstitution);
+                localStorage.setItem('school_app_last_inst', activeInstitution);
             } catch (e) {}
 
             const data = INSTITUTIONS_DATA[activeInstitution];
             const isArb = activeInstitution === 'arboleda';
 
             document.body.classList.toggle('theme-arboleda', isArb);
+            if (document.body.classList.contains('single-school-app')) {
+                document.body.classList.remove('app-inst-seeds', 'app-inst-arboleda');
+                document.body.classList.add(`app-inst-${activeInstitution}`);
+            }
+
             document.getElementById('selector-seeds').classList.toggle('is-active', !isArb);
             document.getElementById('selector-arboleda').classList.toggle('is-active', isArb);
 
@@ -1993,6 +2033,20 @@
             document.getElementById('bridge-title').textContent = data.bridgeTitle;
             document.getElementById('bridge-text').textContent = data.bridgeText;
             document.getElementById('bridge-btn').textContent = data.bridgeBtn;
+
+            const contactDescEl = document.getElementById('contact-card-desc');
+            if (contactDescEl) {
+                contactDescEl.innerHTML = document.body.classList.contains('single-school-app')
+                    ? `Atendemos familias interesadas en <strong>${escapeHtml(data.name)}</strong>.`
+                    : `Atendemos familias interesadas tanto en <strong>Little Seeds Montessori</strong> como en <strong>Colegio Integral La Arboleda</strong>.`;
+            }
+
+            const footerNameEl = document.getElementById('footer-brand-name');
+            if (footerNameEl) {
+                footerNameEl.textContent = document.body.classList.contains('single-school-app')
+                    ? data.name
+                    : 'Little Seeds Montessori & Colegio Integral La Arboleda';
+            }
 
             document.getElementById('map-inst-label').textContent = data.name;
 
@@ -2056,10 +2110,21 @@
             document.getElementById('blog-title').innerHTML = buildBlogTitleHtml(activeInstitution);
             renderBlogCards(data.blog);
 
-            document.getElementById('form-inst').value = activeInstitution;
+            const formInstSelect = document.getElementById('form-inst');
+            if (formInstSelect) {
+                if (document.body.classList.contains('single-school-app')) {
+                    formInstSelect.innerHTML = `<option value="${activeInstitution}">${escapeHtml(data.name)}</option>`;
+                } else {
+                    formInstSelect.innerHTML = `
+                        <option value="seeds">Little Seeds Montessori</option>
+                        <option value="arboleda">Colegio Integral La Arboleda</option>
+                    `;
+                }
+                formInstSelect.value = activeInstitution;
+            }
             updateFormGradeOptions();
 
-            updateWebAppBrandingForInstitution(activeInstitution);
+            updateSchoolAppBranding(activeInstitution);
         }
 
         function toggleOtherInstitution() {
@@ -2568,19 +2633,20 @@
         }
 
         /* ==========================================================================
-           APP WEB COMPLETA INSTALABLE EN ANDROID E IOS
-           (ABRE TODA LA PÁGINA WEB DENTRO DE LA APP EN PANTALLA COMPLETA)
+           APP WEB COMPLETA E INDEPENDIENTE POR COLEGIO
+           (INSTALA LITTLE SEEDS, LA ARBOLEDA O AMBAS POR SEPARADO)
            ========================================================================== */
-        const WEB_APP_PROFILES = {
+        const SCHOOL_APP_PROFILES = {
             seeds: {
                 key: 'seeds',
                 id: 'app-web-little-seeds',
                 name: 'Little Seeds Montessori',
-                appName: 'Little Seeds Montessori',
+                appName: 'Little Seeds',
                 shortName: 'Little Seeds',
                 logo: 'media/lit.png',
                 themeColor: '#1D8FE1',
-                bgColor: '#DDF5FA'
+                bgColor: '#DDF5FA',
+                accentColor: '#16a34a'
             },
             arboleda: {
                 key: 'arboleda',
@@ -2590,18 +2656,20 @@
                 shortName: 'La Arboleda',
                 logo: 'media/arb.png',
                 themeColor: '#006A7A',
-                bgColor: '#DCECE2'
+                bgColor: '#DCECE2',
+                accentColor: '#006A7A'
             }
         };
 
         let deferredInstallPrompt = null;
         let currentManifestBlobUrl = null;
 
-        function getWebAppConfig(instKey = activeInstitution) {
+        function getSchoolAppConfig(instKey = activeInstitution) {
             const key = instKey === 'arboleda' ? 'arboleda' : 'seeds';
-            const profile = WEB_APP_PROFILES[key];
+            const profile = SCHOOL_APP_PROFILES[key];
             const baseUrl = `${window.location.origin}${window.location.pathname}`;
             const url = new URL(baseUrl);
+            url.searchParams.set('app', 'web');
             url.searchParams.set('inst', key);
             return {
                 ...profile,
@@ -2611,9 +2679,9 @@
             };
         }
 
-        function setupDynamicWebAppManifest(instKey = activeInstitution) {
+        function setupDynamicSchoolManifest(instKey = activeInstitution) {
             try {
-                const cfg = getWebAppConfig(instKey);
+                const cfg = getSchoolAppConfig(instKey);
 
                 const themeMeta = document.querySelector('meta[name="theme-color"]');
                 if (themeMeta) themeMeta.setAttribute('content', cfg.themeColor);
@@ -2624,11 +2692,15 @@
                 const appleIconLink = document.getElementById('dynamic-apple-icon') || document.querySelector('link[rel="apple-touch-icon"]');
                 if (appleIconLink) appleIconLink.setAttribute('href', cfg.logo);
 
+                if (document.body.classList.contains('single-school-app')) {
+                    document.title = cfg.name;
+                }
+
                 const manifestObj = {
                     id: cfg.id,
-                    name: 'Little Seeds Montessori & Colegio Integral La Arboleda',
-                    short_name: cfg.appName,
-                    description: 'Portal educativo completo: Inicio, Niveles, Calendario, Modelo educativo, Blog e Inscripción 2027.',
+                    name: cfg.name,
+                    short_name: cfg.shortName,
+                    description: `Portal oficial de ${cfg.name}.`,
                     start_url: cfg.appUrl,
                     scope: cfg.baseUrl,
                     display: 'standalone',
@@ -2659,18 +2731,18 @@
             }
         }
 
-        function updateWebAppBrandingForInstitution(instKey = activeInstitution) {
-            const cfg = getWebAppConfig(instKey);
-            setupDynamicWebAppManifest(cfg.key);
+        function updateSchoolAppBranding(instKey = activeInstitution) {
+            const cfg = getSchoolAppConfig(instKey);
+            setupDynamicSchoolManifest(cfg.key);
 
-            const navBtn = document.getElementById('nav-app-web-btn');
-            if (navBtn) navBtn.textContent = '📲 Descargar App';
+            const navBtn = document.getElementById('nav-app-blog-btn');
+            if (navBtn) navBtn.textContent = `📲 App ${cfg.shortName}`;
 
-            const heroBtn = document.getElementById('hero-app-web-btn');
-            if (heroBtn) heroBtn.textContent = '📲 Descargar App';
+            const heroBtn = document.getElementById('hero-app-blog-btn');
+            if (heroBtn) heroBtn.textContent = `📲 Descargar App ${cfg.shortName}`;
 
             const blogBtn = document.getElementById('blog-app-download-btn');
-            if (blogBtn) blogBtn.textContent = '📲 Descargar App Web';
+            if (blogBtn) blogBtn.textContent = `📲 Descargar App ${cfg.shortName}`;
 
             const modal = document.getElementById('app-download-modal');
             if (modal && !modal.classList.contains('hidden')) {
@@ -2684,40 +2756,51 @@
         });
 
         async function triggerAndroidInstall() {
-            const cfg = getWebAppConfig(activeInstitution);
-            setupDynamicWebAppManifest(cfg.key);
+            const cfg = getSchoolAppConfig(activeInstitution);
+            setupDynamicSchoolManifest(cfg.key);
             if (deferredInstallPrompt) {
                 deferredInstallPrompt.prompt();
                 const choice = await deferredInstallPrompt.userChoice;
                 deferredInstallPrompt = null;
                 if (choice && choice.outcome === 'accepted') {
                     closeAppDownloadModal();
-                    showToast('✅ Aplicación instalada en tu dispositivo');
+                    showToast(`✅ App de ${cfg.name} instalada en tu dispositivo`);
                     return;
                 }
             }
-            showToast('📲 Toca los tres puntos (⋮) de Chrome → "Instalar aplicación"');
+            window.location.href = cfg.appUrl;
+        }
+
+        function openSingleSchoolPreview() {
+            const cfg = getSchoolAppConfig(activeInstitution);
+            closeAppDownloadModal();
+            document.body.classList.add('single-school-app');
+            switchInstitution(cfg.key);
+            switchTab('inicio');
+            showToast(`📱 Vista de la App ${cfg.name} activada`);
+        }
+
+        function exitSingleSchoolMode() {
+            document.body.classList.remove('single-school-app', 'app-inst-seeds', 'app-inst-arboleda');
+            document.title = 'Little Seeds Montessori & Colegio Integral La Arboleda';
+            const url = new URL(window.location.href);
+            url.searchParams.delete('app');
+            url.searchParams.delete('inst');
+            window.history.replaceState({}, '', url.toString());
+            switchInstitution(activeInstitution);
+            switchTab('inicio');
+            showToast('🌐 Mostrando ambos colegios');
         }
 
         function selectInstitutionFromAppModal(instKey) {
             switchInstitution(instKey);
-            try {
-                const url = new URL(window.location.href);
-                url.searchParams.set('inst', instKey);
-                window.history.replaceState({}, '', url.toString());
-            } catch (e) {}
             renderAppPlatformSelector();
         }
 
         function openAppDownloadModal() {
             const modal = document.getElementById('app-download-modal');
             if (!modal) return;
-            updateWebAppBrandingForInstitution(activeInstitution);
-            try {
-                const url = new URL(window.location.href);
-                url.searchParams.set('inst', activeInstitution);
-                window.history.replaceState({}, '', url.toString());
-            } catch (e) {}
+            updateSchoolAppBranding(activeInstitution);
             modal.classList.remove('hidden');
             renderAppPlatformSelector();
         }
@@ -2732,7 +2815,7 @@
             const body = document.getElementById('app-download-body');
             if (!body) return;
 
-            const cfg = getWebAppConfig(activeInstitution);
+            const cfg = getSchoolAppConfig(activeInstitution);
             const isSeeds = activeInstitution !== 'arboleda';
 
             body.innerHTML = `
@@ -2755,12 +2838,12 @@
                     </div>
                 </div>
                 <h3 style="font-size: 19px; font-weight: 900; margin: 4px 0 8px;">
-                    Instalar App en tu teléfono
+                    Instalar App de ${escapeHtml(cfg.shortName)}
                 </h3>
                 <p style="font-size: 13.5px; color: #475569; margin-bottom: 16px;">
-                    Instala la <strong>página web completa</strong> (Inicio, Niveles, Calendario, Modelo educativo, Blog e Inscripción 2027) como aplicación en pantalla completa. Elige tu dispositivo:
+                    Se instalará la aplicación web completa (Inicio, Niveles, Calendario, Modelo educativo, Blog e Inscripción) dedicada únicamente a <strong>${escapeHtml(cfg.name)}</strong>. También puedes instalar la del otro colegio por separado. Elige tu dispositivo:
                 </p>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
                     <button type="button" onclick="renderAppSteps('android')" style="padding: 16px 12px; border-radius: 16px; border: 2.5px solid #16a34a; background: #f0fdf4; color: #14532d; font-weight: 900; font-size: 15px; cursor: pointer;">
                         🤖 Android
                     </button>
@@ -2768,6 +2851,9 @@
                         🍎 iOS (iPhone / iPad)
                     </button>
                 </div>
+                <button type="button" onclick="openSingleSchoolPreview()" class="btn-outline" style="width: 100%; font-size: 13px; padding: 10px 14px;">
+                    👀 Ver vista previa de la App ${escapeHtml(cfg.shortName)} aquí
+                </button>
             `;
         }
 
@@ -2775,45 +2861,44 @@
             const body = document.getElementById('app-download-body');
             if (!body) return;
 
-            const cfg = getWebAppConfig(activeInstitution);
+            const cfg = getSchoolAppConfig(activeInstitution);
             const isAndroid = platform === 'android';
             const title = isAndroid
-                ? 'Instalar App en Android'
-                : 'Instalar App en iOS (iPhone / iPad)';
+                ? `Instalar ${cfg.shortName} en Android`
+                : `Instalar ${cfg.shortName} en iOS`;
             const badgeColor = isAndroid ? '#16a34a' : '#1d8fe1';
 
-            // Asegurar que la URL actual tenga ?inst= correcto para Safari en iOS
-            try {
-                const url = new URL(window.location.href);
-                url.searchParams.delete('app');
-                url.searchParams.set('inst', cfg.key);
-                window.history.replaceState({}, '', url.toString());
-            } catch (e) {}
+            if (!isAndroid) {
+                try {
+                    window.history.replaceState({}, '', cfg.appUrl);
+                } catch (e) {}
+            }
 
             const stepsHtml = isAndroid
                 ? `
                     <ol style="padding-left: 20px; margin: 0 0 18px; font-size: 14px; line-height: 1.65; color: #334155;">
-                        <li>Toca el botón verde <strong>"Instalar App ahora"</strong> de abajo (o acepta el aviso automático de Chrome).</li>
+                        <li>Toca el botón verde <strong>"Instalar / Abrir App ${escapeHtml(cfg.shortName)}"</strong> de abajo para cargar toda la página web dedicada a <strong>${escapeHtml(cfg.name)}</strong>.</li>
+                        <li>Si aparece el aviso automático <em>"Instalar aplicación"</em>, toca <strong>Instalar</strong>.</li>
                         <li>Si no aparece automático, toca los <strong>tres puntos (⋮)</strong> arriba a la derecha en Chrome y elige <strong>Instalar aplicación</strong> o <strong>Agregar a la pantalla principal</strong>.</li>
-                        <li>¡Listo! Se creará el ícono en tu pantalla de inicio y abrirá toda la página web en modo aplicación.</li>
+                        <li>¡Listo! Tendrás el ícono oficial de <strong>${escapeHtml(cfg.shortName)}</strong> con toda la web adentro.</li>
                     </ol>
                 `
                 : `
                     <ol style="padding-left: 20px; margin: 0 0 18px; font-size: 14px; line-height: 1.65; color: #334155;">
-                        <li>Asegúrate de tener esta página abierta en <strong>Safari</strong>.</li>
-                        <li>En la barra inferior (o superior en iPad) de Safari, toca el ícono <strong>Compartir</strong> (el cuadro con una flecha hacia arriba ⬆️).</li>
+                        <li>Toca el botón azul <strong>"Preparar App ${escapeHtml(cfg.shortName)} en Safari"</strong> de abajo (o abre este enlace en <strong>Safari</strong>).</li>
+                        <li>En la barra inferior de Safari, toca el ícono <strong>Compartir</strong> (el cuadro con una flecha hacia arriba ⬆️).</li>
                         <li>Desliza hacia abajo en el menú y selecciona <strong>Agregar a inicio</strong>.</li>
-                        <li>Toca <strong>Agregar</strong> arriba a la derecha. ¡Listo! El ícono abrirá toda la página web en pantalla completa como una app.</li>
+                        <li>Toca <strong>Agregar</strong> arriba a la derecha. ¡Listo! Se guardará toda la página web de <strong>${escapeHtml(cfg.shortName)}</strong> como una app en tu iPhone o iPad.</li>
                     </ol>
                 `;
 
             const primaryActionBtn = isAndroid
                 ? `<button type="button" onclick="triggerAndroidInstall()" style="width: 100%; padding: 13px 16px; border-radius: 13px; border: none; background: ${badgeColor}; color: #ffffff; font-weight: 800; cursor: pointer; font-size: 14.5px;">
-                        📲 Instalar App ahora
+                        📲 Instalar / Abrir App ${escapeHtml(cfg.shortName)}
                    </button>`
-                : `<button type="button" onclick="closeAppDownloadModal(); showToast('⬆️ Toca Compartir en Safari → Agregar a inicio');" style="width: 100%; padding: 13px 16px; border-radius: 13px; border: none; background: ${badgeColor}; color: #ffffff; font-weight: 800; cursor: pointer; font-size: 14.5px;">
-                        ✅ Entendido, agregar a inicio en Safari
-                   </button>`;
+                : `<a href="${escapeHtml(cfg.appUrl)}" style="display: block; text-align: center; padding: 13px 16px; border-radius: 13px; background: ${badgeColor}; color: #ffffff; font-weight: 800; text-decoration: none; font-size: 14.5px;">
+                        📲 Preparar App ${escapeHtml(cfg.shortName)} en Safari
+                   </a>`;
 
             body.innerHTML = `
                 <div class="app-school-badge">
@@ -2829,6 +2914,9 @@
                 ${stepsHtml}
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     ${primaryActionBtn}
+                    <button type="button" onclick="openSingleSchoolPreview()" style="padding: 10px 14px; border-radius: 12px; border: 1.5px solid var(--primary); background: #f8fafc; color: var(--primary); font-weight: 800; cursor: pointer; font-size: 13px;">
+                        👀 Probar vista App ${escapeHtml(cfg.shortName)} ahora mismo
+                    </button>
                     <button type="button" onclick="renderAppPlatformSelector()" style="padding: 10px 14px; border-radius: 12px; border: 1px solid #cbd5e1; background: #ffffff; color: #334155; font-weight: 700; cursor: pointer; font-size: 13px;">
                         ← Cambiar colegio o plataforma (Android / iOS)
                     </button>
@@ -2837,7 +2925,8 @@
         }
 
         window.addEventListener('DOMContentLoaded', function() {
-            switchInstitution(SAVED_WEB_INST);
+            switchInstitution(SAVED_APP_INST);
+            switchTab('inicio');
         });
     </script>
 </body>
