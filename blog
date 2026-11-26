@@ -1,0 +1,46 @@
+modo texto arriba y carrusel
+{
+    grade: 'Kinder',
+    tag: 'Actividad del Día',
+    title: 'Exploración y salto en el patio',
+    summary: 'Una jornada llena de movimiento y alegría.',
+    paragraphs: [
+        'Hoy realizamos una actividad dinámica donde los niños trabajaron coordinación, escucha y confianza en sí mismos.',
+        'Cada momento nos permitió acompañar su ritmo natural de aprendizaje y celebrar sus avances.'
+    ],
+    photos: [
+        { src: 'media/actividad-1.webp', caption: 'Inicio de la actividad en grupo' },
+        { src: 'media/actividad-2.webp', caption: 'Circuito de salto y equilibrio' },
+        { src: 'media/actividad-3.webp', caption: 'Cierre y celebración del equipo' }
+    ],
+    closingNote: 'Aprender jugando fortalece su seguridad cada día.'
+}
+
+modo texto, imagen,texto,imagen
+{
+    grade: 'Maternal 1 y 2',
+    tag: 'Autoestima',
+    title: '5 formas de fomentar la autonomía en casa',
+    summary: 'Pequeños ajustes que ayudan a ganar seguridad.',
+    paragraphs: [
+        'Aquí va una breve introducción antes de intercalar texto y foto.'
+    ],
+    orderedList: [
+        {
+            text: '<strong>Poner sus cosas a su alcance.</strong> Coloca sus zapatos, juguetes o su vaso en un lugar bajo para que pueda tomarlos y guardarlos por sí mismo.',
+            image: 'media/autonomia-1.webp',
+            caption: 'Estante bajo a la altura del niño'
+        },
+        {
+            text: '<strong>Darle tiempo para vestirse.</strong> Anímalo a ponerse los zapatos o la chaqueta sin prisa.',
+            image: 'media/autonomia-2.webp',
+            caption: 'Practicando ponerse los zapatos'
+        },
+        {
+            text: '<strong>Ofrecerle dos opciones.</strong> Pregúntale «¿Prefieres la camiseta azul o la verde?».',
+            image: 'media/autonomia-3.webp',
+            caption: 'Tomando decisiones sencillas'
+        }
+    ],
+    closingNote: 'El niño que descubre todo lo que puede hacer por sí mismo.'
+}
