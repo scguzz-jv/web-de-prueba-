@@ -1526,6 +1526,8 @@
             document.body.classList.add('blog-app-mode');
         }
 
+        let enterMainSiteHandler = null;
+
         /* ==========================================================================
            CONTROL DE ANTESALA LIQUID GLASS Y VIDEO (ante.mp4)
            ========================================================================== */
@@ -1562,33 +1564,55 @@
             }
 
             function enterMainSite() {
-                videoPlayer.pause();
-                videoStage.classList.remove('is-playing');
+                if (videoPlayer) videoPlayer.pause();
+                if (videoStage) videoStage.classList.remove('is-playing');
                 overlay.classList.add('fade-out');
                 setTimeout(() => {
-                    overlay.remove();
-                    videoStage.remove();
+                    if (overlay && overlay.parentNode) overlay.remove();
+                    if (videoStage && videoStage.parentNode) videoStage.remove();
                 }, 520);
             }
 
+            enterMainSiteHandler = enterMainSite;
+
             btnBienvenidos.addEventListener('click', () => {
-                glassPanel.classList.add('panel-hidden');
-                videoStage.classList.add('is-playing');
-                videoPlayer.muted = false;
-                videoPlayer.currentTime = 0;
-                const playPromise = videoPlayer.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(() => {
-                        videoPlayer.muted = true;
-                        videoPlayer.play().catch(enterMainSite);
-                    });
+                if (glassPanel) glassPanel.classList.add('panel-hidden');
+                if (videoStage) videoStage.classList.add('is-playing');
+                if (videoPlayer) {
+                    videoPlayer.muted = false;
+                    videoPlayer.currentTime = 0;
+                    const playPromise = videoPlayer.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(() => {
+                            videoPlayer.muted = true;
+                            videoPlayer.play().catch(enterMainSite);
+                        });
+                    }
+                } else {
+                    enterMainSite();
                 }
             });
 
-            videoPlayer.addEventListener('ended', enterMainSite);
-            videoPlayer.addEventListener('error', enterMainSite);
-            btnCerrarVideo.addEventListener('click', enterMainSite);
+            if (videoPlayer) {
+                videoPlayer.addEventListener('ended', enterMainSite);
+                videoPlayer.addEventListener('error', enterMainSite);
+            }
+            if (btnCerrarVideo) {
+                btnCerrarVideo.addEventListener('click', enterMainSite);
+            }
         })();
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const videoStage = document.getElementById('antesalaVideoStage');
+                if (videoStage && videoStage.classList.contains('is-playing') && typeof enterMainSiteHandler === 'function') {
+                    enterMainSiteHandler();
+                    return;
+                }
+                closeBlogModal();
+                closeAppDownloadModal();
+            }
+        });
 
         /* ==========================================================================
            DATOS DE LITTLE SEEDS MONTESSORI & COLEGIO INTEGRAL LA ARBOLEDA
@@ -1911,7 +1935,7 @@
                         title: 'Despertando la curiosidad científica',
                         summary: 'Aprender haciendo mediante experimentos.',
                         paragraphs: [
-                            'Combinamos exploración natural con retos lógicos para que cada estudiante observe, formule preguntas y resuelva problemas en equipo.'
+                            'Combinamos exploración natural con retos lógicos para que cada niño observe, formule preguntas y resuelva problemas en equipo.'
                         ]
                     }
                 ]
@@ -2039,7 +2063,8 @@
         function switchTab(tabId) {
             activeTab = tabId;
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            const target = document.getElementById('tab-' + tabId);
+            if (target) target.classList.remove('hidden');
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
             });
@@ -2283,7 +2308,7 @@
             document.getElementById('modal-title').textContent = areaName;
             document.getElementById('modal-body').innerHTML = `
                 <div class="area-modal-text">
-                    ${paragraphsList.map(p => `<p>${p}</p>`).join('')}
+                    ${paragraphsList.map(p => `<p>${escapeHtml(p)}</p>`).join('')}
                 </div>
                 ${currentAreaPhotos.length > 0 ? '<div id="area-modal-carousel-holder"></div>' : ''}
             `;
@@ -2340,10 +2365,10 @@
                 return `
                     <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
                         <div>
-                            <span class="cal-date-tag">${ev.date}</span>
+                            <span class="cal-date-tag">${escapeHtml(ev.date)}</span>
                             ${ev.photo ? `
                                 <div onclick="openCalendarEventPhoto('${instKey}', ${realIndex})" style="margin: 10px 0 12px; border-radius: 12px; overflow: hidden; border: 2px solid var(--primary); cursor: pointer; position: relative;">
-                                    <img src="${ev.photo}" alt="${escapeHtml(ev.title)}" style="width: 100%; height: 170px; object-fit: cover; display: block;" onerror="this.parentElement.style.display='none'">
+                                    <img src="${escapeHtml(ev.photo)}" alt="${escapeHtml(ev.title)}" style="width: 100%; height: 170px; object-fit: cover; display: block;" onerror="this.parentElement.style.display='none'">
                                     <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(15,23,42,0.78); color: #fff; font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 999px;">🔍 Ver foto</span>
                                 </div>
                             ` : ''}
@@ -2388,7 +2413,7 @@
             if (Array.isArray(post.orderedList)) {
                 html += '<ol class="blog-modal-list">' + post.orderedList.map(item => {
                     if (typeof item === 'string') {
-                        return `<li>${item}</li>`;
+                        return `<li>${escapeHtml(item)}</li>`;
                     }
                     const textPart = item.text ? `<div>${item.text}</div>` : '';
                     const imagePart = item.image ? `
@@ -2433,7 +2458,8 @@
         }
 
         function closeBlogModal() {
-            document.getElementById('blog-modal').classList.add('hidden');
+            const modal = document.getElementById('blog-modal');
+            if (modal) modal.classList.add('hidden');
         }
 
         function renderBlogFilterBar() {
@@ -2451,7 +2477,7 @@
                     class="filter-chip ${activeBlogGradeFilter === grade ? 'active' : ''}"
                     onclick="filterBlogByGrade('${grade.replace(/'/g, "\\'")}')"
                 >
-                    ${grade}
+                    ${escapeHtml(grade)}
                 </button>
             `).join('');
         }
@@ -2496,17 +2522,19 @@
         function updateFormGradeOptions() {
             const inst = document.getElementById('form-inst').value;
             const grades = INSTITUTIONS_DATA[inst].grades;
-            document.getElementById('form-grade').innerHTML = grades.map(g => `<option value="${g}">${g}</option>`).join('');
+            document.getElementById('form-grade').innerHTML = grades.map(g => `<option value="${escapeHtml(g)}">${escapeHtml(g)}</option>`).join('');
         }
 
         function submitAdmissionForm(e) {
             e.preventDefault();
             const student = document.getElementById('form-student').value.trim();
-            const instName = INSTITUTIONS_DATA[document.getElementById('form-inst').value].name;
+            const instKey = document.getElementById('form-inst').value;
+            const instName = INSTITUTIONS_DATA[instKey].name;
             const grade = document.getElementById('form-grade').value;
             document.getElementById('form-feedback').textContent = `✅ Solicitud recibida para ${student} (${instName} - ${grade}). Nos comunicaremos pronto.`;
             showToast('✅ Solicitud de inscripción 2027 registrada');
             e.target.reset();
+            document.getElementById('form-inst').value = instKey;
             updateFormGradeOptions();
         }
 
@@ -2533,6 +2561,7 @@
         let toastTimer = null;
         function showToast(msg) {
             const toast = document.getElementById('appToast');
+            if (!toast) return;
             toast.textContent = msg;
             toast.classList.remove('hidden');
             if (toastTimer) clearTimeout(toastTimer);
@@ -2689,7 +2718,7 @@
                 ? `<button type="button" onclick="triggerAndroidInstall()" style="width: 100%; padding: 13px 16px; border-radius: 13px; border: none; background: ${badgeColor}; color: #ffffff; font-weight: 800; cursor: pointer; font-size: 14.5px;">
                         📲 Instalar / Abrir App Blog en Android
                    </button>`
-                : `<a href="${blogAppUrl}" style="display: block; text-align: center; padding: 13px 16px; border-radius: 13px; background: ${badgeColor}; color: #ffffff; font-weight: 800; text-decoration: none; font-size: 14.5px;">
+                : `<a href="${escapeHtml(blogAppUrl)}" style="display: block; text-align: center; padding: 13px 16px; border-radius: 13px; background: ${badgeColor}; color: #ffffff; font-weight: 800; text-decoration: none; font-size: 14.5px;">
                         📲 Abrir vista App del Blog (Paso 1)
                    </a>`;
 
@@ -2715,12 +2744,12 @@
 
         setupDynamicBlogManifest();
 
-        window.onload = function() {
+        window.addEventListener('DOMContentLoaded', function() {
             switchInstitution('seeds');
             if (IS_BLOG_APP_START) {
                 switchTab('blog');
             }
-        };
+        });
     </script>
 </body>
 </html>
