@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1D8FE1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Blog Educativo">
+    <link rel="apple-touch-icon" href="media/lit.png">
     <title>Little Seeds Montessori &amp; Colegio Integral La Arboleda</title>
     <style>
         /* ==========================================================================
@@ -409,6 +414,33 @@
             color: var(--accent);
             border-bottom-color: var(--accent);
             background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* ==========================================================================
+           MODO SOLO BLOG (CUANDO SE ABRE O INSTALA LA APP DE BLOG)
+           ========================================================================== */
+        body.blog-app-mode .nav-list li:not(.nav-item-blog),
+        body.blog-app-mode #antesalaOverlay,
+        body.blog-app-mode #antesalaVideoStage {
+            display: none !important;
+        }
+        body.blog-app-mode .blog-app-banner {
+            display: flex !important;
+        }
+        .blog-app-banner {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 10px 16px;
+            margin-bottom: 18px;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-main);
         }
 
         /* ==========================================================================
@@ -900,6 +932,36 @@
         .footer-links a { color: #FDE68A; text-decoration: none; font-weight: 700; }
 
         /* ==========================================================================
+           MODAL DESCARGA APP DEL BLOG (ANDROID E IOS)
+           ========================================================================== */
+        #app-download-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 9999;
+        }
+        #app-download-modal.hidden { display: none !important; }
+        .app-download-card {
+            background: #ffffff;
+            color: #0f172a;
+            border-radius: 24px;
+            max-width: 480px;
+            width: 100%;
+            padding: 26px;
+            border: 3px solid var(--primary);
+            box-shadow: 0 24px 55px rgba(0, 0, 0, 0.28);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* ==========================================================================
            OPTIMIZACIÓN MÓVIL COMPLETA
            ========================================================================== */
         @media (max-width: 900px) {
@@ -973,117 +1035,116 @@
         }
 
         /* ==========================================================================
-   CARRUSEL DE FOTOS DEBAJO DEL TEXTO EN VENTANA DE ÁREAS / CURSOS
-   ========================================================================== */
-.area-modal-text {
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--text-main, #0f172a);
-    margin-bottom: 18px;
-}
+           CARRUSEL DE FOTOS DEBAJO DEL TEXTO EN VENTANA DE ÁREAS / CURSOS
+           ========================================================================== */
+        .area-modal-text {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-main, #0f172a);
+            margin-bottom: 18px;
+        }
 
-.area-modal-text p + p {
-    margin-top: 10px;
-}
+        .area-modal-text p + p {
+            margin-top: 10px;
+        }
 
-.area-carousel-wrap {
-    margin-top: 14px;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 2px solid var(--primary, #1F86E1);
-    background: #0f172a;
-}
+        .area-carousel-wrap {
+            margin-top: 14px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--primary, #1F86E1);
+            background: #0f172a;
+        }
 
-.area-carousel-stage {
-    position: relative;
-    width: 100%;
-    height: 270px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #0f172a;
-}
+        .area-carousel-stage {
+            position: relative;
+            width: 100%;
+            height: 270px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0f172a;
+        }
 
-.area-carousel-stage img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
+        .area-carousel-stage img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
 
-.area-car-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 2px solid #ffffff;
-    background: rgba(15, 23, 42, 0.78);
-    color: #ffffff;
-    font-size: 18px;
-    font-weight: 900;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        .area-car-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+            background: rgba(15, 23, 42, 0.78);
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.area-car-arrow.prev { left: 10px; }
-.area-car-arrow.next { right: 10px; }
+        .area-car-arrow.prev { left: 10px; }
+        .area-car-arrow.next { right: 10px; }
 
-.area-car-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(15, 23, 42, 0.85);
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 800;
-    padding: 4px 10px;
-    border-radius: 999px;
-}
+        .area-car-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(15, 23, 42, 0.85);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
 
-.area-carousel-bar {
-    background: #ffffff;
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
+        .area-carousel-bar {
+            background: #ffffff;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
 
-.area-car-caption {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-muted, #475569);
-}
+        .area-car-caption {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted, #475569);
+        }
 
-.area-car-dots {
-    display: flex;
-    gap: 6px;
-    flex-shrink: 0;
-}
+        .area-car-dots {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
 
-.area-car-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    border: none;
-    background: #cbd5e1;
-    cursor: pointer;
-    padding: 0;
-}
+        .area-car-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: none;
+            background: #cbd5e1;
+            cursor: pointer;
+            padding: 0;
+        }
 
-.area-car-dot.active {
-    background: var(--primary, #1F86E1);
-    transform: scale(1.2);
-}
+        .area-car-dot.active {
+            background: var(--primary, #1F86E1);
+            transform: scale(1.2);
+        }
 
-@media (max-width: 680px) {
-    .area-carousel-stage { height: 205px; }
-}
-
+        @media (max-width: 680px) {
+            .area-carousel-stage { height: 205px; }
+        }
     </style>
 </head>
 <body>
@@ -1148,8 +1209,9 @@
                 <li><button class="nav-btn" data-tab="niveles" onclick="switchTab('niveles')">Niveles</button></li>
                 <li><button class="nav-btn" data-tab="calendario" onclick="switchTab('calendario')">Calendario</button></li>
                 <li><button class="nav-btn" data-tab="modelo" onclick="switchTab('modelo')">Modelo educativo</button></li>
-                <li><button class="nav-btn" data-tab="blog" onclick="switchTab('blog')">Blog</button></li>
+                <li class="nav-item-blog"><button class="nav-btn" data-tab="blog" onclick="switchTab('blog')">Blog</button></li>
                 <li><button class="nav-btn" data-tab="inscripcion" onclick="switchTab('inscripcion')">Inscripción 2027</button></li>
+                <li class="nav-item-blog"><button class="nav-btn" type="button" onclick="openAppDownloadModal()" style="color: var(--accent);">📲 App Blog</button></li>
             </ul>
         </nav>
     </header>
@@ -1172,6 +1234,7 @@
                             <button class="btn-main" onclick="switchTab('niveles')">Explorar Niveles y Clases</button>
                             <button class="btn-outline" onclick="switchTab('inscripcion')">Inscripción 2027</button>
                             <button class="btn-outline" onclick="document.getElementById('contacto-inicio').scrollIntoView({behavior:'smooth'})">Contactos y Ubicación</button>
+                            <button type="button" class="btn-outline" onclick="openAppDownloadModal()">📲 Descargar App Blog</button>
                         </div>
                     </div>
                 </div>
@@ -1342,10 +1405,21 @@
          ========================================================================== -->
     <section id="tab-blog" class="tab-content page-section hidden">
         <div class="container">
+            <!-- Barra superior cuando se abre en modo App de Blog -->
+            <div class="blog-app-banner">
+                <span>📱 App Blog Educativo • Cambia de colegio tocando el logo arriba</span>
+                <button type="button" class="btn-outline" style="padding: 6px 12px; font-size: 12.5px;" onclick="exitBlogAppMode()">Ver sitio completo</button>
+            </div>
+
             <div class="section-header">
                 <span class="kicker">Comunidad y Familia</span>
                 <div id="blog-title" style="font-size: 29px; font-weight: 800; line-height: 1.22; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;"></div>
                 <p class="subtitle-text">Orientación pedagógica y consejos prácticos elaborados por nuestro equipo docente.</p>
+                <div style="margin-top: 14px;">
+                    <button type="button" class="btn-main" onclick="openAppDownloadModal()" style="padding: 10px 20px; font-size: 13.5px;">
+                        📲 Descargar App del Blog (Android / iOS)
+                    </button>
+                </div>
             </div>
             <div id="blog-filter-bar" class="filter-bar"></div>
             <div id="blog-posts-grid" class="grid-3"></div>
@@ -1415,6 +1489,18 @@
         </div>
     </section>
 
+    <!-- ==========================================================================
+         MODAL DE DESCARGA APP DEL BLOG (ANDROID E IOS + PASO A PASO)
+         ========================================================================== -->
+    <div id="app-download-modal" class="hidden" onclick="if(event.target===this) closeAppDownloadModal()">
+        <div class="app-download-card">
+            <button type="button" onclick="closeAppDownloadModal()" aria-label="Cerrar" style="position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 999px; border: none; background: #f1f5f9; font-weight: 800; cursor: pointer;">
+                ✕
+            </button>
+            <div id="app-download-body"></div>
+        </div>
+    </div>
+
     <div id="appToast" class="toast-notice hidden"></div>
 
     <footer>
@@ -1433,6 +1519,14 @@
 
     <script>
         /* ==========================================================================
+           DETECCIÓN INICIAL DE MODO APP BLOG (?app=blog)
+           ========================================================================== */
+        const IS_BLOG_APP_START = new URLSearchParams(window.location.search).get('app') === 'blog';
+        if (IS_BLOG_APP_START) {
+            document.body.classList.add('blog-app-mode');
+        }
+
+        /* ==========================================================================
            CONTROL DE ANTESALA LIQUID GLASS Y VIDEO (ante.mp4)
            ========================================================================== */
         (function initAntesala() {
@@ -1443,6 +1537,12 @@
             const videoStage = document.getElementById('antesalaVideoStage');
             const videoPlayer = document.getElementById('anteVideoPlayer');
             const btnCerrarVideo = document.getElementById('btnCerrarVideo');
+
+            if (IS_BLOG_APP_START) {
+                if (overlay) overlay.remove();
+                if (videoStage) videoStage.remove();
+                return;
+            }
 
             if (!overlay || !btnBienvenidos) return;
 
@@ -1554,150 +1654,79 @@
                 areasTitle: 'Áreas de Pre-primaria • Little Seeds Montessori',
                 areasSub: 'Estas son las áreas que trabajamos en la pre-primaria:',
                 areas: [
-    // =========================================================================
-    // editar boton materias
-    // =========================================================================
-    {
-        name: 'Comunicación y Lenguaje', 
-        paragraphs: [
-           
-            'En Little Seeds Montessori acompañamos a cada niño y niña en el descubrimiento natural de la palabra, la escucha atenta y la expresión segura de sus ideas, emociones y descubrimientos diarios.',
-            'Mediante cuentos, conversación cotidiana y experiencias sensoriales con letras y sonidos, fortalecemos su vocabulario, el gusto por los libros y una base sólida para la lectura y la escritura a su propio ritmo.'
-        ],
-        photos: [
-            
-            {
-                src: 'media/libro.webp', 
-                caption: 'Acercamiento a la lectura y exploración de cuentos' 
-            },
-            {
-                src: 'media/texletra.webp', 
-                caption: 'Letras y trazo sensorial Montessori' 
-            },
-            {
-                src: 'media/histo.webp', 
-                caption: 'Creación, diseño y lectura de su propio libro.' 
-            },
-            {
-                src: 'media/cone.webp', 
-                caption: 'Dramatización de su cuento favorito.' 
-            },
-        ]
-    },
-
-    
-    {
-        name: 'Aprendizaje Matemático', 
-        paragraphs: [
-            'En Little Seeds Montessori construimos el pensamiento lógico-matemático desde lo concreto hacia lo manipulativo y visual, respetando el ritmo natural de cada niño y niña.',
-        'A través de materiales Montessori y experiencias cotidianas, exploran formas, tamaños, medidas, equilibrio, cantidades y relaciones espaciales, desarrollando razonamiento, concentración y seguridad al resolver retos.'
-            
-        ],
-        photos: [
-            {
-                src: 'media/medi.webp', 
-                caption: 'Primeros acercamientos a la medición y longitud comparando tamaños en el aula.' 
-            },
-            {
-                src: 'media/bala.webp', 
-                caption: 'Letras y trazo sensorial Montessori' 
-            },
-            {
-                src: 'media/fig.webp', 
-                caption: 'Exploración de figuras geométricas y relaciones espaciales sobre tapete Montessori.' 
-            },
-            {
-                src: 'media/bloc.webp', 
-                caption: '' 
-            },
-        ]
-    },
-    {
-        name: 'Área integradora de ciencia, desarrollo integral y sociocultural', 
-        paragraphs: [
-            
-            'En Little Seeds Montessori impulsamos una mirada integral donde la curiosidad científica, el desarrollo personal y la convivencia sociocultural se entrelazan de forma vivencial.',
-        'A través del juego simbólico, proyectos comunitarios, tradiciones y experiencias participativas, los niños exploran su entorno, fortalecen su identidad, practican el respeto y la empatía, y aprenden a expresarse y colaborar con los demás.'
-        ],
-        photos: [
-            {
-                src: 'media/pad.webp', 
-                caption: 'Juego de roles y expresión en comunidad con disfraces y capas en el patio escolar.' 
-            },
-            {
-                src: 'media/merca.webp', 
-                caption: 'Actividad vivencial de intercambio y convivencia con flores y detalles preparados por los niños.' 
-            },
-            {
-                src: 'media/cola.webp', 
-                caption: 'Experiencias culturales, tradiciones y dinámicas participativas compartidas en el aula.' 
-            },
-
-            {
-                src: 'media/expo.webp', 
-                caption: '' 
-            },
-        ] 
-    },
-    {
-        name: 'Educación artística', 
-        paragraphs: [
-            'En Little Seeds Montessori cultivamos la sensibilidad estética, la imaginación y la libre expresión a través del arte como lenguaje natural de la infancia.',
-            'Mediante el color, las texturas, el movimiento y el juego creativo, los niños experimentan sin presiones, fortalecen su motricidad fina, canalizan emociones y descubren el valor del proceso creativo propio y compartido.'
-        ],
-        photos: [
-            {
-                src: 'media/dis.webp', 
-                caption: '' 
-            },
-            {
-                src: 'mediCreación manual al aire libre decorando cometas y piezas de colores en comunidad.' 
-            },
-            {
-                src: 'media/art.webp', 
-                caption: 'Pintura con pincel y exploración de color y trazo sobre papel y madera.' 
-            },
-        ] 
-    },
-    {
-        name: 'Educación física', 
-        paragraphs: [
-            
-            'FALTAN IMAGENES'
-        ],
-        photos: [] 
-    },
-    {
-        name: 'STEAM', 
-        paragraphs: [
-            
-            'En Little Seeds Montessori despertamos la curiosidad natural de los niños conectando ciencia, tecnología, ingeniería, arte y matemáticas a través de retos prácticos y manipulativos.',
-            'Al construir, experimentar y probar ideas en equipo, desarrollan pensamiento lógico, creatividad, observación y confianza para resolver problemas cotidianos.'
-        ],
-        photos: [
-             {
-                src: 'media/gru.webp', 
-                caption: 'Construcción colaborativa de una estructura tipo puente al aire libre trabajando en equipo.' 
-            },
-             {
-                src: 'media/pir.webp', 
-                caption: 'Diseño y armado de torres y formas geométricas con piezas magnéticas de colores.' 
-            },
-             {
-                src: 'media/nin.webp', 
-                caption: 'Presentación de una estructura armada con piezas conectables reforzando ingenio y coordinación.' 
-            },
-        ] 
-    },
-    {
-        name: 'Inglés', 
-        paragraphs: [
-            
-            'FALTAN IMAGENES'
-        ],
-        photos: [] 
-    }
-],
+                    {
+                        name: 'Comunicación y Lenguaje',
+                        paragraphs: [
+                            'En Little Seeds Montessori acompañamos a cada niño y niña en el descubrimiento natural de la palabra, la escucha atenta y la expresión segura de sus ideas, emociones y descubrimientos diarios.',
+                            'Mediante cuentos, conversación cotidiana y experiencias sensoriales con letras y sonidos, fortalecemos su vocabulario, el gusto por los libros y una base sólida para la lectura y la escritura a su propio ritmo.'
+                        ],
+                        photos: [
+                            { src: 'media/libro.webp', caption: 'Acercamiento a la lectura y exploración de cuentos' },
+                            { src: 'media/texletra.webp', caption: 'Letras y trazo sensorial Montessori' },
+                            { src: 'media/histo.webp', caption: 'Creación, diseño y lectura de su propio libro.' },
+                            { src: 'media/cone.webp', caption: 'Dramatización de su cuento favorito.' }
+                        ]
+                    },
+                    {
+                        name: 'Aprendizaje Matemático',
+                        paragraphs: [
+                            'En Little Seeds Montessori construimos el pensamiento lógico-matemático desde lo concreto hacia lo manipulativo y visual, respetando el ritmo natural de cada niño y niña.',
+                            'A través de materiales Montessori y experiencias cotidianas, exploran formas, tamaños, medidas, equilibrio, cantidades y relaciones espaciales, desarrollando razonamiento, concentración y seguridad al resolver retos.'
+                        ],
+                        photos: [
+                            { src: 'media/medi.webp', caption: 'Primeros acercamientos a la medición y longitud comparando tamaños en el aula.' },
+                            { src: 'media/bala.webp', caption: 'Exploración de peso y equilibrio manipulativo' },
+                            { src: 'media/fig.webp', caption: 'Exploración de figuras geométricas y relaciones espaciales sobre tapete Montessori.' },
+                            { src: 'media/bloc.webp', caption: 'Construcción lógica y clasificación de formas' }
+                        ]
+                    },
+                    {
+                        name: 'Área integradora de ciencia, desarrollo integral y sociocultural',
+                        paragraphs: [
+                            'En Little Seeds Montessori impulsamos una mirada integral donde la curiosidad científica, el desarrollo personal y la convivencia sociocultural se entrelazan de forma vivencial.',
+                            'A través del juego simbólico, proyectos comunitarios, tradiciones y experiencias participativas, los niños exploran su entorno, fortalecen su identidad, practican el respeto y la empatía, y aprenden a expresarse y colaborar con los demás.'
+                        ],
+                        photos: [
+                            { src: 'media/pad.webp', caption: 'Juego de roles y expresión en comunidad con disfraces y capas en el patio escolar.' },
+                            { src: 'media/merca.webp', caption: 'Actividad vivencial de intercambio y convivencia con flores y detalles preparados por los niños.' },
+                            { src: 'media/cola.webp', caption: 'Experiencias culturales, tradiciones y dinámicas participativas compartidas en el aula.' },
+                            { src: 'media/expo.webp', caption: 'Exposición y descubrimiento compartido en comunidad' }
+                        ]
+                    },
+                    {
+                        name: 'Educación artística',
+                        paragraphs: [
+                            'En Little Seeds Montessori cultivamos la sensibilidad estética, la imaginación y la libre expresión a través del arte como lenguaje natural de la infancia.',
+                            'Mediante el color, las texturas, el movimiento y el juego creativo, los niños experimentan sin presiones, fortalecen su motricidad fina, canalizan emociones y descubren el valor del proceso creativo propio y compartido.'
+                        ],
+                        photos: [
+                            { src: 'media/dis.webp', caption: 'Creación manual al aire libre decorando cometas y piezas de colores en comunidad.' },
+                            { src: 'media/art.webp', caption: 'Pintura con pincel y exploración de color y trazo sobre papel y madera.' }
+                        ]
+                    },
+                    {
+                        name: 'Educación física',
+                        paragraphs: ['Desarrollo motor grueso, equilibrio, coordinación espacial y juego cooperativo al aire libre.'],
+                        photos: []
+                    },
+                    {
+                        name: 'STEAM',
+                        paragraphs: [
+                            'En Little Seeds Montessori despertamos la curiosidad natural de los niños conectando ciencia, tecnología, ingeniería, arte y matemáticas a través de retos prácticos y manipulativos.',
+                            'Al construir, experimentar y probar ideas en equipo, desarrollan pensamiento lógico, creatividad, observación y confianza para resolver problemas cotidianos.'
+                        ],
+                        photos: [
+                            { src: 'media/gru.webp', caption: 'Construcción colaborativa de una estructura tipo puente al aire libre trabajando en equipo.' },
+                            { src: 'media/pir.webp', caption: 'Diseño y armado de torres y formas geométricas con piezas magnéticas de colores.' },
+                            { src: 'media/nin.webp', caption: 'Presentación de una estructura armada con piezas conectables reforzando ingenio y coordinación.' }
+                        ]
+                    },
+                    {
+                        name: 'Inglés',
+                        paragraphs: ['Inmersión natural al segundo idioma mediante canciones, cuentos, rutinas cotidianas y materiales sensoriales.'],
+                        photos: []
+                    }
+                ],
                 modeloTitle: 'Metodología Montessori & Neurodesarrollo Infantil',
                 modeloDesc: 'En Little Seeds Montessori cada aula está diseñada a la altura y medida del niño para favorecer la concentración, la autodisciplina y el aprendizaje activo mediante materiales concretos.',
                 pillars: [
@@ -1751,33 +1780,31 @@
                         closingNote: 'El niño que descubre todo lo que puede hacer por sí mismo.'
                     },
                     {
-                            tag: 'Aprendizaje en casa',
-                            title: '3 maneras de continuar el aprendizaje Montessori en casa',
-                            summary: '3 ideas sencillas para fomentar la autonomía y el aprendizaje en casa.',
+                        tag: 'Aprendizaje en casa',
+                        title: '3 maneras de continuar el aprendizaje Montessori en casa',
+                        summary: '3 ideas sencillas para fomentar la autonomía y el aprendizaje en casa.',
                         paragraphs: [
-                             'Fomenta su autonomía fuera del aula adaptando espacios a su estatura, involucrándolo en tareas diarias del hogar y respetando su propio ritmo de aprendizaje.'
+                            'Fomenta su autonomía fuera del aula adaptando espacios a su estatura, involucrándolo en tareas diarias del hogar y respetando su propio ritmo de aprendizaje.'
                         ],
                         orderedList: [
                             {
                                 text: '<strong>Invita a tu hijo a participar en las tareas cotidianas.</strong> Poner la mesa, doblar una servilleta o limpiar un derrame son oportunidades para practicar la coordinación y ganar autonomía. Elige una tarea que pueda hacer según su edad y dale tiempo para terminarla.',
                                 image: 'media/part.webp',
-                                caption: 'Participacion activa en actividades cotidianas'
+                                caption: 'Participación activa en actividades cotidianas'
                             },
                             {
                                 text: '<strong>Coloca los materiales a su alcance.</strong> Organiza unos pocos libros, rompecabezas o materiales de dibujo en un estante bajo. Así podrá elegir qué usar, encontrarlo por su cuenta y devolverlo a su lugar cuando termine.',
                                 image: 'media/rep.webp',
-                                caption: 'Mejorar la toma de deciones '
+                                caption: 'Mejorar la toma de decisiones'
                             },
                             {
                                 text: '<strong>Confía en tu hijo y permítele hacerlo por sí mismo.</strong> Cuando quiera ponerse los zapatos, servirse agua o guardar sus juguetes, dale tiempo para intentarlo. Acompáñalo con paciencia y, si necesita ayuda, apóyalo solo en el paso que le cuesta. Cada vez que le das la oportunidad de decir ¡Lo hice yo!, le ayudas a confiar más en sus propias capacidades.',
                                 image: 'media/deci.webp',
                                 caption: 'Mejorar la confianza para la toma de decisiones'
-                                }
-                            
+                            }
                         ],
                         closingNote: 'Con pequeños cambios diarios y mucha paciencia, cualquier rincón de tu hogar puede convertirse en su mejor espacio de aprendizaje.'
                     },
-    
                     {
                         grade: 'Maternal 1 y 2',
                         tag: 'Desarrollo Motriz',
@@ -1886,28 +1913,6 @@
                         paragraphs: [
                             'Combinamos exploración natural con retos lógicos para que cada estudiante observe, formule preguntas y resuelva problemas en equipo.'
                         ]
-                    },
- {
-                        tag: 'Autoestima',
-                        title: '5 formas de fomentar la autonomía en casa',
-                        summary: 'Pequeños ajustes que ayudan a ganar seguridad.',
-                        paragraphs: [
-                            'Aquí va una breve introducción antes de la lista numerada.'
-                        ],
-                        orderedList: [
-                            {
-                                text: '<strong>Poner sus cosas a su alcance.</strong> Coloca sus zapatos, juguetes o su vaso en un lugar bajo para que pueda tomarlos y guardarlos por sí mismo.',
-                                image: 'media/autonomia-1.webp',
-                                caption: 'Estante bajo a la altura del niño'
-                            },
-                            {
-                                text: '<strong>Darle tiempo para vestirse.</strong> Anímalo a ponerse los zapatos o la chaqueta sin prisa.',
-                                image: 'media/autonomia-2.webp',
-                                caption: 'Practicando ponerse los zapatos'
-                            },
-                            '<strong>Ofrecerle dos opciones.</strong> Pregúntale «¿Prefieres la camiseta azul o la verde?».'
-                        ],
-                        closingNote: 'El niño que descubre todo lo que puede hacer por sí mismo.'
                     }
                 ]
             }
@@ -2191,125 +2196,104 @@
         }
 
         // =========================================================================
-// LÓGICA DEL MODAL DE ÁREAS: TEXTO ARRIBA + CARRUSEL DE FOTOS ABAJO
-// (Normalmente no necesitas editar aquí; solo agrega fotos/textos en "areas")
-// =========================================================================
-let currentAreaPhotos = [];
-let currentAreaPhotoIndex = 0;
+        // LÓGICA DEL MODAL DE ÁREAS: TEXTO ARRIBA + CARRUSEL DE FOTOS ABAJO
+        // =========================================================================
+        let currentAreaPhotos = [];
+        let currentAreaPhotoIndex = 0;
 
-function escapeAreaHtml(str) {
-    return String(str || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-}
-
-function renderAreaModalCarousel() {
-    const holder = document.getElementById('area-modal-carousel-holder');
-    if (!holder || !Array.isArray(currentAreaPhotos) || currentAreaPhotos.length === 0) return;
-
-    const item = currentAreaPhotos[currentAreaPhotoIndex];
-    const src = typeof item === 'string' ? item : (item.src || '');
-    const caption = typeof item === 'string' ? '' : (item.caption || '');
-
-    holder.innerHTML = `
-        <div class="area-carousel-wrap">
-            <div class="area-carousel-stage">
-                <img
-                    src="${escapeAreaHtml(src)}"
-                    alt="${escapeAreaHtml(caption || 'Foto del área')}"
-                    onerror="this.style.display='none'".style.display='none'"
-                >
-                <span class="area-car-badge">${currentAreaPhotoIndex + 1} / ${currentAreaPhotos.length}</span>
-                ${currentAreaPhotos.length > 1 ? `
-                    <button type="button" class="area-car-arrow prev" onclick="stepAreaPhoto(-1)" aria-label="Foto anterior">&#10094;</button>
-                    <button type="button" class="area-car-arrow next" onclick="stepAreaPhoto(1)" aria-label="Foto siguiente">&#10095;</button>
-                ` : ''}
-            </div>
-            <div class="area-carousel-bar">
-                <span class="area-car-caption">${escapeAreaHtml(caption)}</span>
-                <div class="area-car-dots">
-                    ${currentAreaPhotos.map((_, idx) => `
-                        <button
-                            type="button"
-                            class="area-car-dot ${idx === currentAreaPhotoIndex ? 'active' : ''}"
-                            onclick="selectAreaPhoto(${idx})"
-                            aria-label="Ir a foto ${idx + 1}"
-                        ></button>
-                    `).join('')}
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-function stepAreaPhoto(delta) {
-    if (!currentAreaPhotos.length) return;
-    currentAreaPhotoIndex = (currentAreaPhotoIndex + delta + currentAreaPhotos.length) % currentAreaPhotos.length;
-    renderAreaModalCarousel();
-}
-
-function selectAreaPhoto(idx) {
-    if (!currentAreaPhotos.length) return;
-    currentAreaPhotoIndex = idx;
-    renderAreaModalCarousel();
-}
-
-function openAreaModal(idx) {
-    const store = typeof INSTITUTIONS_DATA !== 'undefined' ? INSTITUTIONS_DATA : INSTITUTIONS;
-    const data = store && store[activeInstitution] ? store[activeInstitution] : null;
-    const area = data && Array.isArray(data.areas) ? data.areas[idx] : null;
-    if (!area) return;
-
-    const areaName = typeof area === 'string' ? area : (area.name || 'Área Curricular');
-    const paragraphsList = Array.isArray(area.paragraphs) && area.paragraphs.length > 0
-        ? area.paragraphs
-        : (area.desc ? [area.desc] : []);
-
-    currentAreaPhotos = Array.isArray(area.photos)
-        ? area.photos
-        : (area.image ? [{ src: area.image, caption: areaName }] : []);
-    currentAreaPhotoIndex = 0;
-
-    const instLabel = activeInstitution === 'arboleda'
-        ? 'Colegio Integral La Arboleda'
-        : 'Little Seeds Montessori';
-
-    // 1. Texto arriba
-    const textHtml = `
-        <div class="area-modal-text">
-            ${paragraphsList.map(p => `<p>${p}</p>`).join('')}
-        </div>
-    `;
-
-    // 2. Carrusel hasta abajo del texto
-    const carouselHtml = currentAreaPhotos.length > 0
-        ? '<div id="area-modal-carousel-holder"></div>'
-        : '';
-
-    const fullModalHtml = `
-        <span class="kicker">${instLabel} • Área Curricular</span>
-        <h3 style="font-size: 22px; font-weight: 800; margin: 6px 0 12px;">${escapeAreaHtml(areaName)}</h3>
-        ${textHtml}
-        ${carouselHtml}
-    `;
-
-    if (typeof openInfoModal === 'function') {
-        openInfoModal(fullModalHtml);
-    } else {
-        const bodyEl = document.getElementById('info-modal-content') || document.getElementById('modal-body');
-        const modalEl = document.getElementById('info-modal') || document.getElementById('blog-modal');
-        if (bodyEl && modalEl) {
-            bodyEl.innerHTML = fullModalHtml;
-            modalEl.classList.remove('hidden');
+        function escapeAreaHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
         }
-    }
 
-    if (currentAreaPhotos.length > 0) {
-        renderAreaModalCarousel();
-    }
-}
+        function renderAreaModalCarousel() {
+            const holder = document.getElementById('area-modal-carousel-holder');
+            if (!holder || !Array.isArray(currentAreaPhotos) || currentAreaPhotos.length === 0) return;
+
+            const item = currentAreaPhotos[currentAreaPhotoIndex];
+            const src = typeof item === 'string' ? item : (item.src || '');
+            const caption = typeof item === 'string' ? '' : (item.caption || '');
+
+            holder.innerHTML = `
+                <div class="area-carousel-wrap">
+                    <div class="area-carousel-stage">
+                        <img
+                            src="${escapeAreaHtml(src)}"
+                            alt="${escapeAreaHtml(caption || 'Foto del área')}"
+                            onerror="this.style.display='none'"
+                        >
+                        <span class="area-car-badge">${currentAreaPhotoIndex + 1} / ${currentAreaPhotos.length}</span>
+                        ${currentAreaPhotos.length > 1 ? `
+                            <button type="button" class="area-car-arrow prev" onclick="stepAreaPhoto(-1)" aria-label="Foto anterior">&#10094;</button>
+                            <button type="button" class="area-car-arrow next" onclick="stepAreaPhoto(1)" aria-label="Foto siguiente">&#10095;</button>
+                        ` : ''}
+                    </div>
+                    <div class="area-carousel-bar">
+                        <span class="area-car-caption">${escapeAreaHtml(caption)}</span>
+                        <div class="area-car-dots">
+                            ${currentAreaPhotos.map((_, idx) => `
+                                <button
+                                    type="button"
+                                    class="area-car-dot ${idx === currentAreaPhotoIndex ? 'active' : ''}"
+                                    onclick="selectAreaPhoto(${idx})"
+                                    aria-label="Ir a foto ${idx + 1}"
+                                ></button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function stepAreaPhoto(delta) {
+            if (!currentAreaPhotos.length) return;
+            currentAreaPhotoIndex = (currentAreaPhotoIndex + delta + currentAreaPhotos.length) % currentAreaPhotos.length;
+            renderAreaModalCarousel();
+        }
+
+        function selectAreaPhoto(idx) {
+            if (!currentAreaPhotos.length) return;
+            currentAreaPhotoIndex = idx;
+            renderAreaModalCarousel();
+        }
+
+        function openAreaModal(idx) {
+            const data = INSTITUTIONS_DATA && INSTITUTIONS_DATA[activeInstitution] ? INSTITUTIONS_DATA[activeInstitution] : null;
+            const area = data && Array.isArray(data.areas) ? data.areas[idx] : null;
+            if (!area) return;
+
+            const areaName = typeof area === 'string' ? area : (area.name || 'Área Curricular');
+            const paragraphsList = Array.isArray(area.paragraphs) && area.paragraphs.length > 0
+                ? area.paragraphs
+                : (area.desc ? [area.desc] : ['Formación integral y vivencial enfocada en el desarrollo de cada estudiante.']);
+
+            currentAreaPhotos = Array.isArray(area.photos)
+                ? area.photos
+                : (area.image ? [{ src: area.image, caption: areaName }] : []);
+            currentAreaPhotoIndex = 0;
+
+            const instLabel = activeInstitution === 'arboleda'
+                ? 'Colegio Integral La Arboleda'
+                : 'Little Seeds Montessori';
+
+            document.getElementById('modal-tag').textContent = `${instLabel} • Área Curricular`;
+            document.getElementById('modal-title').textContent = areaName;
+            document.getElementById('modal-body').innerHTML = `
+                <div class="area-modal-text">
+                    ${paragraphsList.map(p => `<p>${p}</p>`).join('')}
+                </div>
+                ${currentAreaPhotos.length > 0 ? '<div id="area-modal-carousel-holder"></div>' : ''}
+            `;
+            document.getElementById('modal-close-btn').textContent = 'Cerrar';
+            document.getElementById('blog-modal').classList.remove('hidden');
+
+            if (currentAreaPhotos.length > 0) {
+                renderAreaModalCarousel();
+            }
+        }
 
         async function renderCalendarCards() {
             const instKey = activeInstitution;
@@ -2402,27 +2386,23 @@ function openAreaModal(idx) {
 
             let html = (post.paragraphs || []).map(p => `<p>${escapeHtml(p)}</p>`).join('');
             if (Array.isArray(post.orderedList)) {
-    html += '<ol class="blog-modal-list">' + post.orderedList.map(item => {
-        // Formato anterior: solo texto
-        if (typeof item === 'string') {
-            return `<li>${item}</li>`;
-        }
-
-        // Formato nuevo: objeto con text, image (opcional) y caption (opcional)
-        const textPart = item.text ? `<div>${item.text}</div>` : '';
-        const imagePart = item.image ? `
-            <figure style="margin: 10px 0 6px; border-radius: 12px; overflow: hidden; border: 1.5px solid #e2e8f0; background: #f8fafc;">
-                <img src="${escapeHtml(item.image)}"
-                     alt="${escapeHtml(item.caption || '')}"
-                     onerror="this.parentElement.style.display='none'"
-                     style="width: 100%; max-height: 240px; object-fit: cover; display: block;">
-                ${item.caption ? `<figcaption style="padding: 6px 10px; font-size: 12px; color: #64748b;">${escapeHtml(item.caption)}</figcaption>` : ''}
-            </figure>
-        ` : '';
-
-        return `<li>${textPart}${imagePart}</li>`;
-    }).join('') + '</ol>';
-}
+                html += '<ol class="blog-modal-list">' + post.orderedList.map(item => {
+                    if (typeof item === 'string') {
+                        return `<li>${item}</li>`;
+                    }
+                    const textPart = item.text ? `<div>${item.text}</div>` : '';
+                    const imagePart = item.image ? `
+                        <figure style="margin: 10px 0 6px; border-radius: 12px; overflow: hidden; border: 1.5px solid #e2e8f0; background: #f8fafc;">
+                            <img src="${escapeHtml(item.image)}"
+                                 alt="${escapeHtml(item.caption || '')}"
+                                 onerror="this.parentElement.style.display='none'"
+                                 style="width: 100%; max-height: 240px; object-fit: cover; display: block;">
+                            ${item.caption ? `<figcaption style="padding: 6px 10px; font-size: 12px; color: #64748b;">${escapeHtml(item.caption)}</figcaption>` : ''}
+                        </figure>
+                    ` : '';
+                    return `<li>${textPart}${imagePart}</li>`;
+                }).join('') + '</ol>';
+            }
             if (post.closingNote) {
                 html += `<p style="font-weight:800; color:var(--primary); margin-top:12px;">${escapeHtml(post.closingNote)}</p>`;
             }
@@ -2559,28 +2539,188 @@ function openAreaModal(idx) {
             toastTimer = setTimeout(() => toast.classList.add('hidden'), 3000);
         }
 
+        /* ==========================================================================
+           APP DE BLOG INSTALABLE (PWA DINÁMICA + MODAL ANDROID / IOS PASO A PASO)
+           ========================================================================== */
+        let deferredInstallPrompt = null;
+
+        function getBlogAppUrl() {
+            const url = new URL(window.location.href);
+            url.searchParams.set('app', 'blog');
+            return url.toString();
+        }
+
+        function setupDynamicBlogManifest() {
+            try {
+                const blogAppUrl = getBlogAppUrl();
+                const iconUrl = new URL('media/lit.png', window.location.href).toString();
+                const manifestObj = {
+                    name: 'Blog Educativo • Little Seeds y La Arboleda',
+                    short_name: 'Blog Escolar',
+                    description: 'Blog educativo de Little Seeds Montessori y Colegio Integral La Arboleda.',
+                    start_url: blogAppUrl,
+                    scope: new URL('.', window.location.href).toString(),
+                    display: 'standalone',
+                    background_color: '#DDF5FA',
+                    theme_color: '#1D8FE1',
+                    icons: [
+                        { src: iconUrl, sizes: '192x192', type: 'image/png' },
+                        { src: iconUrl, sizes: '512x512', type: 'image/png' }
+                    ]
+                };
+                const blob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
+                const manifestUrl = URL.createObjectURL(blob);
+                let linkEl = document.querySelector('link[rel="manifest"]');
+                if (!linkEl) {
+                    linkEl = document.createElement('link');
+                    linkEl.rel = 'manifest';
+                    document.head.appendChild(linkEl);
+                }
+                linkEl.href = manifestUrl;
+            } catch (err) {
+                // Ignorar si el navegador restringe Blob manifest en file://
+            }
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+        });
+
+        async function triggerAndroidInstall() {
+            const blogAppUrl = getBlogAppUrl();
+            if (deferredInstallPrompt) {
+                deferredInstallPrompt.prompt();
+                const choice = await deferredInstallPrompt.userChoice;
+                deferredInstallPrompt = null;
+                if (choice && choice.outcome === 'accepted') {
+                    closeAppDownloadModal();
+                    showToast('✅ App del Blog instalada en tu dispositivo');
+                    return;
+                }
+            }
+            window.location.href = blogAppUrl;
+        }
+
+        function openBlogAppPreview() {
+            closeAppDownloadModal();
+            document.body.classList.add('blog-app-mode');
+            switchTab('blog');
+            showToast('📱 Vista App del Blog activada');
+        }
+
+        function exitBlogAppMode() {
+            document.body.classList.remove('blog-app-mode');
+            const url = new URL(window.location.href);
+            if (url.searchParams.has('app')) {
+                url.searchParams.delete('app');
+                window.history.replaceState({}, '', url.toString());
+            }
+            switchTab('inicio');
+        }
+
+        function openAppDownloadModal() {
+            const modal = document.getElementById('app-download-modal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            renderAppPlatformSelector();
+        }
+
+        function closeAppDownloadModal() {
+            const modal = document.getElementById('app-download-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+        }
+
+        function renderAppPlatformSelector() {
+            const body = document.getElementById('app-download-body');
+            if (!body) return;
+
+            body.innerHTML = `
+                <span class="kicker" style="margin-bottom: 8px;">App Blog • Little Seeds y La Arboleda</span>
+                <h3 style="font-size: 22px; font-weight: 900; margin: 4px 0 8px;">
+                    Elige tu dispositivo
+                </h3>
+                <p style="font-size: 14px; color: #475569; margin-bottom: 18px;">
+                    Selecciona <strong>Android</strong> o <strong>iOS</strong> para ver el paso a paso e instalar la app exclusiva del Blog en tu pantalla de inicio.
+                </p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+                    <button type="button" onclick="renderAppSteps('android')" style="padding: 18px 12px; border-radius: 16px; border: 2.5px solid #16a34a; background: #f0fdf4; color: #14532d; font-weight: 900; font-size: 15.5px; cursor: pointer;">
+                        🤖 Android
+                    </button>
+                    <button type="button" onclick="renderAppSteps('ios')" style="padding: 18px 12px; border-radius: 16px; border: 2.5px solid #1d8fe1; background: #eff6ff; color: #1e3a8a; font-weight: 900; font-size: 15.5px; cursor: pointer;">
+                        🍎 iOS (iPhone / iPad)
+                    </button>
+                </div>
+                <button type="button" onclick="openBlogAppPreview()" class="btn-outline" style="width: 100%; font-size: 13px; padding: 10px 14px;">
+                    👀 Abrir vista previa de la App Blog aquí mismo
+                </button>
+            `;
+        }
+
+        function renderAppSteps(platform) {
+            const body = document.getElementById('app-download-body');
+            if (!body) return;
+
+            const isAndroid = platform === 'android';
+            const title = isAndroid ? 'Instalar App del Blog en Android' : 'Instalar App del Blog en iOS';
+            const badgeColor = isAndroid ? '#16a34a' : '#1d8fe1';
+            const blogAppUrl = getBlogAppUrl();
+
+            const stepsHtml = isAndroid
+                ? `
+                    <ol style="padding-left: 20px; margin: 0 0 18px; font-size: 14px; line-height: 1.65; color: #334155;">
+                        <li>Toca el botón verde <strong>"Instalar / Abrir App Blog"</strong> de abajo (se abrirá la vista exclusiva del Blog).</li>
+                        <li>Si aparece el aviso automático <em>"Instalar aplicación"</em>, toca <strong>Instalar</strong>.</li>
+                        <li>Si no aparece automático, toca los <strong>tres puntos (⋮)</strong> arriba a la derecha en Chrome y elige <strong>Instalar aplicación</strong> o <strong>Agregar a la pantalla principal</strong>.</li>
+                        <li>¡Listo! Al abrir el ícono desde tu teléfono entrarás directo al Blog de ambos colegios.</li>
+                    </ol>
+                `
+                : `
+                    <ol style="padding-left: 20px; margin: 0 0 18px; font-size: 14px; line-height: 1.65; color: #334155;">
+                        <li>Asegúrate de abrir esta página en <strong>Safari</strong> y toca el botón azul <strong>"Abrir vista App del Blog"</strong> de abajo.</li>
+                        <li>En la barra inferior de Safari, toca el ícono <strong>Compartir</strong> (el cuadro con una flecha hacia arriba ⬆️).</li>
+                        <li>Desliza hacia abajo en el menú y selecciona <strong>Agregar a inicio</strong>.</li>
+                        <li>Toca <strong>Agregar</strong> arriba a la derecha. ¡Listo! Ya tendrás el ícono de la App del Blog en tu iPhone o iPad.</li>
+                    </ol>
+                `;
+
+            const primaryActionBtn = isAndroid
+                ? `<button type="button" onclick="triggerAndroidInstall()" style="width: 100%; padding: 13px 16px; border-radius: 13px; border: none; background: ${badgeColor}; color: #ffffff; font-weight: 800; cursor: pointer; font-size: 14.5px;">
+                        📲 Instalar / Abrir App Blog en Android
+                   </button>`
+                : `<a href="${blogAppUrl}" style="display: block; text-align: center; padding: 13px 16px; border-radius: 13px; background: ${badgeColor}; color: #ffffff; font-weight: 800; text-decoration: none; font-size: 14.5px;">
+                        📲 Abrir vista App del Blog (Paso 1)
+                   </a>`;
+
+            body.innerHTML = `
+                <span style="display: inline-block; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: ${badgeColor};">
+                    Paso a paso • ${isAndroid ? 'Android' : 'iOS (iPhone / iPad)'}
+                </span>
+                <h3 style="font-size: 20px; font-weight: 900; margin: 6px 0 12px;">
+                    ${title}
+                </h3>
+                ${stepsHtml}
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    ${primaryActionBtn}
+                    <button type="button" onclick="openBlogAppPreview()" style="padding: 10px 14px; border-radius: 12px; border: 1.5px solid var(--primary); background: #f8fafc; color: var(--primary); font-weight: 800; cursor: pointer; font-size: 13px;">
+                        👀 Probar vista App Blog ahora mismo
+                    </button>
+                    <button type="button" onclick="renderAppPlatformSelector()" style="padding: 10px 14px; border-radius: 12px; border: 1px solid #cbd5e1; background: #ffffff; color: #334155; font-weight: 700; cursor: pointer; font-size: 13px;">
+                        ← Cambiar entre Android y iOS
+                    </button>
+                </div>
+            `;
+        }
+
+        setupDynamicBlogManifest();
+
         window.onload = function() {
             switchInstitution('seeds');
+            if (IS_BLOG_APP_START) {
+                switchTab('blog');
+            }
         };
-
-        
     </script>
-
-    <!-- Botón en la sección del Blog -->
-<button type="button" class="btn-outline" onclick="openAppDownloadModal()" style="font-weight: 800;">
-    Descargar App del Blog
-</button>
-
-<!-- Modal de Descarga (Android / iOS + Paso a paso) -->
-<div id="app-download-modal" class="hidden" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 9999;">
-    <div style="background: #ffffff; color: #0f172a; border-radius: 20px; max-width: 480px; width: 100%; padding: 24px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25); position: relative;">
-        <button type="button" onclick="closeAppDownloadModal()" aria-label="Cerrar" style="position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 999px; border: none; background: #f1f5f9; font-weight: 800; cursor: pointer;">
-            ✕
-        </button>
-
-        <div id="app-download-body"></div>
-    </div>
-</div>
-
 </body>
 </html>
