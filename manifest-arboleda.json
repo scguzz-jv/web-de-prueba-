@@ -1,25 +1,25 @@
 {
-  "id": "pwa-colegio-integral-la-arboleda",
   "name": "Colegio Integral La Arboleda",
   "short_name": "La Arboleda",
-  "description": "Portal oficial de Colegio Integral La Arboleda",
+  "description": "Formación académica integral, bilingüismo, pensamiento lógico-matemático y tecnología STEAM para Primaria.",
   "start_url": "./?colegio=arboleda",
-  "scope": "./",
   "display": "standalone",
   "background_color": "#DCECE2",
   "theme_color": "#006A7A",
+  "orientation": "portrait",
+  "scope": "./",
   "icons": [
     {
       "src": "media/arb.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
       "src": "media/arb.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }
