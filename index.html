@@ -11,52 +11,13 @@
     <link id="dynamic-manifest" rel="manifest" href="manifest-little.json">
     <link id="dynamic-apple-icon" rel="apple-touch-icon" href="media/lit.png">
     <script>
+            <script>
         (function () {
             var params = new URLSearchParams(window.location.search);
-            var rawSchool = (params.get('colegio') || params.get('inst') || '').toLowerCase();
-            var forcedSchool = null;
-            if (rawSchool === 'arboleda') {
-                forcedSchool = 'arboleda';
-            } else if (rawSchool === 'little' || rawSchool === 'seeds') {
-                forcedSchool = 'seeds';
-            }
-
-            var isStandalone = (
-                (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-                window.navigator.standalone === true
-            );
-
-            var activeSchool = forcedSchool || (isStandalone ? 'seeds' : 'seeds');
-            var isArb = (activeSchool === 'arboleda');
-            var ua = navigator.userAgent || '';
-            var isIOS = /iPad|iPhone|iPod/.test(ua) ||
-                        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-            window.__SCHOOL_BOOT = {
-                forcedSchool: forcedSchool,
-                activeSchool: activeSchool,
-                isStandalone: isStandalone,
-                isIsolatedApp: Boolean(forcedSchool || isStandalone),
-                isIOS: isIOS
-            };
-
-            var themeEl = document.getElementById('dynamic-theme-color');
-            var appleTitleEl = document.getElementById('dynamic-apple-title');
-            var appleIconEl = document.getElementById('dynamic-apple-icon');
-            var manifestEl = document.getElementById('dynamic-manifest');
-
-            if (themeEl) themeEl.setAttribute('content', isArb ? '#006A7A' : '#1D8FE1');
-            if (appleTitleEl) appleTitleEl.setAttribute('content', isArb ? 'La Arboleda' : 'Little Seeds');
-            if (appleIconEl) appleIconEl.setAttribute('href', isArb ? 'media/arb.png' : 'media/lit.png');
-
-            if (manifestEl) {
-                if (isIOS) {
-                    if (manifestEl.parentNode) manifestEl.parentNode.removeChild(manifestEl);
-                } else {
-                    manifestEl.setAttribute('href', isArb ? 'manifest-arboleda.json' : 'manifest-little.json');
-                }
-            }
+            // ... todo el código del script ...
         })();
+    </script>
+    <title>Little Seeds Montessori &amp; Colegio Integral La Arboleda</title>
     </script>
     <title>Little Seeds Montessori &amp; Colegio Integral La Arboleda</title>
     <style>
@@ -1582,8 +1543,11 @@
         const IS_IOS = BOOT_STATE.isIOS;
 
         if (IS_ISOLATED_APP) {
-            document.body.classList.add('isolated-school-app', `app-school-${BOOT_STATE.activeSchool}`);
-        }
+    document.body.classList.add('isolated-school-app');
+    if (BOOT_STATE.forcedSchool) {
+        document.body.classList.add(`app-school-${BOOT_STATE.forcedSchool}`);
+    }
+}
 
         let enterMainSiteHandler = null;
 
@@ -2063,9 +2027,11 @@
 
             document.body.classList.toggle('theme-arboleda', isArb);
             if (IS_ISOLATED_APP) {
-                document.body.classList.remove('app-school-seeds', 'app-school-arboleda');
-                document.body.classList.add('isolated-school-app', `app-school-${activeInstitution}`);
-            }
+    document.body.classList.remove('app-school-seeds', 'app-school-arboleda');
+    if (BOOT_STATE.forcedSchool) {
+        document.body.classList.add(`app-school-${activeInstitution}`);
+    }
+}
 
             document.getElementById('selector-seeds').classList.toggle('is-active', !isArb);
             document.getElementById('selector-arboleda').classList.toggle('is-active', isArb);
@@ -2178,6 +2144,15 @@
             updateFormGradeOptions();
 
             syncSchoolManifestLink(activeInstitution);
+            if (BOOT_STATE.isStandalone) {
+                try { localStorage.setItem('school_install_v1', activeInstitution); } catch (e) {}
+            } else {
+                try {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('colegio', activeInstitution === 'arboleda' ? 'arboleda' : 'seeds');
+                    window.history.replaceState({}, '', url.toString());
+                } catch (e) {}
+            }
         }
 
         function toggleOtherInstitution() {
