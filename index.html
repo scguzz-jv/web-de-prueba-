@@ -11,13 +11,60 @@
     <link id="dynamic-manifest" rel="manifest" href="manifest-little.json">
     <link id="dynamic-apple-icon" rel="apple-touch-icon" href="media/lit.png">
     <script>
-            <script>
         (function () {
             var params = new URLSearchParams(window.location.search);
-            // ... todo el código del script ...
+            var rawSchool = (params.get('colegio') || params.get('inst') || '').toLowerCase();
+            var urlSchool = null;
+            if (rawSchool === 'arboleda') {
+                urlSchool = 'arboleda';
+            } else if (rawSchool === 'little' || rawSchool === 'seeds') {
+                urlSchool = 'seeds';
+            }
+
+            var isStandalone = (
+                (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+                window.navigator.standalone === true
+            );
+
+            var ua = navigator.userAgent || '';
+            var isIOS = /iPad|iPhone|iPod/.test(ua) ||
+                        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+            var storedSchool = null;
+            if (isStandalone && !urlSchool) {
+                try { storedSchool = localStorage.getItem('school_install_v1'); } catch (e) {}
+            }
+
+            var forcedSchool = isStandalone ? (urlSchool || storedSchool || null) : null;
+            var activeSchool = forcedSchool || urlSchool || 'seeds';
+            var isArb = (activeSchool === 'arboleda');
+
+            window.__SCHOOL_BOOT = {
+                forcedSchool: forcedSchool,
+                urlSchool: urlSchool,
+                activeSchool: activeSchool,
+                isStandalone: isStandalone,
+                isIsolatedApp: isStandalone,
+                isIOS: isIOS
+            };
+
+            var themeEl = document.getElementById('dynamic-theme-color');
+            var appleTitleEl = document.getElementById('dynamic-apple-title');
+            var appleIconEl = document.getElementById('dynamic-apple-icon');
+            var manifestEl = document.getElementById('dynamic-manifest');
+
+            if (themeEl) themeEl.setAttribute('content', isArb ? '#006A7A' : '#1D8FE1');
+            if (appleTitleEl) appleTitleEl.setAttribute('content', isArb ? 'La Arboleda' : 'Little Seeds');
+            if (appleIconEl) appleIconEl.setAttribute('href', isArb ? 'media/arb.png' : 'media/lit.png');
+
+            if (manifestEl) {
+                if (isIOS) {
+                    if (manifestEl.parentNode) manifestEl.parentNode.removeChild(manifestEl);
+                } else {
+                    manifestEl.setAttribute('href', isArb ? 'manifest-arboleda.json' : 'manifest-little.json');
+                }
+            }
         })();
-    </script>
-    <title>Little Seeds Montessori &amp; Colegio Integral La Arboleda</title>
     </script>
     <title>Little Seeds Montessori &amp; Colegio Integral La Arboleda</title>
     <style>
