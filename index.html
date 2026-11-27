@@ -2733,6 +2733,13 @@
         };
 
         let deferredInstallPrompt = null;
+        let promptInstitution = null;
+
+                window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            promptInstitution = activeInstitution; 
+        });
 
         function getSchoolAppConfig(instKey = activeInstitution) {
             const key = instKey === 'arboleda' ? 'arboleda' : 'seeds';
@@ -2751,19 +2758,29 @@
             deferredInstallPrompt = e;
         });
 
-        async function triggerAndroidInstall() {
+                async function triggerAndroidInstall() {
             const cfg = getSchoolAppConfig(activeInstitution);
+            
+            // Obliga a recargar la página si el usuario cambió de colegio
+            if (promptInstitution && promptInstitution !== activeInstitution) {
+                window.location.href = cfg.appUrl;
+                return;
+            }
+
             syncSchoolManifestLink(cfg.key);
+            
             if (deferredInstallPrompt) {
                 deferredInstallPrompt.prompt();
                 const choice = await deferredInstallPrompt.userChoice;
                 deferredInstallPrompt = null;
+                promptInstitution = null; // Limpiamos la variable
                 if (choice && choice.outcome === 'accepted') {
                     closeAppDownloadModal();
                     showToast(`✅ App de ${cfg.name} instalada`);
                 }
                 return;
             }
+            
             window.location.href = cfg.appUrl;
         }
 
